@@ -2034,7 +2034,7 @@ async function recordAudit(
       action,
       entity_type: entityType,
       entity_id: entityId,
-      metadata,
+      metadata: metadata as never,
     });
   } catch {
     /* auditing must never break a user action */
