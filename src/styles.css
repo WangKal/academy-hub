@@ -146,5 +146,19 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 }
+
+@utility rule-line {
+  background-image: linear-gradient(to right, var(--color-border), transparent);
+  height: 1px;
+}
+
