@@ -54,10 +54,9 @@ export function PublicHeader() {
                 <Link to="/auth">Sign in</Link>
               </Button>
               <Button asChild size="sm">
-                <Link to="/auth" search={{ mode: "register" }}>
-                  Enrol now
-                </Link>
+                <Link to="/auth">Enrol now</Link>
               </Button>
+
             </>
           )}
         </div>
