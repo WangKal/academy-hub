@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Award,
+  Bell,
   BarChart3,
   BookOpen,
   CreditCard,
@@ -29,6 +30,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { useAuth } from "@/hooks/useAuth";
 import type { UserRole } from "@/types";
 
@@ -47,6 +49,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
       { to: "/my-courses", label: "My courses", icon: Library, roles: ["student", "instructor", "admin"] },
       { to: "/my-certificates", label: "Certificates", icon: Award, roles: ["student", "instructor", "admin"] },
       { to: "/courses", label: "Catalogue", icon: BookOpen, roles: ["student", "instructor", "admin"] },
+      { to: "/notifications", label: "Notifications", icon: Bell, roles: ["student", "instructor", "admin"] },
     ],
   },
   {
@@ -175,6 +178,7 @@ export function AppShell({
                 <p className="truncate text-xs text-muted-foreground">{description}</p>
               )}
             </div>
+            <NotificationBell />
             {actions}
           </header>
           <main className="flex-1 p-4 md:p-6">{children}</main>

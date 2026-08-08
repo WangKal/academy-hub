@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { EmptyState, LoadingBlock, formatDuration } from "@/components/layout/States";
+import { AssignmentPanel } from "@/components/learning/AssignmentPanel";
 import { QuizRunner } from "@/components/learning/QuizRunner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -205,6 +206,7 @@ function Player() {
                     className="prose prose-slate mt-6 max-w-none text-muted-foreground [&_h2]:mt-8 [&_h2]:text-foreground [&_li]:mt-1 [&_p]:mt-4 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
                     dangerouslySetInnerHTML={{ __html: active.contentHtml || "<p>No content yet.</p>" }}
                   />
+                  {active.lessonType === "assignment" && <AssignmentPanel lessonId={active.id} />}
                   <div className="mt-10 flex items-center gap-3 border-t border-border pt-6">
                     <Button
                       disabled={complete.isPending || completed.has(active.id)}
