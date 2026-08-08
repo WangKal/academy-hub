@@ -107,7 +107,17 @@ function Catalogue() {
           ) : (
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {data.items.map((c) => (
-                <Card key={c.id} className="flex flex-col">
+                <Card key={c.id} className="flex flex-col overflow-hidden">
+                  {c.thumbnailUrl && (
+                    <img
+                      src={c.thumbnailUrl}
+                      alt={`${c.title} course cover`}
+                      loading="lazy"
+                      width={1280}
+                      height={720}
+                      className="aspect-video w-full object-cover"
+                    />
+                  )}
                   <CardContent className="flex flex-1 flex-col p-6">
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="capitalize">
