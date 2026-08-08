@@ -53,6 +53,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
     group: "Teaching",
     items: [
       { to: "/instructor/courses", label: "Course builder", icon: GraduationCap, roles: ["instructor", "admin"] },
+      { to: "/instructor/submissions", label: "Assignment reviews", icon: ScrollText, roles: ["instructor", "admin"] },
       { to: "/instructor/students", label: "Students", icon: Users, roles: ["instructor", "admin"] },
     ],
   },
