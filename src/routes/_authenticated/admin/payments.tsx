@@ -25,6 +25,9 @@ import {
 import * as api from "@/services/api";
 import type { PaymentStatus } from "@/types";
 
+import { Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 export const Route = createFileRoute("/_authenticated/admin/payments")({
   head: () => ({
     meta: [
@@ -55,8 +58,33 @@ function AdminPayments() {
     onError: (e) => toast.error(api.errorMessage(e)),
   });
 
+  const handleExportCsv = async () => {
+    try {
+      const csv = await api.exportPaymentsCsv();
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `payments-${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Payments report exported to CSV.");
+    } catch (e) {
+      toast.error(api.errorMessage(e));
+    }
+  };
+
   return (
-    <AppShell title="Payments" description="Reconciliation and enrolment confirmation">
+    <AppShell
+      title="Payments"
+      description="Reconciliation and enrolment confirmation"
+      actions={
+        <Button variant="outline" size="sm" onClick={handleExportCsv}>
+          <Download className="mr-1.5 size-4" /> Export CSV
+        </Button>
+      }
+    >
       <Input
         placeholder="Search reference, learner or course…"
         value={search}

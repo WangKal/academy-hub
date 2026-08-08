@@ -460,3 +460,83 @@ export interface AssignmentSubmissionInput {
   contentText: string;
   attachmentUrl?: string;
 }
+
+/* ------------------ Enterprise & Multi-Admin Management -------------- */
+
+export type AdminSubRole =
+  | "super_admin"
+  | "academic_admin"
+  | "finance_admin"
+  | "user_admin"
+  | "compliance_admin";
+
+export type AdminPermissionKey =
+  | "manage_users"
+  | "manage_courses"
+  | "manage_payments"
+  | "manage_settings"
+  | "view_audit_logs"
+  | "manage_admins"
+  | "manage_organizations";
+
+export interface AdminPermissionRecord {
+  id: string;
+  userId: string;
+  userName?: string;
+  userEmail?: string;
+  subRole: AdminSubRole;
+  permissions: AdminPermissionKey[];
+  grantedBy?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Organization {
+  id: string;
+  name: string;
+  code: string;
+  contactEmail: string;
+  domain?: string;
+  logoUrl?: string;
+  maxSeats: number;
+  activeSeats?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OrganizationMember {
+  id: string;
+  organizationId: string;
+  userId: string;
+  userName?: string;
+  userEmail?: string;
+  orgRole: "manager" | "member";
+  createdAt: string;
+}
+
+export interface Cohort {
+  id: string;
+  organizationId: string;
+  organizationName?: string;
+  name: string;
+  description: string;
+  startDate?: string;
+  endDate?: string;
+  createdAt: string;
+  updatedAt: string;
+  studentCount?: number;
+}
+
+export interface BulkEnrollmentInput {
+  emails: string[];
+  courseId: string;
+  organizationId?: string;
+  cohortId?: string;
+}
+
+export interface BulkEnrollmentResult {
+  successfulEmails: string[];
+  failedEmails: { email: string; reason: string }[];
+  totalProcessed: number;
+}
+

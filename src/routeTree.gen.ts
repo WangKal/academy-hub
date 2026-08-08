@@ -22,10 +22,13 @@ import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authen
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAuditLogsRouteImport } from './routes/_authenticated/admin/audit-logs'
 import { Route as AuthenticatedAdminCertificatesRouteImport } from './routes/_authenticated/admin/certificates'
 import { Route as AuthenticatedAdminEnrollmentsRouteImport } from './routes/_authenticated/admin/enrollments'
+import { Route as AuthenticatedAdminOrganizationsRouteImport } from './routes/_authenticated/admin/organizations'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin/payments'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin/settings'
+import { Route as AuthenticatedAdminTeamRouteImport } from './routes/_authenticated/admin/team'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin/users'
 import { Route as AuthenticatedInstructorCoursesRouteImport } from './routes/_authenticated/instructor/courses'
 import { Route as AuthenticatedInstructorStudentsRouteImport } from './routes/_authenticated/instructor/students'
@@ -98,6 +101,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAuditLogsRoute =
+  AuthenticatedAdminAuditLogsRouteImport.update({
+    id: '/admin/audit-logs',
+    path: '/admin/audit-logs',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminCertificatesRoute =
   AuthenticatedAdminCertificatesRouteImport.update({
     id: '/admin/certificates',
@@ -108,6 +117,12 @@ const AuthenticatedAdminEnrollmentsRoute =
   AuthenticatedAdminEnrollmentsRouteImport.update({
     id: '/admin/enrollments',
     path: '/admin/enrollments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOrganizationsRoute =
+  AuthenticatedAdminOrganizationsRouteImport.update({
+    id: '/admin/organizations',
+    path: '/admin/organizations',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminPaymentsRoute =
@@ -122,6 +137,11 @@ const AuthenticatedAdminSettingsRoute =
     path: '/admin/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTeamRoute = AuthenticatedAdminTeamRouteImport.update({
+  id: '/admin/team',
+  path: '/admin/team',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
@@ -164,10 +184,13 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses/': typeof CoursesIndexRoute
+  '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/certificates': typeof AuthenticatedAdminCertificatesRoute
   '/admin/enrollments': typeof AuthenticatedAdminEnrollmentsRoute
+  '/admin/organizations': typeof AuthenticatedAdminOrganizationsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/team': typeof AuthenticatedAdminTeamRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/instructor/courses': typeof AuthenticatedInstructorCoursesRoute
   '/instructor/students': typeof AuthenticatedInstructorStudentsRoute
@@ -187,10 +210,13 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses': typeof CoursesIndexRoute
+  '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/certificates': typeof AuthenticatedAdminCertificatesRoute
   '/admin/enrollments': typeof AuthenticatedAdminEnrollmentsRoute
+  '/admin/organizations': typeof AuthenticatedAdminOrganizationsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/team': typeof AuthenticatedAdminTeamRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/instructor/courses': typeof AuthenticatedInstructorCoursesRoute
   '/instructor/students': typeof AuthenticatedInstructorStudentsRoute
@@ -212,10 +238,13 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses/': typeof CoursesIndexRoute
+  '/_authenticated/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/_authenticated/admin/certificates': typeof AuthenticatedAdminCertificatesRoute
   '/_authenticated/admin/enrollments': typeof AuthenticatedAdminEnrollmentsRoute
+  '/_authenticated/admin/organizations': typeof AuthenticatedAdminOrganizationsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/team': typeof AuthenticatedAdminTeamRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/instructor/courses': typeof AuthenticatedInstructorCoursesRoute
   '/_authenticated/instructor/students': typeof AuthenticatedInstructorStudentsRoute
@@ -237,10 +266,13 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/courses/$slug'
     | '/courses/'
+    | '/admin/audit-logs'
     | '/admin/certificates'
     | '/admin/enrollments'
+    | '/admin/organizations'
     | '/admin/payments'
     | '/admin/settings'
+    | '/admin/team'
     | '/admin/users'
     | '/instructor/courses'
     | '/instructor/students'
@@ -260,10 +292,13 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/courses/$slug'
     | '/courses'
+    | '/admin/audit-logs'
     | '/admin/certificates'
     | '/admin/enrollments'
+    | '/admin/organizations'
     | '/admin/payments'
     | '/admin/settings'
+    | '/admin/team'
     | '/admin/users'
     | '/instructor/courses'
     | '/instructor/students'
@@ -284,10 +319,13 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/courses/$slug'
     | '/courses/'
+    | '/_authenticated/admin/audit-logs'
     | '/_authenticated/admin/certificates'
     | '/_authenticated/admin/enrollments'
+    | '/_authenticated/admin/organizations'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/team'
     | '/_authenticated/admin/users'
     | '/_authenticated/instructor/courses'
     | '/_authenticated/instructor/students'
@@ -400,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/audit-logs': {
+      id: '/_authenticated/admin/audit-logs'
+      path: '/admin/audit-logs'
+      fullPath: '/admin/audit-logs'
+      preLoaderRoute: typeof AuthenticatedAdminAuditLogsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/certificates': {
       id: '/_authenticated/admin/certificates'
       path: '/admin/certificates'
@@ -414,6 +459,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminEnrollmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/organizations': {
+      id: '/_authenticated/admin/organizations'
+      path: '/admin/organizations'
+      fullPath: '/admin/organizations'
+      preLoaderRoute: typeof AuthenticatedAdminOrganizationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/payments': {
       id: '/_authenticated/admin/payments'
       path: '/admin/payments'
@@ -426,6 +478,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/team': {
+      id: '/_authenticated/admin/team'
+      path: '/admin/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AuthenticatedAdminTeamRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/users': {
@@ -471,10 +530,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMyCertificatesRoute: typeof AuthenticatedMyCertificatesRoute
   AuthenticatedMyCoursesRoute: typeof AuthenticatedMyCoursesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedAdminAuditLogsRoute: typeof AuthenticatedAdminAuditLogsRoute
   AuthenticatedAdminCertificatesRoute: typeof AuthenticatedAdminCertificatesRoute
   AuthenticatedAdminEnrollmentsRoute: typeof AuthenticatedAdminEnrollmentsRoute
+  AuthenticatedAdminOrganizationsRoute: typeof AuthenticatedAdminOrganizationsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminTeamRoute: typeof AuthenticatedAdminTeamRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedInstructorCoursesRoute: typeof AuthenticatedInstructorCoursesRoute
   AuthenticatedInstructorStudentsRoute: typeof AuthenticatedInstructorStudentsRoute
@@ -488,10 +550,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMyCertificatesRoute: AuthenticatedMyCertificatesRoute,
   AuthenticatedMyCoursesRoute: AuthenticatedMyCoursesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedAdminAuditLogsRoute: AuthenticatedAdminAuditLogsRoute,
   AuthenticatedAdminCertificatesRoute: AuthenticatedAdminCertificatesRoute,
   AuthenticatedAdminEnrollmentsRoute: AuthenticatedAdminEnrollmentsRoute,
+  AuthenticatedAdminOrganizationsRoute: AuthenticatedAdminOrganizationsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminTeamRoute: AuthenticatedAdminTeamRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedInstructorCoursesRoute: AuthenticatedInstructorCoursesRoute,
   AuthenticatedInstructorStudentsRoute: AuthenticatedInstructorStudentsRoute,
@@ -517,3 +582,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

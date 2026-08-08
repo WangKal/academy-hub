@@ -68,6 +68,14 @@ import type {
   UserFilters,
   UserRole,
   UserStatus,
+  AdminSubRole,
+  AdminPermissionKey,
+  AdminPermissionRecord,
+  Organization,
+  OrganizationMember,
+  Cohort,
+  BulkEnrollmentInput,
+  BulkEnrollmentResult,
 } from "@/types";
 
 /* ========================================================================== */
@@ -2352,3 +2360,340 @@ export async function gradeAssignment(
     return submission;
   });
 }
+
+/* ========================================================================== */
+/*  ENTERPRISE MULTI-ADMIN RBAC & MANAGEMENT                                  */
+/*  Future: /api/admin/team, /api/admin/permissions                           */
+/* ========================================================================== */
+
+export async function getAdminTeam(): Promise<AdminPermissionRecord[]> {
+  return run("admin.team", async () => {
+    const { data: users, error } = await supabase
+      .from("profiles")
+      .select("id, full_name, email, created_at, updated_at");
+    if (error) throw normalizeError(error, "admin.team");
+
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("*")
+      .eq("role", "admin");
+
+    const adminUserIds = new Set((roles ?? []).map((r: Row) => r.user_id));
+    const adminProfiles = (users ?? []).filter((u: Row) => adminUserIds.has(u.id));
+
+    const { data: perms } = await supabase
+      .from("admin_permissions")
+      .select("*");
+
+    const permsMap = new Map((perms ?? []).map((p: Row) => [p.user_id, p]));
+
+    return adminProfiles.map((u: Row) => {
+      const p = permsMap.get(u.id);
+      return {
+        id: p?.id ?? u.id,
+        userId: u.id,
+        userName: u.full_name,
+        userEmail: u.email,
+        subRole: (p?.sub_role ?? "super_admin") as AdminSubRole,
+        permissions: (p?.permissions ?? [
+          "manage_users",
+          "manage_courses",
+          "manage_payments",
+          "manage_settings",
+          "view_audit_logs",
+          "manage_admins",
+          "manage_organizations",
+        ]) as AdminPermissionKey[],
+        createdAt: u.created_at,
+        updatedAt: u.updated_at ?? u.created_at,
+      };
+    });
+  });
+}
+
+export async function assignAdminSubRole(
+  userId: string,
+  subRole: AdminSubRole,
+  permissions: AdminPermissionKey[],
+): Promise<AdminPermissionRecord> {
+  return run("admin.assignRole", async () => {
+    const grantorId = await requireUserId();
+    const payload = {
+      user_id: userId,
+      sub_role: subRole,
+      permissions: permissions,
+      granted_by: grantorId,
+    };
+
+    const { data: existing } = await supabase
+      .from("admin_permissions")
+      .select("id")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    const row = unwrap(
+      "admin.assignRole",
+      existing
+        ? await supabase
+            .from("admin_permissions")
+            .update(payload)
+            .eq("id", existing.id)
+            .select()
+            .maybeSingle()
+        : await supabase
+            .from("admin_permissions")
+            .insert(payload)
+            .select()
+            .maybeSingle(),
+    ) as Row;
+
+    await recordAudit("admin.subrole_updated", "admin_permission", row.id, {
+      targetUserId: userId,
+      subRole,
+      permissions,
+    });
+
+    return {
+      id: row.id,
+      userId: row.user_id,
+      subRole: row.sub_role as AdminSubRole,
+      permissions: (row.permissions ?? []) as AdminPermissionKey[],
+      grantedBy: row.granted_by,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    };
+  });
+}
+
+/* ========================================================================== */
+/*  ENTERPRISE ORGANIZATIONS & COHORTS (B2B MULTI-TENANCY)                    */
+/*  Future: /api/organizations, /api/cohorts                                 */
+/* ========================================================================== */
+
+export async function getOrganizations(): Promise<Organization[]> {
+  return run("organizations.list", async () => {
+    const rows = unwrapList(
+      "organizations.list",
+      await supabase.from("organizations").select("*").order("name"),
+    );
+
+    const { data: members } = await supabase
+      .from("organization_members")
+      .select("organization_id");
+
+    const counts = new Map<string, number>();
+    (members ?? []).forEach((m: Row) => {
+      counts.set(m.organization_id, (counts.get(m.organization_id) ?? 0) + 1);
+    });
+
+    return rows.map((r: Row) => ({
+      id: r.id,
+      name: r.name,
+      code: r.code,
+      contactEmail: r.contact_email,
+      domain: r.domain ?? undefined,
+      logoUrl: r.logo_url ?? undefined,
+      maxSeats: r.max_seats ?? 100,
+      activeSeats: counts.get(r.id) ?? 0,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+    }));
+  });
+}
+
+export async function createOrganization(input: {
+  name: string;
+  code: string;
+  contactEmail: string;
+  domain?: string;
+  maxSeats?: number;
+}): Promise<Organization> {
+  return run("organizations.create", async () => {
+    const row = unwrap(
+      "organizations.create",
+      await supabase
+        .from("organizations")
+        .insert({
+          name: input.name,
+          code: input.code.toUpperCase(),
+          contact_email: input.contactEmail,
+          domain: input.domain ?? null,
+          max_seats: input.maxSeats ?? 100,
+        })
+        .select()
+        .maybeSingle(),
+    ) as Row;
+
+    await recordAudit("organization.created", "organization", row.id, { name: input.name });
+
+    return {
+      id: row.id,
+      name: row.name,
+      code: row.code,
+      contactEmail: row.contact_email,
+      domain: row.domain ?? undefined,
+      maxSeats: row.max_seats,
+      activeSeats: 0,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    };
+  });
+}
+
+export async function getCohorts(organizationId?: string): Promise<Cohort[]> {
+  return run("cohorts.list", async () => {
+    let query = supabase.from("cohorts").select("*, organizations:organization_id (name)").order("created_at", { ascending: false });
+    if (organizationId) {
+      query = query.eq("organization_id", organizationId);
+    }
+    const rows = unwrapList("cohorts.list", await query);
+    return rows.map((r: Row) => ({
+      id: r.id,
+      organizationId: r.organization_id,
+      organizationName: r.organizations?.name,
+      name: r.name,
+      description: r.description ?? "",
+      startDate: r.start_date ?? undefined,
+      endDate: r.end_date ?? undefined,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+    }));
+  });
+}
+
+export async function createCohort(input: {
+  organizationId: string;
+  name: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+}): Promise<Cohort> {
+  return run("cohorts.create", async () => {
+    const row = unwrap(
+      "cohorts.create",
+      await supabase
+        .from("cohorts")
+        .insert({
+          organization_id: input.organizationId,
+          name: input.name,
+          description: input.description ?? "",
+          start_date: input.startDate ?? null,
+          end_date: input.endDate ?? null,
+        })
+        .select("*, organizations:organization_id (name)")
+        .maybeSingle(),
+    ) as Row;
+
+    await recordAudit("cohort.created", "cohort", row.id, { name: input.name });
+
+    return {
+      id: row.id,
+      organizationId: row.organization_id,
+      organizationName: row.organizations?.name,
+      name: row.name,
+      description: row.description ?? "",
+      startDate: row.start_date ?? undefined,
+      endDate: row.end_date ?? undefined,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    };
+  });
+}
+
+export async function bulkEnrollStudents(input: BulkEnrollmentInput): Promise<BulkEnrollmentResult> {
+  return run("students.bulkEnroll", async () => {
+    const successfulEmails: string[] = [];
+    const failedEmails: { email: string; reason: string }[] = [];
+
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id, email");
+
+    const emailToUser = new Map((profiles ?? []).map((p: Row) => [p.email.toLowerCase(), p.id]));
+
+    for (const email of input.emails) {
+      const cleanEmail = email.trim().toLowerCase();
+      if (!cleanEmail) continue;
+
+      const userId = emailToUser.get(cleanEmail);
+      if (!userId) {
+        failedEmails.push({ email, reason: "No user account exists with this email." });
+        continue;
+      }
+
+      try {
+        await enrollStudent(userId, input.courseId);
+        if (input.organizationId) {
+          await supabase
+            .from("organization_members")
+            .insert({ organization_id: input.organizationId, user_id: userId })
+            .maybeSingle();
+        }
+        successfulEmails.push(cleanEmail);
+      } catch (err) {
+        failedEmails.push({ email, reason: errorMessage(err) });
+      }
+    }
+
+    await recordAudit("students.bulk_enrolled", "course", input.courseId, {
+      total: input.emails.length,
+      successCount: successfulEmails.length,
+    });
+
+    return {
+      successfulEmails,
+      failedEmails,
+      totalProcessed: input.emails.length,
+    };
+  });
+}
+
+/* ========================================================================== */
+/*  ENTERPRISE CSV EXPORTERS & REPORTS                                        */
+/* ========================================================================== */
+
+export async function exportPaymentsCsv(): Promise<string> {
+  const payments = await getPayments();
+  const headers = ["ID", "User", "Email", "Course", "Amount (KES)", "Provider", "Status", "Date"];
+  const rows = payments.map((p) => [
+    p.id,
+    `"${(p.userName ?? "").replace(/"/g, '""')}"`,
+    p.userEmail ?? "",
+    `"${(p.courseTitle ?? "").replace(/"/g, '""')}"`,
+    (p.amountCents / 100).toFixed(2),
+    p.provider,
+    p.status,
+    p.createdAt,
+  ]);
+  return [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+}
+
+export async function exportEnrollmentsCsv(): Promise<string> {
+  const enrollments = await getEnrollments();
+  const headers = ["ID", "User", "Email", "Course", "Status", "Enrolled At", "Completed At"];
+  const rows = enrollments.map((e) => [
+    e.id,
+    `"${(e.userName ?? "").replace(/"/g, '""')}"`,
+    e.userEmail ?? "",
+    `"${(e.course?.title ?? "").replace(/"/g, '""')}"`,
+    e.status,
+    e.enrolledAt,
+    e.completedAt ?? "",
+  ]);
+  return [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+}
+
+export async function exportAuditLogsCsv(filters: AuditLogFilters): Promise<string> {
+  const logs = await getAuditLogs(filters);
+  const headers = ["Log ID", "User ID", "Action", "Entity Type", "Entity ID", "Created At"];
+  const rows = logs.items.map((l) => [
+    l.id,
+    l.userId ?? "System",
+    l.action,
+    l.entityType,
+    l.entityId ?? "",
+    l.createdAt,
+  ]);
+  return [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+}
+
