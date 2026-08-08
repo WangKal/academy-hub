@@ -44,6 +44,62 @@ export type Database = {
         }
         Relationships: []
       }
+      assignment_submissions: {
+        Row: {
+          attachment_url: string | null
+          content_text: string
+          created_at: string
+          feedback: string | null
+          grade: number | null
+          graded_at: string | null
+          graded_by: string | null
+          id: string
+          lesson_id: string
+          status: Database["public"]["Enums"]["submission_status"]
+          submitted_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attachment_url?: string | null
+          content_text?: string
+          created_at?: string
+          feedback?: string | null
+          grade?: number | null
+          graded_at?: string | null
+          graded_by?: string | null
+          id?: string
+          lesson_id: string
+          status?: Database["public"]["Enums"]["submission_status"]
+          submitted_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attachment_url?: string | null
+          content_text?: string
+          created_at?: string
+          feedback?: string | null
+          grade?: number | null
+          graded_at?: string | null
+          graded_by?: string | null
+          id?: string
+          lesson_id?: string
+          status?: Database["public"]["Enums"]["submission_status"]
+          submitted_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_submissions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -353,6 +409,42 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount_cents: number
@@ -635,6 +727,7 @@ export type Database = {
       payment_provider: "mpesa" | "stripe" | "manual"
       payment_status: "pending" | "succeeded" | "failed" | "refunded"
       progress_status: "not_started" | "in_progress" | "completed"
+      submission_status: "submitted" | "graded" | "returned"
       user_status: "active" | "suspended" | "pending"
     }
     CompositeTypes: {
@@ -778,6 +871,7 @@ export const Constants = {
       payment_provider: ["mpesa", "stripe", "manual"],
       payment_status: ["pending", "succeeded", "failed", "refunded"],
       progress_status: ["not_started", "in_progress", "completed"],
+      submission_status: ["submitted", "graded", "returned"],
       user_status: ["active", "suspended", "pending"],
     },
   },
