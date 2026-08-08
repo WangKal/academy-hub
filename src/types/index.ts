@@ -400,3 +400,63 @@ export interface PaymentInput {
   currency: string;
   providerReference?: string;
 }
+
+/* -------------------------- Notifications -------------------------- */
+
+export type NotificationType =
+  | "general"
+  | "enrollment"
+  | "certificate"
+  | "payment"
+  | "assignment"
+  | "course";
+
+export interface AppNotification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  link?: string;
+  readAt?: string;
+  createdAt: string;
+}
+
+export interface NotificationInput {
+  userId: string;
+  type?: NotificationType;
+  title: string;
+  body?: string;
+  link?: string;
+}
+
+/* --------------------------- Assignments --------------------------- */
+
+export type SubmissionStatus = "submitted" | "graded" | "returned";
+
+export interface AssignmentSubmission {
+  id: string;
+  lessonId: string;
+  userId: string;
+  contentText: string;
+  attachmentUrl?: string;
+  status: SubmissionStatus;
+  grade?: number;
+  feedback?: string;
+  submittedAt: string;
+  gradedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  /** Denormalised for review lists. */
+  lessonTitle?: string;
+  courseId?: string;
+  courseTitle?: string;
+  userName?: string;
+  userEmail?: string;
+}
+
+export interface AssignmentSubmissionInput {
+  lessonId: string;
+  contentText: string;
+  attachmentUrl?: string;
+}
