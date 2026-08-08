@@ -18,6 +18,7 @@ import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMyCertificatesRouteImport } from './routes/_authenticated/my-certificates'
 import { Route as AuthenticatedMyCoursesRouteImport } from './routes/_authenticated/my-courses'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
@@ -28,6 +29,7 @@ import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin/users'
 import { Route as AuthenticatedInstructorCoursesRouteImport } from './routes/_authenticated/instructor/courses'
 import { Route as AuthenticatedInstructorStudentsRouteImport } from './routes/_authenticated/instructor/students'
+import { Route as AuthenticatedInstructorSubmissionsRouteImport } from './routes/_authenticated/instructor/submissions'
 import { Route as AuthenticatedLearnCourseIdRouteImport } from './routes/_authenticated/learn.$courseId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -75,6 +77,12 @@ const AuthenticatedMyCoursesRoute = AuthenticatedMyCoursesRouteImport.update({
   path: '/my-courses',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
@@ -131,6 +139,12 @@ const AuthenticatedInstructorStudentsRoute =
     path: '/instructor/students',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInstructorSubmissionsRoute =
+  AuthenticatedInstructorSubmissionsRouteImport.update({
+    id: '/instructor/submissions',
+    path: '/instructor/submissions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLearnCourseIdRoute =
   AuthenticatedLearnCourseIdRouteImport.update({
     id: '/learn/$courseId',
@@ -147,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/my-certificates': typeof AuthenticatedMyCertificatesRoute
   '/my-courses': typeof AuthenticatedMyCoursesRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses/': typeof CoursesIndexRoute
   '/admin/certificates': typeof AuthenticatedAdminCertificatesRoute
@@ -156,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/instructor/courses': typeof AuthenticatedInstructorCoursesRoute
   '/instructor/students': typeof AuthenticatedInstructorStudentsRoute
+  '/instructor/submissions': typeof AuthenticatedInstructorSubmissionsRoute
   '/learn/$courseId': typeof AuthenticatedLearnCourseIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -168,6 +184,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/my-certificates': typeof AuthenticatedMyCertificatesRoute
   '/my-courses': typeof AuthenticatedMyCoursesRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses': typeof CoursesIndexRoute
   '/admin/certificates': typeof AuthenticatedAdminCertificatesRoute
@@ -177,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/instructor/courses': typeof AuthenticatedInstructorCoursesRoute
   '/instructor/students': typeof AuthenticatedInstructorStudentsRoute
+  '/instructor/submissions': typeof AuthenticatedInstructorSubmissionsRoute
   '/learn/$courseId': typeof AuthenticatedLearnCourseIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -191,6 +209,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/my-certificates': typeof AuthenticatedMyCertificatesRoute
   '/_authenticated/my-courses': typeof AuthenticatedMyCoursesRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/courses/': typeof CoursesIndexRoute
   '/_authenticated/admin/certificates': typeof AuthenticatedAdminCertificatesRoute
@@ -200,6 +219,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/instructor/courses': typeof AuthenticatedInstructorCoursesRoute
   '/_authenticated/instructor/students': typeof AuthenticatedInstructorStudentsRoute
+  '/_authenticated/instructor/submissions': typeof AuthenticatedInstructorSubmissionsRoute
   '/_authenticated/learn/$courseId': typeof AuthenticatedLearnCourseIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -214,6 +234,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/my-certificates'
     | '/my-courses'
+    | '/notifications'
     | '/courses/$slug'
     | '/courses/'
     | '/admin/certificates'
@@ -223,6 +244,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/instructor/courses'
     | '/instructor/students'
+    | '/instructor/submissions'
     | '/learn/$courseId'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -235,6 +257,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/my-certificates'
     | '/my-courses'
+    | '/notifications'
     | '/courses/$slug'
     | '/courses'
     | '/admin/certificates'
@@ -244,6 +267,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/instructor/courses'
     | '/instructor/students'
+    | '/instructor/submissions'
     | '/learn/$courseId'
     | '/admin'
   id:
@@ -257,6 +281,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/my-certificates'
     | '/_authenticated/my-courses'
+    | '/_authenticated/notifications'
     | '/courses/$slug'
     | '/courses/'
     | '/_authenticated/admin/certificates'
@@ -266,6 +291,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/instructor/courses'
     | '/_authenticated/instructor/students'
+    | '/_authenticated/instructor/submissions'
     | '/_authenticated/learn/$courseId'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -346,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyCoursesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/courses/': {
       id: '/courses/'
       path: '/courses'
@@ -416,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedInstructorStudentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/instructor/submissions': {
+      id: '/_authenticated/instructor/submissions'
+      path: '/instructor/submissions'
+      fullPath: '/instructor/submissions'
+      preLoaderRoute: typeof AuthenticatedInstructorSubmissionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/learn/$courseId': {
       id: '/_authenticated/learn/$courseId'
       path: '/learn/$courseId'
@@ -430,6 +470,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMyCertificatesRoute: typeof AuthenticatedMyCertificatesRoute
   AuthenticatedMyCoursesRoute: typeof AuthenticatedMyCoursesRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedAdminCertificatesRoute: typeof AuthenticatedAdminCertificatesRoute
   AuthenticatedAdminEnrollmentsRoute: typeof AuthenticatedAdminEnrollmentsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
@@ -437,6 +478,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedInstructorCoursesRoute: typeof AuthenticatedInstructorCoursesRoute
   AuthenticatedInstructorStudentsRoute: typeof AuthenticatedInstructorStudentsRoute
+  AuthenticatedInstructorSubmissionsRoute: typeof AuthenticatedInstructorSubmissionsRoute
   AuthenticatedLearnCourseIdRoute: typeof AuthenticatedLearnCourseIdRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
@@ -445,6 +487,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMyCertificatesRoute: AuthenticatedMyCertificatesRoute,
   AuthenticatedMyCoursesRoute: AuthenticatedMyCoursesRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedAdminCertificatesRoute: AuthenticatedAdminCertificatesRoute,
   AuthenticatedAdminEnrollmentsRoute: AuthenticatedAdminEnrollmentsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
@@ -452,6 +495,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedInstructorCoursesRoute: AuthenticatedInstructorCoursesRoute,
   AuthenticatedInstructorStudentsRoute: AuthenticatedInstructorStudentsRoute,
+  AuthenticatedInstructorSubmissionsRoute:
+    AuthenticatedInstructorSubmissionsRoute,
   AuthenticatedLearnCourseIdRoute: AuthenticatedLearnCourseIdRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }

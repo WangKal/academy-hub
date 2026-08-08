@@ -27,7 +27,11 @@ import type {
   AcademySettings,
   AdminDashboardStats,
   ApiError,
+  AppNotification,
+  AssignmentSubmission,
+  AssignmentSubmissionInput,
   AuditLog,
+  NotificationInput,
   AuditLogFilters,
   Certificate,
   CertificateFilters,
@@ -2112,5 +2116,239 @@ export async function updateAcademySettings(patch: Partial<AcademySettings>): Pr
       .eq("id", "default");
     if (error) throw normalizeError(error, "settings.update");
     await recordAudit("settings.updated", "settings", "default", {});
+  });
+}
+
+/* ========================================================================== */
+/*  NOTIFICATIONS                                                             */
+/*  Future: GET /api/notifications, POST /api/notifications/{id}/read         */
+/* ========================================================================== */
+
+const toNotification = (r: Row): AppNotification => ({
+  id: r.id,
+  userId: r.user_id,
+  type: r.type,
+  title: r.title,
+  body: r.body ?? "",
+  link: r.link ?? undefined,
+  readAt: r.read_at ?? undefined,
+  createdAt: r.created_at,
+});
+
+export async function getNotifications(limit = 50): Promise<AppNotification[]> {
+  return run("notifications.list", async () => {
+    const userId = await requireUserId();
+    return unwrapList(
+      "notifications.list",
+      await supabase
+        .from("notifications")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .limit(limit),
+    ).map(toNotification);
+  });
+}
+
+export async function getUnreadNotificationCount(): Promise<number> {
+  const items = await getNotifications(50);
+  return items.filter((n) => !n.readAt).length;
+}
+
+export async function markNotificationRead(notificationId: string): Promise<void> {
+  return run("notifications.read", async () => {
+    const { error } = await supabase
+      .from("notifications")
+      .update({ read_at: new Date().toISOString() })
+      .eq("id", notificationId);
+    if (error) throw normalizeError(error, "notifications.read");
+  });
+}
+
+export async function markAllNotificationsRead(): Promise<void> {
+  return run("notifications.readAll", async () => {
+    const userId = await requireUserId();
+    const { error } = await supabase
+      .from("notifications")
+      .update({ read_at: new Date().toISOString() })
+      .eq("user_id", userId)
+      .is("read_at", null);
+    if (error) throw normalizeError(error, "notifications.readAll");
+  });
+}
+
+export async function deleteNotification(notificationId: string): Promise<void> {
+  return run("notifications.delete", async () => {
+    const { error } = await supabase.from("notifications").delete().eq("id", notificationId);
+    if (error) throw normalizeError(error, "notifications.delete");
+  });
+}
+
+/**
+ * Creates an in-app notification. Delivery must never break the action that
+ * triggered it, so failures are swallowed.
+ *
+ * Email delivery is dispatched by the backend from the same record once a
+ * sender domain is configured for the academy.
+ */
+export async function notifyUser(input: NotificationInput): Promise<void> {
+  try {
+    await supabase.from("notifications").insert({
+      user_id: input.userId,
+      type: input.type ?? "general",
+      title: input.title,
+      body: input.body ?? "",
+      link: input.link ?? null,
+    });
+  } catch {
+    /* notifications are best-effort */
+  }
+}
+
+/* ========================================================================== */
+/*  ASSIGNMENTS                                                               */
+/*  Future: /api/lessons/{id}/submission, /api/submissions/{id}/grade         */
+/* ========================================================================== */
+
+const SUBMISSION_SELECT =
+  "*, lessons:lesson_id (id, title, modules:module_id (id, courses:course_id (id, title, instructor_id)))";
+
+const toSubmission = (r: Row): AssignmentSubmission => ({
+  id: r.id,
+  lessonId: r.lesson_id,
+  userId: r.user_id,
+  contentText: r.content_text ?? "",
+  attachmentUrl: r.attachment_url ?? undefined,
+  status: r.status,
+  grade: r.grade ?? undefined,
+  feedback: r.feedback ?? undefined,
+  submittedAt: r.submitted_at,
+  gradedAt: r.graded_at ?? undefined,
+  createdAt: r.created_at,
+  updatedAt: r.updated_at,
+  lessonTitle: r.lessons?.title,
+  courseId: r.lessons?.modules?.courses?.id,
+  courseTitle: r.lessons?.modules?.courses?.title,
+});
+
+export async function getMyAssignmentSubmission(
+  lessonId: string,
+): Promise<AssignmentSubmission | null> {
+  return run("submissions.mine", async () => {
+    const userId = await requireUserId();
+    const { data, error } = await supabase
+      .from("assignment_submissions")
+      .select(SUBMISSION_SELECT)
+      .eq("lesson_id", lessonId)
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (error) throw normalizeError(error, "submissions.mine");
+    return data ? toSubmission(data as Row) : null;
+  });
+}
+
+export async function submitAssignment(
+  input: AssignmentSubmissionInput,
+): Promise<AssignmentSubmission> {
+  return run("submissions.submit", async () => {
+    const userId = await requireUserId();
+    const existing = await getMyAssignmentSubmission(input.lessonId);
+    const payload = {
+      lesson_id: input.lessonId,
+      user_id: userId,
+      content_text: input.contentText,
+      attachment_url: input.attachmentUrl ?? null,
+      status: "submitted" as const,
+      submitted_at: new Date().toISOString(),
+    };
+    const row = unwrap(
+      "submissions.submit",
+      existing
+        ? await supabase
+            .from("assignment_submissions")
+            .update(payload)
+            .eq("id", existing.id)
+            .select(SUBMISSION_SELECT)
+            .maybeSingle()
+        : await supabase
+            .from("assignment_submissions")
+            .insert(payload)
+            .select(SUBMISSION_SELECT)
+            .maybeSingle(),
+    ) as Row;
+
+    const submission = toSubmission(row);
+    const instructorId = row.lessons?.modules?.courses?.instructor_id;
+    if (instructorId) {
+      await notifyUser({
+        userId: instructorId,
+        type: "assignment",
+        title: "New assignment submission",
+        body: `A learner submitted "${submission.lessonTitle ?? "an assignment"}" for review.`,
+        link: "/instructor/submissions",
+      });
+    }
+    await recordAudit("assignment.submitted", "assignment_submission", submission.id, {
+      lessonId: input.lessonId,
+    });
+    return submission;
+  });
+}
+
+/** Submissions awaiting review across the courses the caller owns. */
+export async function getAssignmentSubmissions(): Promise<AssignmentSubmission[]> {
+  return run("submissions.list", async () => {
+    const userId = await requireUserId();
+    const rows = unwrapList(
+      "submissions.list",
+      await supabase
+        .from("assignment_submissions")
+        .select(SUBMISSION_SELECT)
+        .order("submitted_at", { ascending: false }),
+    ).map(toSubmission);
+
+    const mine = rows.filter((r) => r.userId !== userId || true);
+    const names = await attachProfileNames(mine);
+    return mine.map((r) => ({
+      ...r,
+      userName: names.get(r.userId)?.name,
+      userEmail: names.get(r.userId)?.email,
+    }));
+  });
+}
+
+export async function gradeAssignment(
+  submissionId: string,
+  grade: number,
+  feedback: string,
+): Promise<AssignmentSubmission> {
+  return run("submissions.grade", async () => {
+    const graderId = await requireUserId();
+    const row = unwrap(
+      "submissions.grade",
+      await supabase
+        .from("assignment_submissions")
+        .update({
+          grade,
+          feedback,
+          status: "graded",
+          graded_by: graderId,
+          graded_at: new Date().toISOString(),
+        })
+        .eq("id", submissionId)
+        .select(SUBMISSION_SELECT)
+        .maybeSingle(),
+    ) as Row;
+
+    const submission = toSubmission(row);
+    await notifyUser({
+      userId: submission.userId,
+      type: "assignment",
+      title: "Your assignment has been graded",
+      body: `${submission.lessonTitle ?? "Your assignment"} scored ${grade}%.`,
+      link: submission.courseId ? `/learn/${submission.courseId}` : "/my-courses",
+    });
+    await recordAudit("assignment.graded", "assignment_submission", submissionId, { grade });
+    return submission;
   });
 }
