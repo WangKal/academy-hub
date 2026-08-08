@@ -170,13 +170,24 @@ function Player() {
 
               {active.lessonType === "video" && active.videoUrl && (
                 <div className="mt-6 aspect-video overflow-hidden rounded-md border border-border bg-primary/5">
-                  <iframe
-                    src={active.videoUrl}
-                    title={active.title}
-                    className="size-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                  />
+                  {/\.(mp4|webm|ogg|mov|m3u8)(\?|$)/i.test(active.videoUrl) ? (
+                    <video
+                      key={active.id}
+                      src={active.videoUrl}
+                      controls
+                      playsInline
+                      poster={course.thumbnailUrl}
+                      className="size-full bg-black object-contain"
+                    />
+                  ) : (
+                    <iframe
+                      src={active.videoUrl}
+                      title={active.title}
+                      className="size-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
                 </div>
               )}
 

@@ -113,7 +113,16 @@ function CourseDetailPage() {
                 </div>
               </div>
 
-              <Card className="h-fit">
+              <Card className="h-fit overflow-hidden">
+                {course.thumbnailUrl && (
+                  <img
+                    src={course.thumbnailUrl}
+                    alt={`${course.title} course cover`}
+                    width={1280}
+                    height={720}
+                    className="aspect-video w-full object-cover"
+                  />
+                )}
                 <CardContent className="space-y-4 p-6">
                   <p className="font-display text-3xl">
                     {formatPrice(course.priceCents, course.currency)}

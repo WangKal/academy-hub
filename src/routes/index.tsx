@@ -140,6 +140,16 @@ function Landing() {
         <div className="grid gap-5 md:grid-cols-3">
           {(courses?.items ?? []).map((c) => (
             <Card key={c.id} className="overflow-hidden">
+              {c.thumbnailUrl && (
+                <img
+                  src={c.thumbnailUrl}
+                  alt={`${c.title} course cover`}
+                  loading="lazy"
+                  width={1280}
+                  height={720}
+                  className="aspect-video w-full object-cover"
+                />
+              )}
               <CardContent className="p-6">
                 <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   {c.category} · {c.level}
