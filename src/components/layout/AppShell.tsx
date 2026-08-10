@@ -215,7 +215,7 @@ export function AppShell({
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate({ to: "/courses", search: { q: search } as never });
+    navigate({ to: "/courses" });
   };
 
   return (
