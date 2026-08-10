@@ -46,22 +46,20 @@ export function NotificationBell() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
+        <Button variant="ghost" size="icon" aria-label="Notifications" className="relative text-ink-3 hover:text-ink-1">
           <Bell className="size-4" />
           {unread > 0 && (
-            <span className="absolute right-1 top-1 flex size-4 items-center justify-center rounded-full bg-accent text-[10px] font-medium text-accent-foreground">
-              {unread > 9 ? "9+" : unread}
-            </span>
+            <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-rose-500 ring-2 ring-card" />
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 p-0">
-        <div className="flex items-center justify-between border-b border-border px-3 py-2">
-          <p className="text-sm font-medium">Notifications</p>
+      <DropdownMenuContent align="end" className="w-80 rounded-xl p-0">
+        <div className="flex items-center justify-between border-b border-edge px-4 py-3">
+          <p className="text-sm font-semibold text-ink-1">Notifications</p>
           {unread > 0 && (
             <button
               type="button"
-              className="text-xs text-muted-foreground hover:text-foreground"
+              className="text-xs text-ink-3 hover:text-ink-1"
               onClick={() => readAll.mutate()}
             >
               Mark all read
@@ -80,8 +78,8 @@ export function NotificationBell() {
                 type="button"
                 onClick={() => !n.readAt && readOne.mutate(n.id)}
                 className={cn(
-                  "block w-full border-b border-border/60 px-3 py-2.5 text-left last:border-0 hover:bg-secondary/60",
-                  !n.readAt && "bg-secondary/40",
+                  "block w-full border-b border-edge/70 px-3 py-2.5 text-left last:border-0 hover:bg-surface-2",
+                  !n.readAt && "bg-brand-50/60 dark:bg-brand-600/10",
                 )}
               >
                 <div className="flex items-start justify-between gap-2">
@@ -100,8 +98,8 @@ export function NotificationBell() {
             ))
           )}
         </div>
-        <div className="border-t border-border px-3 py-2">
-          <Link to="/notifications" className="text-xs text-muted-foreground hover:text-foreground">
+        <div className="border-t border-edge px-4 py-2.5">
+          <Link to="/notifications" className="text-xs font-medium text-brand-600 hover:text-brand-700">
             View all notifications
           </Link>
         </div>

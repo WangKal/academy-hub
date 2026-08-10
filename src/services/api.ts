@@ -2622,7 +2622,12 @@ export async function bulkEnrollStudents(input: BulkEnrollmentInput): Promise<Bu
       }
 
       try {
-        await enrollStudent(userId, input.courseId);
+        await supabase
+          .from("enrollments")
+          .upsert(
+            { user_id: userId, course_id: input.courseId, status: "active" },
+            { onConflict: "user_id,course_id" },
+          );
         if (input.organizationId) {
           await supabase
             .from("organization_members")
@@ -2653,7 +2658,7 @@ export async function bulkEnrollStudents(input: BulkEnrollmentInput): Promise<Bu
 /* ========================================================================== */
 
 export async function exportPaymentsCsv(): Promise<string> {
-  const payments = await getPayments();
+  const { items: payments } = await getPayments();
   const headers = ["ID", "User", "Email", "Course", "Amount (KES)", "Provider", "Status", "Date"];
   const rows = payments.map((p) => [
     p.id,
@@ -2669,7 +2674,7 @@ export async function exportPaymentsCsv(): Promise<string> {
 }
 
 export async function exportEnrollmentsCsv(): Promise<string> {
-  const enrollments = await getEnrollments();
+  const { items: enrollments } = await getEnrollments();
   const headers = ["ID", "User", "Email", "Course", "Status", "Enrolled At", "Completed At"];
   const rows = enrollments.map((e) => [
     e.id,

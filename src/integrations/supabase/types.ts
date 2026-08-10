@@ -44,6 +44,36 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_permissions: {
+        Row: {
+          created_at: string
+          granted_by: string | null
+          id: string
+          permissions: string[]
+          sub_role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          permissions?: string[]
+          sub_role?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          permissions?: string[]
+          sub_role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       assignment_submissions: {
         Row: {
           attachment_url: string | null
@@ -173,6 +203,47 @@ export type Database = {
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cohorts: {
+        Row: {
+          created_at: string
+          description: string
+          end_date: string | null
+          id: string
+          name: string
+          organization_id: string
+          start_date: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          end_date?: string | null
+          id?: string
+          name: string
+          organization_id: string
+          start_date?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          end_date?: string | null
+          id?: string
+          name?: string
+          organization_id?: string
+          start_date?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cohorts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -442,6 +513,71 @@ export type Database = {
           type?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      organization_members: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          code: string
+          contact_email: string
+          created_at: string
+          domain: string | null
+          id: string
+          logo_url: string | null
+          max_seats: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          contact_email: string
+          created_at?: string
+          domain?: string | null
+          id?: string
+          logo_url?: string | null
+          max_seats?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          contact_email?: string
+          created_at?: string
+          domain?: string | null
+          id?: string
+          logo_url?: string | null
+          max_seats?: number
+          name?: string
+          updated_at?: string
         }
         Relationships: []
       }

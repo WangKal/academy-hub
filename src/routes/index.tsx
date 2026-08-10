@@ -140,7 +140,6 @@ function Landing() {
         <div className="grid gap-5 md:grid-cols-3">
           {(courses?.items ?? []).map((c) => (
             <Card key={c.id} className="overflow-hidden">
-            {console.log(c.thumbnailUrl)}
               {c.thumbnailUrl && (
                 <img
                   src={c.thumbnailUrl}
