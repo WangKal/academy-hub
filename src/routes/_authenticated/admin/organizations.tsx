@@ -328,7 +328,7 @@ function AdminOrganizationsPage() {
               <Select value={bulkCourseId} onValueChange={setBulkCourseId}>
                 <SelectTrigger className="mt-1"><SelectValue placeholder="Select target course..." /></SelectTrigger>
                 <SelectContent>
-                  {(Array.isArray(courses) ? courses : courses.items).map((c: Course) => (<SelectItem key={c.id} value={c.id}>{c.title}</SelectItem>))}
+                  {(Array.isArray(courses) ? courses : courses.items).map((c: { id: string; title: string }) => (<SelectItem key={c.id} value={c.id}>{c.title}</SelectItem>))}
                 </SelectContent>
               </Select>
             </div>
