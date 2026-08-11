@@ -96,7 +96,7 @@ function AdminUsers() {
       ) : !data?.items.length ? (
         <EmptyState title="No users match your filters" />
       ) : (
-        <div className="rounded-md border border-border bg-card">
+        <div className="rounded-xl border border-edge bg-card">
           <Table>
             <TableHeader>
               <TableRow>
@@ -111,7 +111,7 @@ function AdminUsers() {
                 <TableRow key={u.id}>
                   <TableCell>
                     <p className="font-medium">{u.fullName}</p>
-                    <p className="text-xs text-muted-foreground">{u.email}</p>
+                    <p className="text-xs text-ink-3">{u.email}</p>
                   </TableCell>
                   <TableCell>
                     <Select

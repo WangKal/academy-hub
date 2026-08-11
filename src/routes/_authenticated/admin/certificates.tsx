@@ -69,7 +69,7 @@ function AdminCertificates() {
       ) : !data?.items.length ? (
         <EmptyState title="No certificates issued yet" />
       ) : (
-        <div className="rounded-md border border-border bg-card">
+        <div className="rounded-xl border border-edge bg-card">
           <Table>
             <TableHeader>
               <TableRow>

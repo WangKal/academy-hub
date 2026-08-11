@@ -59,11 +59,11 @@ function Submissions() {
               feedback: s.feedback ?? "",
             };
             return (
-              <div key={s.id} className="rounded-md border border-border bg-card p-5">
+              <div key={s.id} className="rounded-xl border border-edge bg-card p-5">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="font-medium">{s.userName ?? "Learner"}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-ink-3">
                       {s.courseTitle} · {s.lessonTitle} · {formatDate(s.submittedAt)}
                     </p>
                   </div>
@@ -72,7 +72,7 @@ function Submissions() {
                   </Badge>
                 </div>
 
-                <div className="mt-4 whitespace-pre-wrap rounded-sm border border-border bg-secondary/30 p-3 text-sm">
+                <div className="mt-4 whitespace-pre-wrap rounded-sm border border-edge bg-secondary/30 p-3 text-sm">
                   {s.contentText || "No written response."}
                 </div>
                 {s.attachmentUrl && (

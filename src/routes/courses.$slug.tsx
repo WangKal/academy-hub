@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router"
 import { CheckCircle2, Clock, FileText, Lock, PlayCircle, Users } from "lucide-react";
 import { toast } from "sonner";
 
+import { Panel, Pill } from "@/components/ds";
 import { PublicFooter, PublicHeader } from "@/components/layout/PublicHeader";
 import { EmptyState, LoadingBlock, formatDuration, formatPrice } from "@/components/layout/States";
 import {
@@ -11,9 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import * as api from "@/services/api";
 
@@ -84,22 +83,22 @@ function CourseDetailPage() {
         </div>
       ) : (
         <>
-          <section className="border-b border-border bg-secondary/40">
+          <section className="border-b border-edge bg-surface-2">
             <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.4fr_0.6fr]">
               <div>
                 <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="capitalize">
+                  <Pill variant="info" className="capitalize">
                     {course.level}
-                  </Badge>
-                  <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  </Pill>
+                  <span className="text-xs uppercase tracking-widest text-ink-4">
                     {course.category}
                   </span>
                 </div>
-                <h1 className="mt-4 text-balance text-4xl leading-tight">{course.title}</h1>
-                <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+                <h1 className="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-ink-1">{course.title}</h1>
+                <p className="mt-4 max-w-2xl text-lg text-ink-3">
                   {course.shortDescription}
                 </p>
-                <div className="mt-6 flex flex-wrap gap-6 text-sm text-muted-foreground">
+                <div className="mt-6 flex flex-wrap gap-6 text-sm text-ink-3">
                   <span className="flex items-center gap-1.5">
                     <Users className="size-4" /> {course.enrollmentCount ?? 0} enrolled
                   </span>
@@ -113,7 +112,7 @@ function CourseDetailPage() {
                 </div>
               </div>
 
-              <Card className="h-fit overflow-hidden">
+              <Panel className="h-fit overflow-hidden">
                 {course.thumbnailUrl && (
                   <img
                     src={course.thumbnailUrl}
@@ -123,8 +122,8 @@ function CourseDetailPage() {
                     className="aspect-video w-full object-cover"
                   />
                 )}
-                <CardContent className="space-y-4 p-6">
-                  <p className="font-display text-3xl">
+                <div className="space-y-4 p-6">
+                  <p className="font-display text-3xl font-semibold text-ink-1">
                     {formatPrice(course.priceCents, course.currency)}
                   </p>
                   {!user ? (
@@ -149,29 +148,29 @@ function CourseDetailPage() {
                       {enrol.isPending ? "Enrolling…" : "Enrol now"}
                     </Button>
                   )}
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-ink-3">
                     Includes graded assessments and a verifiable certificate on completion.
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </Panel>
             </div>
           </section>
 
           <section className="mx-auto grid max-w-6xl gap-12 px-5 py-14 md:grid-cols-[1.4fr_0.6fr]">
             <div>
-              <h2 className="text-2xl">About this course</h2>
+              <h2 className="font-display text-2xl font-semibold text-ink-1">About this course</h2>
               <div
-                className="prose prose-slate mt-4 max-w-none text-muted-foreground [&_li]:mt-1 [&_p]:mt-3"
+                className="prose prose-slate mt-4 max-w-none text-ink-3 [&_li]:mt-1 [&_p]:mt-3"
                 dangerouslySetInnerHTML={{ __html: course.descriptionHtml }}
               />
 
-              <h2 className="mt-12 text-2xl">Curriculum</h2>
+              <h2 className="mt-12 font-display text-2xl font-semibold text-ink-1">Curriculum</h2>
               <Accordion type="multiple" className="mt-4">
                 {course.modules.map((m, i) => (
                   <AccordionItem key={m.id} value={m.id}>
                     <AccordionTrigger className="text-left">
                       <span>
-                        <span className="mr-3 font-display text-accent">
+                        <span className="mr-3 font-display text-brand-600">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         {m.title}
@@ -184,12 +183,12 @@ function CourseDetailPage() {
                           return (
                             <li
                               key={l.id}
-                              className="flex items-center gap-3 text-sm text-muted-foreground"
+                              className="flex items-center gap-3 text-sm text-ink-3"
                             >
-                              <Icon className="size-4 shrink-0 text-accent" />
+                              <Icon className="size-4 shrink-0 text-brand-600" />
                               <span className="flex-1">{l.title}</span>
                               {l.isPreview ? (
-                                <Badge variant="outline">Preview</Badge>
+                                <Pill variant="neutral">Preview</Pill>
                               ) : (
                                 <Lock className="size-3.5" />
                               )}
@@ -207,14 +206,14 @@ function CourseDetailPage() {
             </div>
 
             <aside>
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <Panel>
+                <div className="p-6">
+                  <p className="text-xs uppercase tracking-widest text-ink-4">
                     Instructor
                   </p>
-                  <p className="mt-2 font-display text-lg">{course.instructorName ?? "Academy faculty"}</p>
-                </CardContent>
-              </Card>
+                  <p className="mt-2 font-display text-lg font-semibold text-ink-1">{course.instructorName ?? "Academy faculty"}</p>
+                </div>
+              </Panel>
             </aside>
           </section>
         </>

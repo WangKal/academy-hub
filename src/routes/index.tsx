@@ -57,7 +57,7 @@ function Landing() {
     <div className="min-h-screen">
       <PublicHeader />
 
-      <section className="border-b border-border bg-secondary/40">
+      <section className="border-b border-edge bg-secondary/40">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-[1.1fr_0.9fr] md:py-28">
           <div>
             <Badge variant="outline" className="mb-6 rounded-full border-accent/60 bg-accent/10 text-accent-foreground">
@@ -66,7 +66,7 @@ function Landing() {
             <h1 className="text-balance font-display text-4xl leading-[1.08] md:text-6xl">
               The profession behind every effective executive.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-3">
               A structured academy for executive and personal assistants — from diary strategy and
               stakeholder communication to board-level discretion. Learn, be assessed, and earn a
               credential that can be verified.
@@ -79,7 +79,7 @@ function Landing() {
                 <Link to="/auth">Create your account</Link>
               </Button>
             </div>
-            <ul className="mt-10 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
+            <ul className="mt-10 grid gap-2 text-sm text-ink-3 sm:grid-cols-2">
               {[
                 "Self-paced modules with progress tracking",
                 "Graded quizzes with instant feedback",
@@ -95,8 +95,8 @@ function Landing() {
           </div>
 
           <div className="relative">
-            <div className="rounded-lg border border-border bg-card p-7 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="rounded-lg border border-edge bg-card p-7 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-ink-3">
                 Curriculum snapshot
               </p>
               <div className="mt-5 space-y-5">
@@ -107,7 +107,7 @@ function Landing() {
                   ["04", "Board papers, minutes and discretion"],
                   ["05", "Stakeholder influence without authority"],
                 ].map(([n, t]) => (
-                  <div key={n} className="flex gap-4 border-b border-border/70 pb-4 last:border-0">
+                  <div key={n} className="flex gap-4 border-b border-edge/70 pb-4 last:border-0">
                     <span className="font-display text-sm text-accent">{n}</span>
                     <span className="text-sm">{t}</span>
                   </div>
@@ -124,7 +124,7 @@ function Landing() {
             <div key={p.title}>
               <p.icon className="size-5 text-accent" />
               <h3 className="mt-4 text-xl">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+              <p className="mt-2 text-sm leading-relaxed text-ink-3">{p.body}</p>
             </div>
           ))}
         </div>
@@ -133,7 +133,7 @@ function Landing() {
       <section className="mx-auto max-w-6xl px-5 pb-8">
         <div className="mb-8 flex items-end justify-between">
           <h2 className="text-3xl">Featured programmes</h2>
-          <Link to="/courses" className="text-sm text-muted-foreground hover:text-foreground">
+          <Link to="/courses" className="text-sm text-ink-3 hover:text-foreground">
             View all →
           </Link>
         </div>
@@ -151,11 +151,11 @@ function Landing() {
                 />
               )}
               <CardContent className="p-6">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                <p className="text-xs uppercase tracking-widest text-ink-4">
                   {c.category} · {c.level}
                 </p>
                 <h3 className="mt-3 text-xl leading-snug">{c.title}</h3>
-                <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
+                <p className="mt-2 line-clamp-3 text-sm text-ink-3">
                   {c.shortDescription}
                 </p>
                 <div className="mt-5 flex items-center justify-between">

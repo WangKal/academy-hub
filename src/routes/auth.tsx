@@ -124,7 +124,7 @@ function AuthPage() {
                 </Button>
                 <button
                   type="button"
-                  className="w-full text-center text-xs text-muted-foreground hover:text-foreground"
+                  className="w-full text-center text-xs text-ink-3 hover:text-foreground"
                   onClick={() => (email ? forgot.mutate() : toast.error("Enter your email first."))}
                 >
                   Forgot your password?

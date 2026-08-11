@@ -50,7 +50,7 @@ function AdminEnrollments() {
       ) : !data?.items.length ? (
         <EmptyState title="No enrollments found" />
       ) : (
-        <div className="rounded-md border border-border bg-card">
+        <div className="rounded-xl border border-edge bg-card">
           <Table>
             <TableHeader>
               <TableRow>
@@ -66,7 +66,7 @@ function AdminEnrollments() {
                 <TableRow key={e.id}>
                   <TableCell>
                     <p className="font-medium">{e.userName}</p>
-                    <p className="text-xs text-muted-foreground">{e.userEmail}</p>
+                    <p className="text-xs text-ink-3">{e.userEmail}</p>
                   </TableCell>
                   <TableCell>{e.course?.title}</TableCell>
                   <TableCell>

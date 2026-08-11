@@ -68,7 +68,7 @@ export function NotificationBell() {
         </div>
         <div className="max-h-80 overflow-y-auto">
           {!items.length ? (
-            <p className="px-3 py-8 text-center text-sm text-muted-foreground">
+            <p className="px-3 py-8 text-center text-sm text-ink-3">
               You are all caught up.
             </p>
           ) : (
@@ -89,9 +89,9 @@ export function NotificationBell() {
                   </Badge>
                 </div>
                 {n.body && (
-                  <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{n.body}</p>
+                  <p className="mt-1 line-clamp-2 text-xs text-ink-3">{n.body}</p>
                 )}
-                <p className="mt-1 text-[11px] text-muted-foreground/70">
+                <p className="mt-1 text-[11px] text-ink-3/70">
                   {timeAgo(n.createdAt)}
                 </p>
               </button>

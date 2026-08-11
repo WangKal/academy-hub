@@ -73,7 +73,7 @@ function InstructorStudents() {
       ) : !data?.length ? (
         <EmptyState title="No students enrolled yet" />
       ) : (
-        <div className="rounded-md border border-border bg-card">
+        <div className="rounded-xl border border-edge bg-card">
           <Table>
             <TableHeader>
               <TableRow>
@@ -88,14 +88,14 @@ function InstructorStudents() {
                 <TableRow key={e.id}>
                   <TableCell>
                     <p className="font-medium">{e.userName}</p>
-                    <p className="text-xs text-muted-foreground">{e.userEmail}</p>
+                    <p className="text-xs text-ink-3">{e.userEmail}</p>
                   </TableCell>
                   <TableCell>
                     <Badge variant="secondary">{e.status}</Badge>
                   </TableCell>
                   <TableCell>
                     <Progress value={e.progressPercent ?? 0} />
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-ink-3">
                       {e.progressPercent ?? 0}%
                     </span>
                   </TableCell>

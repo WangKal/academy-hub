@@ -108,40 +108,40 @@ function AdminTeamPage() {
       ) : (
         <div className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-lg border border-border bg-card p-5">
+            <div className="rounded-lg border border-edge bg-card p-5">
               <div className="flex items-center gap-3">
                 <ShieldCheck className="size-8 text-primary" />
                 <div>
                   <p className="text-2xl font-bold">{team.length}</p>
-                  <p className="text-xs text-muted-foreground">Active Administrators</p>
+                  <p className="text-xs text-ink-3">Active Administrators</p>
                 </div>
               </div>
             </div>
-            <div className="rounded-lg border border-border bg-card p-5">
+            <div className="rounded-lg border border-edge bg-card p-5">
               <div className="flex items-center gap-3">
                 <Shield className="size-8 text-purple-500" />
                 <div>
                   <p className="text-2xl font-bold">
                     {team.filter((t) => t.subRole === "super_admin").length}
                   </p>
-                  <p className="text-xs text-muted-foreground">Super Administrators</p>
+                  <p className="text-xs text-ink-3">Super Administrators</p>
                 </div>
               </div>
             </div>
-            <div className="rounded-lg border border-border bg-card p-5">
+            <div className="rounded-lg border border-edge bg-card p-5">
               <div className="flex items-center gap-3">
                 <UserCheck className="size-8 text-emerald-500" />
                 <div>
                   <p className="text-2xl font-bold">
                     {team.filter((t) => t.subRole !== "super_admin").length}
                   </p>
-                  <p className="text-xs text-muted-foreground">Delegated Sub-Admins</p>
+                  <p className="text-xs text-ink-3">Delegated Sub-Admins</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="rounded-md border border-border bg-card">
+          <div className="rounded-xl border border-edge bg-card">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -157,7 +157,7 @@ function AdminTeamPage() {
                   <TableRow key={admin.userId}>
                     <TableCell>
                       <p className="font-medium">{admin.userName ?? "Admin User"}</p>
-                      <p className="text-xs text-muted-foreground">{admin.userEmail}</p>
+                      <p className="text-xs text-ink-3">{admin.userEmail}</p>
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className={SUB_ROLE_LABELS[admin.subRole]?.color}>
@@ -179,7 +179,7 @@ function AdminTeamPage() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="text-xs text-muted-foreground">
+                    <TableCell className="text-xs text-ink-3">
                       {formatDate(admin.updatedAt)}
                     </TableCell>
                     <TableCell className="text-right">
@@ -207,7 +207,7 @@ function AdminTeamPage() {
 
           <div className="space-y-4 py-2">
             <div>
-              <label className="text-xs font-semibold uppercase text-muted-foreground">
+              <label className="text-xs font-semibold uppercase text-ink-3">
                 Admin Sub-Role
               </label>
               <Select
@@ -229,14 +229,14 @@ function AdminTeamPage() {
 
             {editingSubRole !== "super_admin" && (
               <div>
-                <label className="text-xs font-semibold uppercase text-muted-foreground mb-2 block">
+                <label className="text-xs font-semibold uppercase text-ink-3 mb-2 block">
                   Granular Permissions
                 </label>
                 <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
                   {ALL_PERMISSIONS.map((perm) => (
                     <label
                       key={perm.key}
-                      className="flex items-center gap-2 text-xs border border-border p-2 rounded cursor-pointer hover:bg-accent/50"
+                      className="flex items-center gap-2 text-xs border border-edge p-2 rounded cursor-pointer hover:bg-accent/50"
                     >
                       <input
                         type="checkbox"

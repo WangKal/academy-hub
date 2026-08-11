@@ -168,7 +168,7 @@ function AdminOrganizationsPage() {
           ) : !orgs.length ? (
             <EmptyState title="No organizations added yet" description="Add enterprise clients to manage corporate cohorts." />
           ) : (
-            <div className="rounded-md border border-border bg-card">
+            <div className="rounded-xl border border-edge bg-card">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -186,13 +186,13 @@ function AdminOrganizationsPage() {
                       <TableCell>
                         <Badge variant="secondary">{o.code}</Badge>
                       </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{o.contactEmail}</TableCell>
+                      <TableCell className="text-xs text-ink-3">{o.contactEmail}</TableCell>
                       <TableCell>
                         <Badge variant="outline">
                           {o.activeSeats} / {o.maxSeats} seats
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{formatDate(o.createdAt)}</TableCell>
+                      <TableCell className="text-xs text-ink-3">{formatDate(o.createdAt)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -216,7 +216,7 @@ function AdminOrganizationsPage() {
           ) : !cohorts.length ? (
             <EmptyState title="No cohorts created yet" />
           ) : (
-            <div className="rounded-md border border-border bg-card">
+            <div className="rounded-xl border border-edge bg-card">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -233,8 +233,8 @@ function AdminOrganizationsPage() {
                       <TableCell>
                         <Badge variant="outline">{c.organizationName ?? "B2B Group"}</Badge>
                       </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{c.description || "N/A"}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{formatDate(c.createdAt)}</TableCell>
+                      <TableCell className="text-xs text-ink-3">{c.description || "N/A"}</TableCell>
+                      <TableCell className="text-xs text-ink-3">{formatDate(c.createdAt)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

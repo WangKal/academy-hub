@@ -98,7 +98,7 @@ function AdminPayments() {
       ) : !data?.items.length ? (
         <EmptyState title="No payments recorded" />
       ) : (
-        <div className="rounded-md border border-border bg-card">
+        <div className="rounded-xl border border-edge bg-card">
           <Table>
             <TableHeader>
               <TableRow>
@@ -115,7 +115,7 @@ function AdminPayments() {
                 <TableRow key={p.id}>
                   <TableCell>
                     <p className="font-medium">{p.userName}</p>
-                    <p className="text-xs text-muted-foreground">{p.userEmail}</p>
+                    <p className="text-xs text-ink-3">{p.userEmail}</p>
                   </TableCell>
                   <TableCell>{p.courseTitle}</TableCell>
                   <TableCell>{formatPrice(p.amountCents, p.currency)}</TableCell>

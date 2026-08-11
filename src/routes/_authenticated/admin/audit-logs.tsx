@@ -106,7 +106,7 @@ function AdminAuditLogsPage() {
       ) : !data?.items.length ? (
         <EmptyState title="No audit logs recorded for this filter" />
       ) : (
-        <div className="rounded-md border border-border bg-card">
+        <div className="rounded-xl border border-edge bg-card">
           <Table>
             <TableHeader>
               <TableRow>
@@ -134,13 +134,13 @@ function AdminAuditLogsPage() {
                   <TableCell>
                     <span className="capitalize text-xs font-medium">{log.entityType}</span>
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-muted-foreground">
+                  <TableCell className="font-mono text-xs text-ink-3">
                     {log.entityId ? `${log.entityId.slice(0, 8)}...` : "—"}
                   </TableCell>
-                  <TableCell className="max-w-xs truncate font-mono text-[11px] text-muted-foreground">
+                  <TableCell className="max-w-xs truncate font-mono text-[11px] text-ink-3">
                     {JSON.stringify(log.metadata)}
                   </TableCell>
-                  <TableCell className="text-xs text-muted-foreground">
+                  <TableCell className="text-xs text-ink-3">
                     {formatDate(log.createdAt)}
                   </TableCell>
                 </TableRow>
