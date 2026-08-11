@@ -48,7 +48,7 @@ export function QuizRunner({
 
   return (
     <div className="mt-6">
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-ink-3">
         {quiz.questions.length} questions · pass mark {quiz.passingScorePercent}%
       </p>
 
@@ -74,7 +74,7 @@ export function QuizRunner({
                       <label
                         key={o.id}
                         className={cn(
-                          "flex cursor-pointer items-center gap-3 rounded-sm border border-border px-3 py-2.5 text-sm",
+                          "flex cursor-pointer items-center gap-3 rounded-sm border border-edge px-3 py-2.5 text-sm",
                           isCorrect && "border-accent bg-accent/10",
                           isWrongPick && "border-destructive bg-destructive/5",
                         )}
@@ -93,7 +93,7 @@ export function QuizRunner({
         })}
       </div>
 
-      <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
+      <div className="mt-8 flex items-center gap-4 border-t border-edge pt-6">
         {result ? (
           <>
             <p className="font-display text-2xl">{result.attempt.scorePercent}%</p>

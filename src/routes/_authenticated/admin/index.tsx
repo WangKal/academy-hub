@@ -1,9 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import type { ReactNode } from "react";
+import {
+  Award,
+  BookOpen,
+  CreditCard,
+  GraduationCap,
+  ScrollText,
+  TrendingUp,
+  Users,
+  Wallet,
+} from "lucide-react";
 
+import { MetricCard, Panel } from "@/components/ds";
 import { AppShell } from "@/components/layout/AppShell";
 import { EmptyState, LoadingBlock, formatDate, formatPrice } from "@/components/layout/States";
-import { Card, CardContent } from "@/components/ui/card";
 import * as api from "@/services/api";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
@@ -24,16 +35,16 @@ function AdminOverview() {
     queryFn: () => api.getAdminDashboardStats(),
   });
 
-  const cards = data
+  const cards: Array<[string, string | number, ReactNode]> = data
     ? [
-        ["Students", data.students],
-        ["Instructors", data.instructors],
-        ["Courses", `${data.publishedCourses}/${data.courses}`],
-        ["Active enrollments", data.activeEnrollments],
-        ["Completions", data.completedCourses],
-        ["Certificates", data.certificatesIssued],
-        ["Revenue", formatPrice(data.revenueCents)],
-        ["Pending payments", data.pendingPayments],
+        ["Students", data.students, <Users className="size-4" key="s" />],
+        ["Instructors", data.instructors, <GraduationCap className="size-4" key="i" />],
+        ["Courses", `${data.publishedCourses}/${data.courses}`, <BookOpen className="size-4" key="c" />],
+        ["Active enrollments", data.activeEnrollments, <ScrollText className="size-4" key="e" />],
+        ["Completions", data.completedCourses, <TrendingUp className="size-4" key="x" />],
+        ["Certificates", data.certificatesIssued, <Award className="size-4" key="a" />],
+        ["Revenue", formatPrice(data.revenueCents), <Wallet className="size-4" key="r" />],
+        ["Pending payments", data.pendingPayments, <CreditCard className="size-4" key="p" />],
       ]
     : [];
 
@@ -46,33 +57,30 @@ function AdminOverview() {
       ) : (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {cards.map(([label, value]) => (
-              <Card key={String(label)}>
-                <CardContent className="p-5">
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                    {label}
-                  </p>
-                  <p className="mt-3 font-display text-3xl">{value}</p>
-                </CardContent>
-              </Card>
+            {cards.map(([label, value, icon]) => (
+              <MetricCard key={label} label={label} value={value} icon={icon} />
             ))}
           </div>
 
-          <h2 className="mb-4 mt-10 text-xl">Recent activity</h2>
-          <div className="rounded-md border border-border bg-card divide-y divide-border">
+          <h2 className="mb-4 mt-10 font-display text-lg font-semibold text-ink-1">
+            Recent activity
+          </h2>
+          <Panel className="divide-y divide-edge">
             {(data?.recentActivity ?? []).map((a) => (
-              <div key={a.id} className="flex items-center justify-between px-5 py-3 text-sm">
-                <span>
-                  <span className="font-medium">{a.userName ?? "System"}</span>{" "}
-                  <span className="text-muted-foreground">{a.action.replace(/[._]/g, " ")}</span>
+              <div key={a.id} className="flex items-center justify-between gap-3 px-5 py-3 text-sm">
+                <span className="min-w-0 truncate">
+                  <span className="font-medium text-ink-1">{a.userName ?? "System"}</span>{" "}
+                  <span className="text-ink-3">{a.action.replace(/[._]/g, " ")}</span>
                 </span>
-                <span className="text-xs text-muted-foreground">{formatDate(a.createdAt)}</span>
+                <span className="shrink-0 font-mono text-xs text-ink-4">
+                  {formatDate(a.createdAt)}
+                </span>
               </div>
             ))}
             {!data?.recentActivity?.length && (
-              <p className="px-5 py-6 text-sm text-muted-foreground">No activity recorded yet.</p>
+              <p className="px-5 py-6 text-sm text-ink-3">No activity recorded yet.</p>
             )}
-          </div>
+          </Panel>
         </>
       )}
     </AppShell>

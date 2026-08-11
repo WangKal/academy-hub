@@ -66,7 +66,7 @@ function NotificationsPage() {
           description="Enrolments, graded assignments, payments and certificates will appear here."
         />
       ) : (
-        <div className="divide-y divide-border rounded-md border border-border bg-card">
+        <div className="divide-y divide-border rounded-xl border border-edge bg-card">
           {data.map((n) => (
             <div
               key={n.id}
@@ -80,8 +80,8 @@ function NotificationsPage() {
                   </Badge>
                   {!n.readAt && <Badge>New</Badge>}
                 </div>
-                {n.body && <p className="mt-1 text-sm text-muted-foreground">{n.body}</p>}
-                <p className="mt-1 text-xs text-muted-foreground/70">{formatDate(n.createdAt)}</p>
+                {n.body && <p className="mt-1 text-sm text-ink-3">{n.body}</p>}
+                <p className="mt-1 text-xs text-ink-3/70">{formatDate(n.createdAt)}</p>
               </div>
               {!n.readAt && (
                 <Button size="sm" variant="ghost" onClick={() => readOne.mutate(n.id)}>

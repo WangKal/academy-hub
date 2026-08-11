@@ -2,11 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
+import { Panel, Pill } from "@/components/ds";
 import { PublicFooter, PublicHeader } from "@/components/layout/PublicHeader";
 import { EmptyState, LoadingBlock, formatPrice } from "@/components/layout/States";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -56,8 +55,8 @@ function Catalogue() {
     <div className="min-h-screen">
       <PublicHeader />
       <div className="mx-auto max-w-6xl px-5 py-14">
-        <h1 className="text-4xl">Course catalogue</h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
+        <h1 className="font-display text-4xl font-semibold text-ink-1">Course catalogue</h1>
+        <p className="mt-3 max-w-2xl text-ink-3">
           Structured programmes for executive and personal assistants at every stage of the career.
         </p>
 
@@ -107,7 +106,7 @@ function Catalogue() {
           ) : (
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {data.items.map((c) => (
-                <Card key={c.id} className="flex flex-col overflow-hidden">
+                <Panel key={c.id} className="flex flex-col overflow-hidden">
                   {c.thumbnailUrl && (
                     <img
                       src={c.thumbnailUrl}
@@ -118,21 +117,21 @@ function Catalogue() {
                       className="aspect-video w-full object-cover"
                     />
                   )}
-                  <CardContent className="flex flex-1 flex-col p-6">
+                  <div className="flex flex-1 flex-col p-5">
                     <div className="flex items-center gap-2">
-                      <Badge variant="secondary" className="capitalize">
+                      <Pill variant="info" className="capitalize">
                         {c.level}
-                      </Badge>
-                      <span className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                      </Pill>
+                      <span className="truncate text-xs font-medium uppercase tracking-widest text-ink-4">
                         {c.category}
                       </span>
                     </div>
-                    <h2 className="mt-3 text-xl leading-snug">{c.title}</h2>
-                    <p className="mt-2 line-clamp-3 flex-1 text-sm text-muted-foreground">
+                    <h2 className="mt-3 font-display text-lg font-semibold leading-snug text-ink-1">{c.title}</h2>
+                    <p className="mt-2 line-clamp-3 flex-1 text-sm text-ink-3">
                       {c.shortDescription}
                     </p>
-                    <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-                      <span className="font-display text-lg">
+                    <div className="mt-5 flex items-center justify-between border-t border-edge pt-4">
+                      <span className="font-display text-lg font-semibold text-ink-1">
                         {formatPrice(c.priceCents, c.currency)}
                       </span>
                       <Button asChild size="sm">
@@ -141,8 +140,8 @@ function Catalogue() {
                         </Link>
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </Panel>
               ))}
             </div>
           )}

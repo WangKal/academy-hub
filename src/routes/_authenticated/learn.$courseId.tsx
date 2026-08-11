@@ -104,17 +104,17 @@ function Player() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="hidden w-80 shrink-0 border-r border-border bg-secondary/30 lg:block">
-        <div className="border-b border-border p-4">
+      <aside className="hidden w-80 shrink-0 border-r border-edge bg-secondary/30 lg:block">
+        <div className="border-b border-edge p-4">
           <Link
             to="/my-courses"
-            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            className="flex items-center gap-1.5 text-xs text-ink-3 hover:text-foreground"
           >
             <ChevronLeft className="size-3.5" /> My courses
           </Link>
           <h2 className="mt-3 font-display text-base leading-snug">{course.title}</h2>
           <Progress value={courseProgress?.percent ?? 0} className="mt-3" />
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-2 text-xs text-ink-3">
             {courseProgress?.lessonsCompleted ?? 0}/{courseProgress?.lessonsTotal ?? 0} lessons
             complete
           </p>
@@ -122,7 +122,7 @@ function Player() {
         <nav className="p-3">
           {course.modules.map((m, mi) => (
             <div key={m.id} className="mb-5">
-              <p className="px-2 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+              <p className="px-2 text-xs uppercase tracking-widest text-ink-4">
                 {String(mi + 1).padStart(2, "0")} · {m.title}
               </p>
               <ul className="mt-2 space-y-0.5">
@@ -170,7 +170,7 @@ function Player() {
               <h1 className="mt-4 text-3xl leading-tight">{active.title}</h1>
 
               {active.lessonType === "video" && active.videoUrl && (
-                <div className="mt-6 aspect-video overflow-hidden rounded-md border border-border bg-primary/5">
+                <div className="mt-6 aspect-video overflow-hidden rounded-md border border-edge bg-primary/5">
                   {/\.(mp4|webm|ogg|mov|m3u8)(\?|$)/i.test(active.videoUrl) ? (
                     <video
                       key={active.id}
@@ -203,11 +203,11 @@ function Player() {
               ) : (
                 <>
                   <div
-                    className="prose prose-slate mt-6 max-w-none text-muted-foreground [&_h2]:mt-8 [&_h2]:text-foreground [&_li]:mt-1 [&_p]:mt-4 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
+                    className="prose prose-slate mt-6 max-w-none text-ink-3 [&_h2]:mt-8 [&_h2]:text-foreground [&_li]:mt-1 [&_p]:mt-4 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
                     dangerouslySetInnerHTML={{ __html: active.contentHtml || "<p>No content yet.</p>" }}
                   />
                   {active.lessonType === "assignment" && <AssignmentPanel lessonId={active.id} />}
-                  <div className="mt-10 flex items-center gap-3 border-t border-border pt-6">
+                  <div className="mt-10 flex items-center gap-3 border-t border-edge pt-6">
                     <Button
                       disabled={complete.isPending || completed.has(active.id)}
                       onClick={() => complete.mutate(active.id)}
@@ -215,11 +215,11 @@ function Player() {
                       {completed.has(active.id) ? "Completed" : "Mark complete & continue"}
                     </Button>
                     {active.lessonType === "video" ? (
-                      <PlayCircle className="size-4 text-muted-foreground" />
+                      <PlayCircle className="size-4 text-ink-3" />
                     ) : (
-                      <FileText className="size-4 text-muted-foreground" />
+                      <FileText className="size-4 text-ink-3" />
                     )}
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-ink-3">
                       {formatDuration(active.durationSeconds)}
                     </span>
                   </div>

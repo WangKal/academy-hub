@@ -9,11 +9,10 @@ import {
   Users,
 } from "lucide-react";
 
+import { MetricCard, Panel, Pill, ProgressBar } from "@/components/ds";
 import { AppShell } from "@/components/layout/AppShell";
 import { EmptyState, LoadingBlock } from "@/components/layout/States";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/hooks/useAuth";
 import * as api from "@/services/api";
 
@@ -28,28 +27,6 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   }),
   component: Dashboard,
 });
-
-function Stat({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: typeof Award;
-  label: string;
-  value: string | number;
-}) {
-  return (
-    <Card>
-      <CardContent className="p-5">
-        <div className="flex items-center justify-between">
-          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</p>
-          <Icon className="size-4 text-accent" />
-        </div>
-        <p className="mt-3 font-display text-3xl">{value}</p>
-      </CardContent>
-    </Card>
-  );
-}
 
 function Dashboard() {
   const { user } = useAuth();
@@ -81,16 +58,32 @@ function Dashboard() {
         <LoadingBlock rows={2} />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat icon={BookOpen} label="Enrolled" value={stats?.enrolledCourses ?? 0} />
-          <Stat icon={CheckCircle2} label="Completed" value={stats?.completedCourses ?? 0} />
-          <Stat icon={Award} label="Certificates" value={stats?.certificates ?? 0} />
-          <Stat icon={TrendingUp} label="Avg. progress" value={`${stats?.averageProgress ?? 0}%`} />
+          <MetricCard
+            label="Enrolled"
+            value={stats?.enrolledCourses ?? 0}
+            icon={<BookOpen className="size-4" />}
+          />
+          <MetricCard
+            label="Completed"
+            value={stats?.completedCourses ?? 0}
+            icon={<CheckCircle2 className="size-4" />}
+          />
+          <MetricCard
+            label="Certificates"
+            value={stats?.certificates ?? 0}
+            icon={<Award className="size-4" />}
+          />
+          <MetricCard
+            label="Avg. progress"
+            value={`${stats?.averageProgress ?? 0}%`}
+            icon={<TrendingUp className="size-4" />}
+          />
         </div>
       )}
 
       <div className="mt-10">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl">Continue learning</h2>
+          <h2 className="font-display text-lg font-semibold text-ink-1">Continue learning</h2>
           <Button asChild variant="ghost" size="sm">
             <Link to="/my-courses">All courses</Link>
           </Button>
@@ -99,6 +92,7 @@ function Dashboard() {
           <EmptyState
             title="You're not enrolled in anything yet"
             description="Browse the catalogue and pick a programme to begin."
+            icon={<BookOpen className="size-6" />}
             action={
               <Button asChild>
                 <Link to="/courses">Browse catalogue</Link>
@@ -108,26 +102,35 @@ function Dashboard() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {inProgress.map((e) => (
-              <Card key={e.id}>
-                <CardContent className="p-5">
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                    {e.course?.category}
-                  </p>
-                  <h3 className="mt-2 text-lg leading-snug">{e.course?.title}</h3>
-                  <Progress value={e.progressPercent ?? 0} className="mt-4" />
-                  <div className="mt-3 flex items-center justify-between text-sm text-muted-foreground">
-                    <span>
-                      {e.lessonsCompleted ?? 0}/{e.lessonsTotal ?? 0} lessons ·{" "}
-                      {e.progressPercent ?? 0}%
-                    </span>
-                    <Button asChild size="sm" variant="outline">
-                      <Link to="/learn/$courseId" params={{ courseId: e.courseId }}>
-                        Resume
-                      </Link>
-                    </Button>
+              <Panel key={e.id} className="overflow-hidden">
+                <div className="flex gap-4 p-4">
+                  {e.course?.thumbnailUrl && (
+                    <img
+                      src={e.course.thumbnailUrl}
+                      alt={e.course?.title ?? "Course"}
+                      loading="lazy"
+                      className="hidden size-20 shrink-0 rounded-lg object-cover sm:block"
+                    />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <Pill variant="neutral">{e.course?.category ?? "Course"}</Pill>
+                    <h3 className="mt-2 truncate font-display text-base font-semibold text-ink-1">
+                      {e.course?.title}
+                    </h3>
+                    <ProgressBar value={e.progressPercent ?? 0} className="mt-3" showLabel />
+                    <div className="mt-3 flex items-center justify-between gap-2">
+                      <span className="font-mono text-xs text-ink-4">
+                        {e.lessonsCompleted ?? 0}/{e.lessonsTotal ?? 0} lessons
+                      </span>
+                      <Button asChild size="sm" variant="outline">
+                        <Link to="/learn/$courseId" params={{ courseId: e.courseId }}>
+                          Resume
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </Panel>
             ))}
           </div>
         )}
@@ -135,15 +138,27 @@ function Dashboard() {
 
       {instructorStats && (
         <div className="mt-12">
-          <h2 className="mb-4 text-xl">Teaching</h2>
+          <h2 className="mb-4 font-display text-lg font-semibold text-ink-1">Teaching</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Stat icon={GraduationCap} label="Courses" value={instructorStats.totalCourses} />
-            <Stat icon={CheckCircle2} label="Published" value={instructorStats.publishedCourses} />
-            <Stat icon={Users} label="Enrollments" value={instructorStats.totalEnrollments} />
-            <Stat
-              icon={TrendingUp}
+            <MetricCard
+              label="Courses"
+              value={instructorStats.totalCourses}
+              icon={<GraduationCap className="size-4" />}
+            />
+            <MetricCard
+              label="Published"
+              value={instructorStats.publishedCourses}
+              icon={<CheckCircle2 className="size-4" />}
+            />
+            <MetricCard
+              label="Enrollments"
+              value={instructorStats.totalEnrollments}
+              icon={<Users className="size-4" />}
+            />
+            <MetricCard
               label="Completion"
               value={`${instructorStats.completionRate}%`}
+              icon={<TrendingUp className="size-4" />}
             />
           </div>
         </div>

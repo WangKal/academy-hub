@@ -46,7 +46,7 @@ function Verify() {
       <div className="mx-auto max-w-2xl px-5 py-20">
         <Award className="size-6 text-accent" />
         <h1 className="mt-4 text-4xl">Verify a certificate</h1>
-        <p className="mt-3 text-muted-foreground">
+        <p className="mt-3 text-ink-3">
           Enter the certificate code printed on the credential.
         </p>
 
@@ -92,7 +92,7 @@ function Verify() {
                 </Badge>
               </div>
               <h2 className="text-2xl">{result.courseTitle ?? "Course"}</h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-ink-3">
                 Awarded to <span className="text-foreground">{result.userName ?? "—"}</span> on{" "}
                 {formatDate(result.issuedAt)}
               </p>

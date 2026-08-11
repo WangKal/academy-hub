@@ -39,7 +39,7 @@ export function AssignmentPanel({ lessonId }: { lessonId: string }) {
   const graded = submission?.status === "graded";
 
   return (
-    <div className="mt-8 rounded-md border border-border bg-card p-5">
+    <div className="mt-8 rounded-xl border border-edge bg-card p-5">
       <div className="flex items-center justify-between">
         <h2 className="font-display text-lg">Your submission</h2>
         {submission && (
@@ -52,13 +52,13 @@ export function AssignmentPanel({ lessonId }: { lessonId: string }) {
       {graded ? (
         <div className="mt-4 space-y-2">
           <p className="text-3xl font-display">{submission.grade ?? 0}%</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-ink-3">
             {submission.feedback || "No written feedback was left."}
           </p>
-          <p className="text-xs text-muted-foreground/70">
+          <p className="text-xs text-ink-3/70">
             Graded {formatDate(submission.gradedAt)}
           </p>
-          <div className="mt-3 rounded-sm border border-border bg-secondary/30 p-3 text-sm whitespace-pre-wrap">
+          <div className="mt-3 rounded-sm border border-edge bg-secondary/30 p-3 text-sm whitespace-pre-wrap">
             {submission.contentText}
           </div>
         </div>
@@ -87,7 +87,7 @@ export function AssignmentPanel({ lessonId }: { lessonId: string }) {
             {submission ? "Resubmit" : "Submit for review"}
           </Button>
           {submission && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-ink-3">
               Submitted {formatDate(submission.submittedAt)} — awaiting grading.
             </p>
           )}
