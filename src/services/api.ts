@@ -383,8 +383,31 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
         ? "instructor"
         : "student";
 
+    let adminSubRole: AdminSubRole | undefined;
+    let permissions: AdminPermissionKey[] | undefined;
+    let organizationIds: string[] = [];
+
+    if (role === "admin") {
+      const { data: perm } = await supabase
+        .from("admin_permissions")
+        .select("sub_role, permissions")
+        .eq("user_id", authUser.id)
+        .maybeSingle();
+      adminSubRole = (perm?.sub_role ?? "super_admin") as AdminSubRole;
+      permissions = (perm?.permissions ?? DEFAULT_TIER_PERMISSIONS[adminSubRole] ?? []) as AdminPermissionKey[];
+    }
+
+    const { data: memberships } = await supabase
+      .from("organization_members")
+      .select("organization_id")
+      .eq("user_id", authUser.id);
+    organizationIds = (memberships ?? []).map((m: Row) => m.organization_id);
+
     return {
       id: authUser.id,
+      adminSubRole,
+      permissions,
+      organizationIds,
       email: profile?.email || authUser.email || "",
       fullName:
         profile?.full_name ||
@@ -413,6 +436,64 @@ async function requireUserId(): Promise<string> {
   if (!data?.user) throw apiError("unauthenticated", "You need to sign in to continue.");
   return data.user.id;
 }
+
+/** Fallback permission sets per administrative tier. */
+export const DEFAULT_TIER_PERMISSIONS: Record<AdminSubRole, AdminPermissionKey[]> = {
+  super_admin: [
+    "manage_users",
+    "manage_courses",
+    "manage_payments",
+    "manage_settings",
+    "view_audit_logs",
+    "manage_admins",
+    "manage_organizations",
+  ],
+  platform_admin: [
+    "manage_users",
+    "manage_courses",
+    "manage_payments",
+    "view_audit_logs",
+    "manage_organizations",
+  ],
+  academic_admin: ["manage_users", "manage_courses", "view_audit_logs"],
+  finance_admin: ["manage_payments", "view_audit_logs"],
+  user_admin: ["manage_users", "view_audit_logs"],
+  compliance_admin: ["view_audit_logs"],
+  org_admin: ["manage_users", "manage_courses"],
+};
+
+/* ========================================================================== */
+/*  MEDIA                                                                     */
+/*  Future: POST /api/media (multipart) -> { url }                            */
+/* ========================================================================== */
+
+/**
+ * Uploads course media (thumbnail image or lesson video) and returns a stable
+ * URL the UI can store on the course/lesson record.
+ */
+export async function uploadCourseMedia(
+  file: File,
+  folder: "thumbnails" | "videos" = "thumbnails",
+): Promise<string> {
+  return run("media.upload", async () => {
+    const userId = await requireUserId();
+    const ext = file.name.split(".").pop()?.toLowerCase() || "bin";
+    const path = `${folder}/${userId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+    const { error } = await supabase.storage
+      .from(MEDIA_BUCKET)
+      .upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+    if (error) throw normalizeError(error, "media.upload");
+
+    const { data, error: signError } = await supabase.storage
+      .from(MEDIA_BUCKET)
+      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    if (signError || !data?.signedUrl) throw normalizeError(signError, "media.upload.sign");
+    return data.signedUrl;
+  });
+}
+
+const MEDIA_BUCKET = "course-media";
 
 /* ========================================================================== */
 /*  USERS                                                                     */
