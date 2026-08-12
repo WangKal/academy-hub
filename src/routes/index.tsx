@@ -202,7 +202,7 @@ function Landing() {
                       <div className="text-[10px] font-mono font-bold uppercase tracking-widest mb-1.5" style={{ color: "#818cf8" }}>{course.category}</div>
                       <h3 className="text-sm font-semibold text-white leading-snug mb-3 line-clamp-2">{course.title}</h3>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono" style={{ color: "#64748b" }}>⏱️ h</span>
+                        <span className="text-xs font-mono" style={{ color: "#64748b" }}>⏱️ {Math.max(1, Math.round((course.totalDurationSeconds ?? 0) / 3600))}h</span>
                         <span className="text-sm font-bold text-white">{formatPrice(course.priceCents, course.currency)}</span>
                       </div>
                     </div>
@@ -387,11 +387,11 @@ function Landing() {
                   {featuredCourse.title}
                 </h3>
                 <p className="text-sm text-ink-3 leading-relaxed mb-6">
-                  {featuredCourse.shortDescription || featuredCourse.description}
+                  {featuredCourse.shortDescription}
                 </p>
                 <div className="flex flex-wrap gap-4 text-xs font-mono text-ink-4 mb-8 pb-8 border-b" style={{ borderColor: "var(--edge)" }}>
-                  <span>{featuredCourse.modulesCount || 4} modules</span>
-                  <span>⏱️  hours total</span>
+                  <span>{featuredCourse.lessonCount ?? 0} lessons</span>
+                  <span>{Math.max(1, Math.round((featuredCourse.totalDurationSeconds ?? 0) / 3600))}h total</span>
                 </div>
                 <div className="flex items-center gap-5">
                   <Button asChild className="px-5 py-2.5 bg-indigo-600 text-white font-semibold text-sm rounded-xl hover:bg-indigo-700 transition-all border-none">
@@ -598,13 +598,13 @@ function PublicCourseCard({
           {course.title}
         </h3>
         <p className="text-xs text-ink-4 line-clamp-2 mb-3">
-          {course.shortDescription || course.shortDescription}
+          {course.shortDescription}
         </p>
         <div className="flex items-center justify-between text-xs border-t pt-3" style={{ borderColor: "var(--edge)" }}>
           <div className="flex items-center gap-2 font-mono text-ink-4">
-            <span>⏱️ h</span>
+            <span>⏱️ {Math.max(1, Math.round((course.totalDurationSeconds ?? 0) / 3600))}h</span>
             <span>·</span>
-            <span>📚 {course.modulesCount || 4} modules</span>
+            <span>📚 {course.lessonCount ?? 0} lessons</span>
           </div>
           <span className="font-bold text-ink-1 opacity-100 group-hover:opacity-0 transition-opacity">
             {formatPrice(course.priceCents, course.currency)}

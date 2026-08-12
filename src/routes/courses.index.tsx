@@ -226,7 +226,7 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
         </div>
         {enrollment && (
           <div className="absolute bottom-0 left-0 right-0">
-            <ProgressBar value={enrollment.progressPercentage || 0} />
+            <ProgressBar value={enrollment.progressPercent || 0} />
           </div>
         )}
       </div>
@@ -237,7 +237,7 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
             {course.title}
           </h3>
           <p className="text-xs text-ink-3 line-clamp-2 leading-relaxed mb-4">
-            {course.shortDescription || course.shortDescription}
+            {course.shortDescription}
           </p>
         </div>
 
@@ -246,14 +246,14 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
             className="flex items-center gap-4 text-xs text-ink-4 font-mono mb-4 pt-3 border-t"
             style={{ borderColor: "var(--edge)" }}
           >
-            <span>⏱️ h</span>
-            <span>📚 {course.modulesCount || 4} modules</span>
+            <span>⏱️ {Math.max(1, Math.round((course.totalDurationSeconds ?? 0) / 3600))}h</span>
+            <span>📚 {course.lessonCount ?? 0} lessons</span>
           </div>
 
           <div className="flex items-center justify-between">
             {enrollment ? (
               <Pill variant={enrollment.status === "completed" ? "success" : "neutral"}>
-                {enrollment.status === "completed" ? "✓ Completed" : `${enrollment.progressPercentage}% complete`}
+                {enrollment.status === "completed" ? "✓ Completed" : `${enrollment.progressPercent}% complete`}
               </Pill>
             ) : (
               <div className="font-display font-semibold text-ink-1">
@@ -300,12 +300,12 @@ function CatalogueListRow({ course, enrollment }: { course: Course; enrollment?:
           {course.title}
         </h3>
         <p className="text-xs text-ink-3 line-clamp-1 mt-1">
-          {course.shortDescription || course.shortDescription}
+          {course.shortDescription}
         </p>
 
         {enrollment && (
           <div className="mt-3 max-w-xs">
-            <ProgressBar value={enrollment.progressPercentage || 0} showLabel />
+            <ProgressBar value={enrollment.progressPercent || 0} showLabel />
           </div>
         )}
       </div>
@@ -313,7 +313,7 @@ function CatalogueListRow({ course, enrollment }: { course: Course; enrollment?:
       <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-edge">
         {enrollment ? (
           <Pill variant={enrollment.status === "completed" ? "success" : "neutral"}>
-            {enrollment.status === "completed" ? "✓ Completed" : `${enrollment.progressPercentage}%`}
+            {enrollment.status === "completed" ? "✓ Completed" : `${enrollment.progressPercent}%`}
           </Pill>
         ) : (
           <div className="font-display font-semibold text-lg text-ink-1">
