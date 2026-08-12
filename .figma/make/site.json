@@ -1,0 +1,10 @@
+{
+  "description": "Provides detailed enterprise app development guidance with clear documentation to help teams recreate and implement complex projects efficiently.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
