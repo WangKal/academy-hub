@@ -30,6 +30,12 @@ export interface CurrentUser {
   role: UserRole;
   avatarUrl?: string;
   status: UserStatus;
+  /** Administrative tier. Only present when `role === "admin"`. */
+  adminSubRole?: AdminSubRole;
+  /** Effective permission keys granted to this administrator. */
+  permissions?: AdminPermissionKey[];
+  /** Organizations this user is scoped to (organization admins). */
+  organizationIds?: string[];
 }
 
 export interface User {
@@ -465,6 +471,8 @@ export interface AssignmentSubmissionInput {
 
 export type AdminSubRole =
   | "super_admin"
+  | "platform_admin"
+  | "org_admin"
   | "academic_admin"
   | "finance_admin"
   | "user_admin"
