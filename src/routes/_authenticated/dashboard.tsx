@@ -81,7 +81,7 @@ function Dashboard() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
             <MetricCard
               label="Enrolled"
-              value={stats?.totalEnrolled ?? enrollments?.length ?? 0}
+              value={stats?.enrolledCourses ?? enrollments?.length ?? 0}
               icon={<BookOpen className="w-4 h-4" />}
             />
             <MetricCard
@@ -91,12 +91,12 @@ function Dashboard() {
             />
             <MetricCard
               label="Certificates"
-              value={certificates?.length ?? stats?.certificatesCount ?? 0}
+              value={certificates?.length ?? stats?.certificates ?? 0}
               icon={<Award className="w-4 h-4 text-indigo-600" />}
             />
             <MetricCard
-              label="Hours Learned"
-              value={`${stats?.totalHoursLearned ?? 12}h`}
+              label="Lessons done"
+              value={stats?.lessonsCompleted ?? 0}
               icon={<Trophy className="w-4 h-4 text-amber-600" />}
             />
           </div>
@@ -113,19 +113,18 @@ function Dashboard() {
                     {primaryEnrollment.course.title}
                   </h2>
                   <p className="text-sm text-indigo-200 line-clamp-2 mb-4">
-                    {primaryEnrollment.course.shortDescription || primaryEnrollment.course.description}
+                    {primaryEnrollment.course.shortDescription}
                   </p>
                   <div className="w-full max-w-sm">
                     <ProgressBar
-                      value={primaryEnrollment.progressPercentage || 0}
-                      color="bg-indigo-400"
+                      value={primaryEnrollment.progressPercent || 0}
                       showLabel
                     />
                   </div>
                 </div>
 
                 <Button asChild size="lg" className="bg-white text-indigo-900 hover:bg-indigo-50 rounded-xl font-semibold shrink-0">
-                  <Link to="/_authenticated/learn/$courseId" params={{ courseId: primaryEnrollment.courseId }}>
+                  <Link to="/learn/$courseId" params={{ courseId: primaryEnrollment.courseId }}>
                     Resume course →
                   </Link>
                 </Button>
@@ -138,7 +137,7 @@ function Dashboard() {
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl font-semibold text-ink-1">My Active Courses</h2>
-                <Link to="/_authenticated/my-courses" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+                <Link to="/my-courses" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
                   View all →
                 </Link>
               </div>
@@ -164,10 +163,10 @@ function Dashboard() {
                         <h3 className="font-semibold text-ink-1 text-sm truncate mb-2">
                           {e.course?.title}
                         </h3>
-                        <ProgressBar value={e.progressPercentage || 0} showLabel />
+                        <ProgressBar value={e.progressPercent || 0} showLabel />
                       </div>
                       <Button asChild size="sm" variant="outline" className="rounded-xl shrink-0">
-                        <Link to="/_authenticated/learn/$courseId" params={{ courseId: e.courseId }}>
+                        <Link to="/learn/$courseId" params={{ courseId: e.courseId }}>
                           Continue
                         </Link>
                       </Button>
@@ -181,7 +180,7 @@ function Dashboard() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl font-semibold text-ink-1">My Certificates</h2>
-                <Link to="/_authenticated/my-certificates" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+                <Link to="/my-certificates" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
                   View all →
                 </Link>
               </div>

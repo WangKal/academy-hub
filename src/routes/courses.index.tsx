@@ -226,7 +226,7 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
         </div>
         {enrollment && (
           <div className="absolute bottom-0 left-0 right-0">
-            <ProgressBar value={enrollment.progressPercentage || 0} color="bg-indigo-600" />
+            <ProgressBar value={enrollment.progressPercentage || 0} />
           </div>
         )}
       </div>
@@ -237,7 +237,7 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
             {course.title}
           </h3>
           <p className="text-xs text-ink-3 line-clamp-2 leading-relaxed mb-4">
-            {course.shortDescription || course.description}
+            {course.shortDescription || course.shortDescription}
           </p>
         </div>
 
@@ -246,7 +246,7 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
             className="flex items-center gap-4 text-xs text-ink-4 font-mono mb-4 pt-3 border-t"
             style={{ borderColor: "var(--edge)" }}
           >
-            <span>⏱️ {course.estimatedHours}h</span>
+            <span>⏱️ h</span>
             <span>📚 {course.modulesCount || 4} modules</span>
           </div>
 
@@ -300,7 +300,7 @@ function CatalogueListRow({ course, enrollment }: { course: Course; enrollment?:
           {course.title}
         </h3>
         <p className="text-xs text-ink-3 line-clamp-1 mt-1">
-          {course.shortDescription || course.description}
+          {course.shortDescription || course.shortDescription}
         </p>
 
         {enrollment && (
