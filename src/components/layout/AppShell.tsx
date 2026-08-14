@@ -67,11 +67,13 @@ const NAV: { group: string; items: NavItem[] }[] = [
     group: "Platform",
     items: [
       { to: "/admin", label: "Overview", icon: BarChart3, roles: ["admin"] },
+      { to: "/admin/courses", label: "Courses", icon: BookOpen, roles: ["admin"] },
       { to: "/admin/team", label: "Admin team", icon: ShieldCheck, roles: ["admin"] },
       { to: "/admin/organizations", label: "Organizations", icon: Building2, roles: ["admin"] },
       { to: "/admin/users", label: "Users", icon: Users, roles: ["admin"] },
     ],
   },
+
   {
     group: "Operations",
     items: [

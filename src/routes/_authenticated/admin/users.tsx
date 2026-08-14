@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -26,6 +26,12 @@ import * as api from "@/services/api";
 import type { UserRole, UserStatus } from "@/types";
 
 export const Route = createFileRoute("/_authenticated/admin/users")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || user.role !== "admin") {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Users — EA Academy admin" },

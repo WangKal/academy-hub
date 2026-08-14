@@ -23,6 +23,9 @@
  */
 
 import { supabase } from "@/integrations/supabase/client";
+import {
+  DEFAULT_TIER_PERMISSIONS,
+} from "@/services/permissions";
 import type {
   AcademySettings,
   AdminDashboardStats,
@@ -369,19 +372,34 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
   return run("auth.getCurrentUser", async () => {
     const { data: auth } = await supabase.auth.getUser();
     const authUser = auth?.user;
+
     if (!authUser) return null;
 
     const [{ data: profile }, { data: roles }] = await Promise.all([
-      supabase.from("profiles").select("*").eq("id", authUser.id).maybeSingle(),
-      supabase.from("user_roles").select("role").eq("user_id", authUser.id),
+      supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", authUser.id)
+        .maybeSingle(),
+
+      supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", authUser.id),
     ]);
 
-    const roleList = (roles ?? []).map((r: Row) => r.role as UserRole);
-    const role: UserRole = roleList.includes("admin")
-      ? "admin"
-      : roleList.includes("instructor")
-        ? "instructor"
-        : "student";
+    const roleList = (roles ?? []).map(
+      (r: Row) => r.role as UserRole,
+    );
+
+    const role: UserRole =
+      roleList.includes("admin")
+        ? "admin"
+        : roleList.includes("auditor")
+          ? "auditor"
+          : roleList.includes("instructor")
+            ? "instructor"
+            : "student";
 
     let adminSubRole: AdminSubRole | undefined;
     let permissions: AdminPermissionKey[] | undefined;
@@ -393,34 +411,83 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
         .select("sub_role, permissions")
         .eq("user_id", authUser.id)
         .maybeSingle();
-      adminSubRole = (perm?.sub_role ?? "super_admin") as AdminSubRole;
-      permissions = (perm?.permissions ?? DEFAULT_TIER_PERMISSIONS[adminSubRole] ?? []) as AdminPermissionKey[];
+
+      adminSubRole =
+        (perm?.sub_role ?? "super_admin") as AdminSubRole;
+
+      /*
+       * Preserve existing database permissions if they exist.
+       *
+       * If no row exists, use the new tier defaults.
+       */
+      permissions = (
+        perm?.permissions ??
+        DEFAULT_TIER_PERMISSIONS[adminSubRole] ??
+        []
+      ) as AdminPermissionKey[];
     }
 
+    /*
+     * Existing organization_members remains the source for the current
+     * organization IDs.
+     *
+     * This does NOT mean every membership is administrative scope.
+     * The explicit organizationScope flag will eventually come from the
+     * backend/database.
+     */
     const { data: memberships } = await supabase
       .from("organization_members")
-      .select("organization_id")
+      .select("organization_id, org_role")
       .eq("user_id", authUser.id);
-    organizationIds = (memberships ?? []).map((m: Row) => m.organization_id);
+
+    organizationIds = (memberships ?? [])
+      .map((m: Row) => m.organization_id)
+      .filter(Boolean);
+
+    const organizationScope =
+      adminSubRole === "org_admin"
+        ? "selected"
+        : "all";
 
     return {
       id: authUser.id,
+
       adminSubRole,
       permissions,
+
       organizationIds,
-      email: profile?.email || authUser.email || "",
+      organizationScope,
+
+      /*
+       * Relationship data will be populated once the corresponding
+       * Supabase relationship tables are introduced.
+       *
+       * Keeping these arrays empty is intentional for Task 0.
+       */
+      organizationRelationships: [],
+      resourceRelationships: [],
+
+      email:
+        profile?.email ||
+        authUser.email ||
+        "",
+
       fullName:
         profile?.full_name ||
         (authUser.user_metadata?.full_name as string) ||
         authUser.email ||
         "Member",
+
       role,
-      avatarUrl: profile?.avatar_url ?? undefined,
-      status: (profile?.status ?? "active") as UserStatus,
+
+      avatarUrl:
+        profile?.avatar_url ?? undefined,
+
+      status:
+        (profile?.status ?? "active") as UserStatus,
     };
   });
 }
-
 /** Subscribes to session changes. Returns an unsubscribe function. */
 export function onAuthChange(callback: () => void): () => void {
   const { data } = supabase.auth.onAuthStateChange((event) => {
@@ -438,7 +505,7 @@ async function requireUserId(): Promise<string> {
 }
 
 /** Fallback permission sets per administrative tier. */
-export const DEFAULT_TIER_PERMISSIONS: Record<AdminSubRole, AdminPermissionKey[]> = {
+/**export const DEFAULT_TIER_PERMISSIONS: Record<AdminSubRole, AdminPermissionKey[]> = {
   super_admin: [
     "manage_users",
     "manage_courses",
@@ -460,7 +527,7 @@ export const DEFAULT_TIER_PERMISSIONS: Record<AdminSubRole, AdminPermissionKey[]
   user_admin: ["manage_users", "view_audit_logs"],
   compliance_admin: ["view_audit_logs"],
   org_admin: ["manage_users", "manage_courses"],
-};
+};**/
 
 /* ========================================================================== */
 /*  MEDIA                                                                     */

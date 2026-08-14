@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
   Award,
@@ -18,6 +18,12 @@ import { EmptyState, LoadingBlock, formatDate, formatPrice } from "@/components/
 import * as api from "@/services/api";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || user.role !== "admin") {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Admin overview — EA Academy" },

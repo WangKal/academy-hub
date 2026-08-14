@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Building2, Download, Plus, Upload, Users } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -36,6 +36,12 @@ import { Textarea } from "@/components/ui/textarea";
 import * as api from "@/services/api";
 
 export const Route = createFileRoute("/_authenticated/admin/organizations")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || user.role !== "admin") {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Organizations & Cohorts — EA Academy" },

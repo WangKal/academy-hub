@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { AppShell } from "@/components/layout/AppShell";
@@ -17,6 +17,12 @@ import {
 import * as api from "@/services/api";
 
 export const Route = createFileRoute("/_authenticated/admin/enrollments")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || user.role !== "admin") {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Enrollments — EA Academy admin" },

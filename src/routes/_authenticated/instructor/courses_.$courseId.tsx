@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Link, createFileRoute, useParams } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect, useParams } from "@tanstack/react-router";
 import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -22,6 +22,12 @@ import * as api from "@/services/api";
 import type { CourseLevel, LessonType } from "@/types";
 
 export const Route = createFileRoute("/_authenticated/instructor/courses_/$courseId")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || (user.role !== "instructor" && user.role !== "admin")) {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Edit course — EA Academy" },

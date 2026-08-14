@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Shield, ShieldAlert, ShieldCheck, UserCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -35,6 +35,12 @@ import * as api from "@/services/api";
 import type { AdminPermissionKey, AdminPermissionRecord, AdminSubRole } from "@/types";
 
 export const Route = createFileRoute("/_authenticated/admin/team")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || user.role !== "admin") {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Admin Team & RBAC — EA Academy" },

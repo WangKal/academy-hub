@@ -52,7 +52,8 @@ export function isAdmin(user: CurrentUser | null | undefined): boolean {
 }
 
 export function isInstructor(user: CurrentUser | null | undefined): boolean {
-  return user?.role === "instructor" || user?.role === "admin";
+  //return user?.role === "instructor" || user?.role === "admin";
+    return user?.role === "instructor";
 }
 
 export function tier(user: CurrentUser | null | undefined): AdminSubRole | undefined {

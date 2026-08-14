@@ -6,7 +6,7 @@
  * rows into these objects; tomorrow it will map JSON from a Python API.
  */
 
-export type UserRole = "student" | "instructor" | "admin";
+export type UserRole = "student" | "instructor" | "admin" | "auditor";
 export type UserStatus = "active" | "suspended" | "pending";
 export type CourseStatus = "draft" | "published" | "archived";
 export type CourseLevel = "beginner" | "intermediate" | "advanced";
@@ -23,6 +23,174 @@ export type CertificateStatus = "issued" | "revoked";
 export type PaymentProvider = "mpesa" | "stripe" | "manual";
 export type PaymentStatus = "pending" | "succeeded" | "failed" | "refunded";
 
+/* -------------------------------------------------------------------------- */
+/* Authorization foundation                                                   */
+/* -------------------------------------------------------------------------- */
+
+export type AdminSubRole =
+  | "super_admin"
+  | "platform_admin"
+  | "academic_admin"
+  | "finance_admin"
+  | "user_admin"
+  | "compliance_admin"
+  | "org_admin";
+
+export type OrganizationType =
+  | "administrative"
+  | "sponsor"
+  | "hybrid";
+
+export type OrganizationRelationship =
+  | "administrator"
+  | "member"
+  | "sponsor"
+  | "participant"
+  | "provider"
+  | "auditor";
+
+export type ResourceRelationship =
+  | "owner"
+  | "instructor"
+  | "student"
+  | "grader"
+  | "sponsor"
+  | "auditor";
+
+export type OrganizationScope = "all" | "selected";
+
+export type Resource =
+  | "users"
+  | "students"
+  | "instructors"
+  | "organizations"
+  | "courses"
+  | "modules"
+  | "lessons"
+  | "lesson_content"
+  | "assessments"
+  | "submissions"
+  | "grades"
+  | "enrollments"
+  | "learning"
+  | "progress"
+  | "certificates"
+  | "sponsorships"
+  | "payments"
+  | "audit"
+  | "settings"
+  | "admins";
+
+export type Action =
+  | "view"
+  | "create"
+  | "edit"
+  | "delete"
+  | "publish"
+  | "unpublish"
+  | "archive"
+  | "reorder"
+  | "submit"
+  | "review"
+  | "approve"
+  | "award"
+  | "revoke"
+  | "reissue"
+  | "override"
+  | "suspend"
+  | "assign"
+  | "participate"
+  | "complete"
+  | "update"
+  | "cancel"
+  | "allocate"
+  | "withdraw"
+  | "export"
+  | "refund"
+  | "manage";
+
+/**
+ * Permission keys are deliberately backend-agnostic.
+ *
+ * Python will use exactly the same string values.
+ *
+ * Example:
+ *   courses.edit
+ *   lessons.delete
+ *   grades.override
+ *   audit.view
+ */
+export type PermissionKey = `${Resource}.${Action}`;
+
+/**
+ * Legacy keys are retained temporarily so existing Supabase records do not
+ * immediately become invalid when the new granular model is introduced.
+ *
+ * These should disappear after the database permission migration is complete.
+ */
+export type LegacyAdminPermissionKey =
+  | "manage_users"
+  | "manage_courses"
+  | "manage_payments"
+  | "manage_settings"
+  | "view_audit_logs"
+  | "manage_admins"
+  | "manage_organizations";
+
+export type AdminPermissionKey =
+  | PermissionKey
+  | LegacyAdminPermissionKey;
+
+export interface OrganizationRelationshipRecord {
+  organizationId: string;
+  organizationType?: OrganizationType;
+  relationship: OrganizationRelationship;
+}
+
+export interface ResourceRelationshipRecord {
+  resource: Resource;
+  resourceId: string;
+  relationship: ResourceRelationship;
+  organizationId?: string;
+}
+
+export interface AuthorizationContext {
+  resourceId?: string;
+
+  organizationId?: string;
+
+  /**
+   * Resource owner / instructor context.
+   */
+  ownerId?: string;
+  instructorId?: string;
+
+  /**
+   * Student context.
+   */
+  studentId?: string;
+  enrolledStudentId?: string;
+
+  /**
+   * Sponsor context.
+   */
+  sponsorOrganizationId?: string;
+
+  /**
+   * Auditor context.
+   */
+  auditorId?: string;
+  auditorOrganizationId?: string;
+
+  /**
+   * Explicit relationships already resolved by the service layer.
+   *
+   * This is useful while the Supabase schema is still evolving and will map
+   * naturally to backend relationship resolution later.
+   */
+  relationship?: ResourceRelationship;
+}
+
 export interface CurrentUser {
   id: string;
   email: string;
@@ -30,13 +198,49 @@ export interface CurrentUser {
   role: UserRole;
   avatarUrl?: string;
   status: UserStatus;
-  /** Administrative tier. Only present when `role === "admin"`. */
+
+  /**
+   * Only meaningful for admin users.
+   */
   adminSubRole?: AdminSubRole;
-  /** Effective permission keys granted to this administrator. */
+
+  /**
+   * Effective permissions returned by the backend/data layer.
+   *
+   * These are capabilities, not UI flags.
+   */
   permissions?: AdminPermissionKey[];
-  /** Organizations this user is scoped to (organization admins). */
+
+  /**
+   * Administrative organization scope.
+   *
+   * This does NOT mean the user belongs to these organizations socially.
+   * It means the administrator is allowed to operate within them.
+   */
   organizationIds?: string[];
-}
+
+  organizationScope?: OrganizationScope;
+
+  /**
+   * Explicit organization relationships.
+   *
+   * Examples:
+   *   KCB -> sponsor
+   *   University X -> administrator
+   *   Organization Y -> member
+   */
+  organizationRelationships?: OrganizationRelationshipRecord[];
+
+  /**
+   * Resource-level relationships.
+   *
+   * Examples:
+   *   instructor -> Course A
+   *   student -> Course B
+   *   sponsor -> Student C
+   */
+  resourceRelationships?: ResourceRelationshipRecord[];
+}f
 
 export interface User {
   id: string;
@@ -198,17 +402,32 @@ export interface Certificate {
   userName?: string;
 }
 
+export type PaymentPurpose =
+  | "enrollment"
+  | "course"
+  | "sponsorship"
+  | "organization"
+  | "other";
+
 export interface Payment {
   id: string;
   userId: string;
   courseId: string;
+
   amountCents: number;
   currency: string;
   provider: PaymentProvider;
   providerReference?: string;
   status: PaymentStatus;
+
+  purpose?: PaymentPurpose;
+  organizationId?: string;
+  sponsorshipId?: string;
+  enrollmentId?: string;
+
   createdAt: string;
   updatedAt: string;
+
   courseTitle?: string;
   userName?: string;
   userEmail?: string;
@@ -216,11 +435,29 @@ export interface Payment {
 
 export interface AuditLog {
   id: string;
+
   userId?: string;
   userName?: string;
+
   action: string;
+
   entityType: string;
   entityId?: string;
+
+  /**
+   * Optional organizational context.
+   *
+   * An audit event may have no organization at all.
+   */
+  organizationId?: string;
+  organizationName?: string;
+
+  /**
+   * Optional auditor context.
+   */
+  auditorId?: string;
+  auditorOrganizationId?: string;
+
   metadata: Record<string, unknown>;
   createdAt: string;
 }
@@ -503,11 +740,15 @@ export interface Organization {
   id: string;
   name: string;
   code: string;
+  type?: OrganizationType;
+
   contactEmail: string;
   domain?: string;
   logoUrl?: string;
+
   maxSeats: number;
   activeSeats?: number;
+
   createdAt: string;
   updatedAt: string;
 }
@@ -518,7 +759,19 @@ export interface OrganizationMember {
   userId: string;
   userName?: string;
   userEmail?: string;
+
+  /**
+   * Existing database roles remain supported.
+   */
   orgRole: "manager" | "member";
+
+  /**
+   * New semantic relationship.
+   *
+   * Optional until the Supabase schema is migrated.
+   */
+  relationship?: OrganizationRelationship;
+
   createdAt: string;
 }
 
