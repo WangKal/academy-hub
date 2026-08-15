@@ -44,7 +44,10 @@ export const Route = createFileRoute("/_authenticated/admin/team")({
   head: () => ({
     meta: [
       { title: "Admin Team & RBAC — EA Academy" },
-      { name: "description", content: "Manage multi-admin sub-roles and granular access permissions." },
+      {
+        name: "description",
+        content: "Manage multi-admin sub-roles and granular access permissions.",
+      },
     ],
   }),
   component: AdminTeamPage,
@@ -53,9 +56,15 @@ export const Route = createFileRoute("/_authenticated/admin/team")({
 const SUB_ROLE_LABELS: Record<AdminSubRole, { name: string; color: string }> = {
   super_admin: { name: "Super Admin", color: "bg-purple-500/10 text-purple-600 border-purple-200" },
   academic_admin: { name: "Academic Admin", color: "bg-blue-500/10 text-blue-600 border-blue-200" },
-  finance_admin: { name: "Finance Admin", color: "bg-emerald-500/10 text-emerald-600 border-emerald-200" },
+  finance_admin: {
+    name: "Finance Admin",
+    color: "bg-emerald-500/10 text-emerald-600 border-emerald-200",
+  },
   user_admin: { name: "User Admin", color: "bg-amber-500/10 text-amber-600 border-amber-200" },
-  compliance_admin: { name: "Compliance Officer", color: "bg-rose-500/10 text-rose-600 border-rose-200" },
+  compliance_admin: {
+    name: "Compliance Officer",
+    color: "bg-rose-500/10 text-rose-600 border-rose-200",
+  },
 };
 
 const ALL_PERMISSIONS: { key: AdminPermissionKey; label: string }[] = [
@@ -74,7 +83,11 @@ function AdminTeamPage() {
   const [editingSubRole, setEditingSubRole] = useState<AdminSubRole>("super_admin");
   const [editingPerms, setEditingPerms] = useState<AdminPermissionKey[]>([]);
 
-  const { data: team = [], isLoading, error } = useQuery({
+  const {
+    data: team = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["admin-team"],
     queryFn: () => api.getAdminTeam(),
   });
@@ -213,9 +226,7 @@ function AdminTeamPage() {
 
           <div className="space-y-4 py-2">
             <div>
-              <label className="text-xs font-semibold uppercase text-ink-3">
-                Admin Sub-Role
-              </label>
+              <label className="text-xs font-semibold uppercase text-ink-3">Admin Sub-Role</label>
               <Select
                 value={editingSubRole}
                 onValueChange={(v) => setEditingSubRole(v as AdminSubRole)}
@@ -228,7 +239,9 @@ function AdminTeamPage() {
                   <SelectItem value="academic_admin">Academic Admin (Courses & Reviews)</SelectItem>
                   <SelectItem value="finance_admin">Finance Admin (Payments & Billing)</SelectItem>
                   <SelectItem value="user_admin">User Admin (Accounts & Enrollments)</SelectItem>
-                  <SelectItem value="compliance_admin">Compliance Officer (Audit & Governance)</SelectItem>
+                  <SelectItem value="compliance_admin">
+                    Compliance Officer (Audit & Governance)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -268,7 +281,10 @@ function AdminTeamPage() {
                   updateSubRoleMutation.mutate({
                     userId: selectedAdmin.userId,
                     subRole: editingSubRole,
-                    perms: editingSubRole === "super_admin" ? ALL_PERMISSIONS.map((p) => p.key) : editingPerms,
+                    perms:
+                      editingSubRole === "super_admin"
+                        ? ALL_PERMISSIONS.map((p) => p.key)
+                        : editingPerms,
                   });
                 }
               }}

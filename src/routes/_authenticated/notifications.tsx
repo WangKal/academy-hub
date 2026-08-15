@@ -14,7 +14,10 @@ export const Route = createFileRoute("/_authenticated/notifications")({
   head: () => ({
     meta: [
       { title: "Notifications — EA Academy" },
-      { name: "description", content: "Enrolment, grading and certificate alerts from EA Academy." },
+      {
+        name: "description",
+        content: "Enrolment, grading and certificate alerts from EA Academy.",
+      },
       { property: "og:title", content: "Notifications — EA Academy" },
       { property: "og:description", content: "Your EA Academy activity alerts." },
     ],

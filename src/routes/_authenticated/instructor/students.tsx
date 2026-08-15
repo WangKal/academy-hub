@@ -101,9 +101,7 @@ function InstructorStudents() {
                   </TableCell>
                   <TableCell>
                     <Progress value={e.progressPercent ?? 0} />
-                    <span className="text-xs text-ink-3">
-                      {e.progressPercent ?? 0}%
-                    </span>
+                    <span className="text-xs text-ink-3">{e.progressPercent ?? 0}%</span>
                   </TableCell>
                   <TableCell>{formatDate(e.enrolledAt)}</TableCell>
                 </TableRow>

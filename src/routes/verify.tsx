@@ -46,9 +46,7 @@ function Verify() {
       <div className="mx-auto max-w-2xl px-5 py-20">
         <Award className="size-6 text-accent" />
         <h1 className="mt-4 text-4xl">Verify a certificate</h1>
-        <p className="mt-3 text-ink-3">
-          Enter the certificate code printed on the credential.
-        </p>
+        <p className="mt-3 text-ink-3">Enter the certificate code printed on the credential.</p>
 
         <form
           className="mt-8 flex gap-2"

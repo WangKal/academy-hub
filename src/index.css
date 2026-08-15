@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=JetBrains+Mono:wght@400;500&display=swap");
 
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* ─── Dark mode variant ──────────────────────────────────────────────────── */
 @variant dark (&:where(.dark, .dark *));
 
 /* ─── Theme tokens ───────────────────────────────────────────────────────── */
 @theme inline {
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
 
   --color-brand-50: #eef2ff;
   --color-brand-100: #e0e7ff;
@@ -76,8 +76,15 @@
 }
 
 /* ─── Base reset ─────────────────────────────────────────────────────────── */
-* { box-sizing: border-box; }
-html, body, #root { height: 100%; margin: 0; }
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
 
 body {
   font-family: var(--font-sans);
@@ -85,27 +92,54 @@ body {
   color: var(--ink-1);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 /* ─── Font utilities ─────────────────────────────────────────────────────── */
-.font-display { font-family: var(--font-display); }
-.font-mono { font-family: var(--font-mono); }
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
 
 /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; }
-*:hover::-webkit-scrollbar-thumb { background: rgba(120,113,108,0.3); }
-.dark *:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(120, 113, 108, 0.3);
+}
+.dark *:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
 
 /* ─── Skeleton shimmer ───────────────────────────────────────────────────── */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 .skeleton {
-  background: linear-gradient(90deg, var(--surface-3) 25%, var(--surface-2) 50%, var(--surface-3) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--surface-3) 25%,
+    var(--surface-2) 50%,
+    var(--surface-3) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
 }
@@ -115,34 +149,63 @@ body {
   animation: pageFade 0.18s ease-out;
 }
 @keyframes pageFade {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ─── Sidebar transition ─────────────────────────────────────────────────── */
-.sidebar-enter { transition: width 0.22s cubic-bezier(0.4,0,0.2,1); }
+.sidebar-enter {
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 /* ─── Semantic surface helpers (use CSS var directly) ────────────────────── */
-.bg-surface { background: var(--surface); }
-.bg-surface-2 { background: var(--surface-2); }
-.bg-bg { background: var(--bg); }
-.text-ink-1 { color: var(--ink-1); }
-.text-ink-2 { color: var(--ink-2); }
-.text-ink-3 { color: var(--ink-3); }
-.text-ink-4 { color: var(--ink-4); }
-.border-edge { border-color: var(--edge); }
+.bg-surface {
+  background: var(--surface);
+}
+.bg-surface-2 {
+  background: var(--surface-2);
+}
+.bg-bg {
+  background: var(--bg);
+}
+.text-ink-1 {
+  color: var(--ink-1);
+}
+.text-ink-2 {
+  color: var(--ink-2);
+}
+.text-ink-3 {
+  color: var(--ink-3);
+}
+.text-ink-4 {
+  color: var(--ink-4);
+}
+.border-edge {
+  border-color: var(--edge);
+}
 
 /* ─── Transition helpers ─────────────────────────────────────────────────── */
 .transition-theme {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 /* ─── Mobile: hide sidebar on small screens ──────────────────────────────── */
 @media (max-width: 768px) {
   .sidebar-enter {
     position: fixed;
-    top: 0; left: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
     z-index: 50;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.25);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
   }
 }

@@ -12,12 +12,12 @@ This is extremely important.
 
 Build the application using:
 
-* React
-* TypeScript
-* Tailwind CSS
-* shadcn/ui
-* Supabase initially for authentication, database and storage
-* A centralized frontend API/service abstraction
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Supabase initially for authentication, database and storage
+- A centralized frontend API/service abstraction
 
 ### CRITICAL RULE
 
@@ -25,13 +25,13 @@ Build the application using:
 
 Do not put:
 
-* Supabase queries
-* Supabase mutations
-* authentication calls
-* database calls
-* storage calls
-* payment calls
-* business logic
+- Supabase queries
+- Supabase mutations
+- authentication calls
+- database calls
+- storage calls
+- payment calls
+- business logic
 
 inside pages or UI components.
 
@@ -46,26 +46,26 @@ The frontend must communicate with the application through functions exported fr
 For example:
 
 ```ts
-getCurrentUser()
-login()
-logout()
-getCourses()
-getCourse()
-createCourse()
-updateCourse()
-getModules()
-createModule()
-getLessons()
-createLesson()
-enrollInCourse()
-getEnrollment()
-getLessonProgress()
-updateLessonProgress()
-submitQuiz()
-getQuizAttempts()
-getCertificates()
-createPayment()
-getDashboardStats()
+getCurrentUser();
+login();
+logout();
+getCourses();
+getCourse();
+createCourse();
+updateCourse();
+getModules();
+createModule();
+getLessons();
+createLesson();
+enrollInCourse();
+getEnrollment();
+getLessonProgress();
+updateLessonProgress();
+submitQuiz();
+getQuizAttempts();
+getCertificates();
+createPayment();
+getDashboardStats();
 ```
 
 The exact function set should cover the complete application.
@@ -94,7 +94,7 @@ Example:
 
 ```ts
 export async function getCourses(filters?: CourseFilters): Promise<Course[]> {
-    // temporary Supabase implementation
+  // temporary Supabase implementation
 }
 ```
 
@@ -106,12 +106,12 @@ const courses = await getCourses(filters);
 
 It must NOT know whether the data came from:
 
-* Supabase
-* REST
-* Django
-* FastAPI
-* another Python service
-* a mock backend
+- Supabase
+- REST
+- Django
+- FastAPI
+- another Python service
+- a mock backend
 
 This abstraction is mandatory.
 
@@ -123,23 +123,23 @@ Build this as the first version of a real product.
 
 The application must have:
 
-* proper loading states
-* error handling
-* empty states
-* confirmation dialogs
-* form validation
-* pagination where appropriate
-* search
-* filtering
-* sorting
-* responsive design
-* role-based navigation
-* protected routes
-* reusable components
-* reusable forms
-* reusable tables
-* reusable dialogs
-* reusable API/service functions
+- proper loading states
+- error handling
+- empty states
+- confirmation dialogs
+- form validation
+- pagination where appropriate
+- search
+- filtering
+- sorting
+- responsive design
+- role-based navigation
+- protected routes
+- reusable components
+- reusable forms
+- reusable tables
+- reusable dialogs
+- reusable API/service functions
 
 Do not hardcode application data inside components except for UI constants.
 
@@ -187,43 +187,43 @@ Implement three primary roles:
 
 Can:
 
-* browse published courses
-* view course details
-* enroll
-* purchase courses
-* access enrolled courses
-* watch lessons
-* read lesson content
-* track progress
-* take quizzes
-* view quiz results
-* retry quizzes
-* complete courses
-* view certificates
-* download certificates
-* manage profile
+- browse published courses
+- view course details
+- enroll
+- purchase courses
+- access enrolled courses
+- watch lessons
+- read lesson content
+- track progress
+- take quizzes
+- view quiz results
+- retry quizzes
+- complete courses
+- view certificates
+- download certificates
+- manage profile
 
 ### Instructor
 
 Can:
 
-* create courses
-* edit courses
-* create modules
-* reorder modules
-* create lessons
-* reorder lessons
-* upload/select lesson media
-* create quizzes
-* create questions
-* create options
-* define correct answers
-* configure passing score
-* publish/unpublish courses where permitted
-* view enrolled students
-* view course progress
-* view quiz performance
-* view course statistics
+- create courses
+- edit courses
+- create modules
+- reorder modules
+- create lessons
+- reorder lessons
+- upload/select lesson media
+- create quizzes
+- create questions
+- create options
+- define correct answers
+- configure passing score
+- publish/unpublish courses where permitted
+- view enrolled students
+- view course progress
+- view quiz performance
+- view course statistics
 
 Instructors must only manage content they are authorized to manage.
 
@@ -231,21 +231,21 @@ Instructors must only manage content they are authorized to manage.
 
 Can:
 
-* manage users
-* manage roles
-* manage instructors
-* manage students
-* manage courses
-* publish/unpublish courses
-* manage enrollments
-* manage payments
-* manage certificates
-* revoke certificates
-* reissue certificates
-* view system statistics
-* manage academy settings
-* view audit activity
-* manage platform-level configuration
+- manage users
+- manage roles
+- manage instructors
+- manage students
+- manage courses
+- publish/unpublish courses
+- manage enrollments
+- manage payments
+- manage certificates
+- revoke certificates
+- reissue certificates
+- view system statistics
+- manage academy settings
+- view audit activity
+- manage platform-level configuration
 
 Design the authorization model so additional roles can be introduced later.
 
@@ -259,14 +259,14 @@ Use the following as the initial domain model.
 
 `users`
 
-* id
-* full_name
-* email
-* role
-* avatar_url
-* status
-* created_at
-* updated_at
+- id
+- full_name
+- email
+- role
+- avatar_url
+- status
+- created_at
+- updated_at
 
 The authentication identity must remain separate from application profile information.
 
@@ -276,24 +276,24 @@ The authentication identity must remain separate from application profile inform
 
 `courses`
 
-* id
-* title
-* slug
-* short_description
-* description_html
-* instructor_id
-* status
-* price_cents
-* currency
-* thumbnail_url
-* created_at
-* updated_at
+- id
+- title
+- slug
+- short_description
+- description_html
+- instructor_id
+- status
+- price_cents
+- currency
+- thumbnail_url
+- created_at
+- updated_at
 
 Course status should support at least:
 
-* draft
-* published
-* archived
+- draft
+- published
+- archived
 
 Do not use only a boolean for lifecycle state.
 
@@ -303,13 +303,13 @@ Do not use only a boolean for lifecycle state.
 
 `modules`
 
-* id
-* course_id
-* title
-* description_html
-* order_index
-* created_at
-* updated_at
+- id
+- course_id
+- title
+- description_html
+- order_index
+- created_at
+- updated_at
 
 ---
 
@@ -317,25 +317,25 @@ Do not use only a boolean for lifecycle state.
 
 `lessons`
 
-* id
-* module_id
-* title
-* lesson_type
-* content_html
-* video_url
-* duration_seconds
-* is_preview
-* order_index
-* status
-* created_at
-* updated_at
+- id
+- module_id
+- title
+- lesson_type
+- content_html
+- video_url
+- duration_seconds
+- is_preview
+- order_index
+- status
+- created_at
+- updated_at
 
 Lesson types:
 
-* video
-* text
-* quiz
-* assignment
+- video
+- text
+- quiz
+- assignment
 
 Design the frontend so additional lesson types can be introduced later.
 
@@ -345,22 +345,22 @@ Design the frontend so additional lesson types can be introduced later.
 
 `enrollments`
 
-* id
-* user_id
-* course_id
-* status
-* enrolled_at
-* completed_at
-* created_at
-* updated_at
+- id
+- user_id
+- course_id
+- status
+- enrolled_at
+- completed_at
+- created_at
+- updated_at
 
 Statuses:
 
-* pending
-* active
-* completed
-* cancelled
-* refunded
+- pending
+- active
+- completed
+- cancelled
+- refunded
 
 Unique constraint:
 
@@ -374,19 +374,19 @@ Unique constraint:
 
 `lesson_progress`
 
-* id
-* user_id
-* lesson_id
-* status
-* last_position_seconds
-* completed_at
-* updated_at
+- id
+- user_id
+- lesson_id
+- status
+- last_position_seconds
+- completed_at
+- updated_at
 
 Statuses:
 
-* not_started
-* in_progress
-* completed
+- not_started
+- in_progress
+- completed
 
 Unique constraint:
 
@@ -402,53 +402,53 @@ Create:
 
 ### quizzes
 
-* id
-* lesson_id
-* passing_score_percent
-* created_at
-* updated_at
+- id
+- lesson_id
+- passing_score_percent
+- created_at
+- updated_at
 
 ### quiz_questions
 
-* id
-* quiz_id
-* question_text
-* order_index
-* created_at
-* updated_at
+- id
+- quiz_id
+- question_text
+- order_index
+- created_at
+- updated_at
 
 ### quiz_options
 
-* id
-* question_id
-* option_text
-* is_correct
-* order_index
-* created_at
-* updated_at
+- id
+- question_id
+- option_text
+- is_correct
+- order_index
+- created_at
+- updated_at
 
 ### quiz_attempts
 
-* id
-* user_id
-* quiz_id
-* score_percent
-* passed
-* started_at
-* submitted_at
+- id
+- user_id
+- quiz_id
+- score_percent
+- passed
+- started_at
+- submitted_at
 
 The UI must support:
 
-* quiz creation
-* question creation
-* option creation
-* selecting correct answer
-* question ordering
-* quiz preview
-* quiz attempt
-* result display
-* retry
-* attempt history
+- quiz creation
+- question creation
+- option creation
+- selecting correct answer
+- question ordering
+- quiz preview
+- quiz attempt
+- result display
+- retry
+- attempt history
 
 Do not expose correct answers to the student before submission.
 
@@ -460,30 +460,30 @@ Create:
 
 `certificates`
 
-* id
-* user_id
-* course_id
-* certificate_code
-* issued_at
-* revoked_at
-* certificate_url
-* status
+- id
+- user_id
+- course_id
+- certificate_code
+- issued_at
+- revoked_at
+- certificate_url
+- status
 
 Certificate statuses:
 
-* issued
-* revoked
+- issued
+- revoked
 
 Certificate codes must be unique.
 
 Provide:
 
-* certificate listing
-* certificate detail
-* verification-friendly certificate code
-* download/view action
-* administrator reissue
-* administrator revoke
+- certificate listing
+- certificate detail
+- verification-friendly certificate code
+- download/view action
+- administrator reissue
+- administrator revoke
 
 Design the frontend so a future public certificate verification page can be added.
 
@@ -495,29 +495,29 @@ Create:
 
 `payments`
 
-* id
-* user_id
-* course_id
-* amount_cents
-* currency
-* provider
-* provider_reference
-* status
-* created_at
-* updated_at
+- id
+- user_id
+- course_id
+- amount_cents
+- currency
+- provider
+- provider_reference
+- status
+- created_at
+- updated_at
 
 Providers:
 
-* mpesa
-* stripe
-* manual
+- mpesa
+- stripe
+- manual
 
 Statuses:
 
-* pending
-* succeeded
-* failed
-* refunded
+- pending
+- succeeded
+- failed
+- refunded
 
 IMPORTANT:
 
@@ -526,9 +526,9 @@ Do not place payment provider logic inside React components.
 The frontend only calls functions such as:
 
 ```ts
-initializePayment()
-getPayment()
-getPaymentStatus()
+initializePayment();
+getPayment();
+getPaymentStatus();
 ```
 
 The eventual Python backend will handle actual provider integration.
@@ -545,27 +545,27 @@ Because this is intended for enterprise use, introduce:
 
 Fields:
 
-* id
-* user_id
-* action
-* entity_type
-* entity_id
-* metadata
-* created_at
+- id
+- user_id
+- action
+- entity_type
+- entity_id
+- metadata
+- created_at
 
 The UI should provide an administrator audit-log view.
 
 Examples:
 
-* user role changed
-* course created
-* course published
-* course unpublished
-* lesson modified
-* enrollment created
-* payment confirmed
-* certificate issued
-* certificate revoked
+- user role changed
+- course created
+- course published
+- course unpublished
+- lesson modified
+- enrollment created
+- payment confirmed
+- certificate issued
+- certificate revoked
 
 The frontend should expose service functions for retrieving audit records.
 
@@ -577,12 +577,12 @@ Initially use Supabase Auth.
 
 Create:
 
-* login
-* registration
-* logout
-* password reset
-* session restoration
-* current-user retrieval
+- login
+- registration
+- logout
+- password reset
+- session restoration
+- current-user retrieval
 
 All authentication calls must live in:
 
@@ -594,11 +594,11 @@ Create an application-level user object such as:
 
 ```ts
 interface CurrentUser {
-    id: string;
-    email: string;
-    fullName: string;
-    role: UserRole;
-    avatarUrl?: string;
+  id: string;
+  email: string;
+  fullName: string;
+  role: UserRole;
+  avatarUrl?: string;
 }
 ```
 
@@ -654,40 +654,40 @@ Build a professional academy website.
 
 Include:
 
-* hero
-* academy introduction
-* featured courses
-* benefits
-* learning process
-* testimonials
-* CTA
-* footer
+- hero
+- academy introduction
+- featured courses
+- benefits
+- learning process
+- testimonials
+- CTA
+- footer
 
 ### Course Catalog
 
 Support:
 
-* search
-* category/filter structure
-* course cards
-* price
-* instructor
-* published status
-* pagination-ready architecture
+- search
+- category/filter structure
+- course cards
+- price
+- instructor
+- published status
+- pagination-ready architecture
 
 ### Course Detail
 
 Display:
 
-* title
-* instructor
-* description
-* modules
-* lessons
-* lesson durations
-* preview lessons
-* price
-* enrollment/purchase CTA
+- title
+- instructor
+- description
+- modules
+- lessons
+- lesson durations
+- preview lessons
+- price
+- enrollment/purchase CTA
 
 ---
 
@@ -697,13 +697,13 @@ Create a professional student dashboard.
 
 Display:
 
-* enrolled courses
-* course progress
-* recently accessed lesson
-* completed courses
-* certificates
-* pending quizzes
-* overall learning statistics
+- enrolled courses
+- course progress
+- recently accessed lesson
+- completed courses
+- certificates
+- pending quizzes
+- overall learning statistics
 
 Course cards should display:
 
@@ -730,36 +730,36 @@ Layout:
 
 Sidebar:
 
-* modules
-* lessons
-* completion indicators
-* locked/unlocked states
+- modules
+- lessons
+- completion indicators
+- locked/unlocked states
 
 Main content:
 
 For video:
 
-* video player
-* title
-* duration
-* progress
-* completion
+- video player
+- title
+- duration
+- progress
+- completion
 
 For text:
 
-* formatted lesson content
-* completion control
+- formatted lesson content
+- completion control
 
 For quiz:
 
-* launch quiz
+- launch quiz
 
 Provide:
 
-* Previous lesson
-* Next lesson
-* Mark complete
-* Continue learning
+- Previous lesson
+- Next lesson
+- Mark complete
+- Continue learning
 
 Automatically save video position.
 
@@ -804,20 +804,20 @@ Use clear sections/tabs/panels.
 
 Display:
 
-* total courses
-* published courses
-* total enrollments
-* completion rate
-* average quiz score
-* students per course
+- total courses
+- published courses
+- total enrollments
+- completion rate
+- average quiz score
+- students per course
 
 Course-level analytics:
 
-* enrolled students
-* completed students
-* active students
-* progress distribution
-* quiz performance
+- enrolled students
+- completed students
+- active students
+- progress distribution
+- quiz performance
 
 The analytics implementation should use service functions rather than querying the database from components.
 
@@ -829,15 +829,15 @@ Create an enterprise-style admin dashboard.
 
 Show:
 
-* total students
-* instructors
-* courses
-* published courses
-* active enrollments
-* completed courses
-* payments
-* certificates issued
-* recent activity
+- total students
+- instructors
+- courses
+- published courses
+- active enrollments
+- completed courses
+- payments
+- certificates issued
+- recent activity
 
 Include charts where useful.
 
@@ -851,20 +851,20 @@ Every displayed statistic should come from a service/API function.
 
 Create:
 
-* user table
-* search
-* filtering
-* role management
-* status management
-* user detail
-* enrollment summary
-* activity summary
+- user table
+- search
+- filtering
+- role management
+- status management
+- user detail
+- enrollment summary
+- activity summary
 
 Roles:
 
-* student
-* instructor
-* admin
+- student
+- instructor
+- admin
 
 Make the role system extensible.
 
@@ -874,15 +874,15 @@ Make the role system extensible.
 
 Create:
 
-* course list
-* search
-* filtering
-* status
-* instructor
-* enrollment count
-* publish/unpublish
-* archive
-* edit
+- course list
+- search
+- filtering
+- status
+- instructor
+- enrollment count
+- publish/unpublish
+- archive
+- edit
 
 Use confirmation dialogs for destructive actions.
 
@@ -892,14 +892,14 @@ Use confirmation dialogs for destructive actions.
 
 Create:
 
-* payment table
-* payment status
-* provider
-* amount
-* course
-* student
-* reference
-* date
+- payment table
+- payment status
+- provider
+- amount
+- course
+- student
+- reference
+- date
 
 Allow authorized administrators to manually confirm payments during the initial phase.
 
@@ -913,15 +913,15 @@ Do not implement this business rule directly inside a React component.
 
 Create:
 
-* certificate table
-* student
-* course
-* certificate code
-* issue date
-* status
-* revoke
-* reissue
-* view/download
+- certificate table
+- student
+- course
+- certificate code
+- issue date
+- status
+- revoke
+- reissue
+- view/download
 
 ---
 
@@ -938,102 +938,102 @@ Organize functions logically:
 ```ts
 // Authentication
 
-login()
-register()
-logout()
-getCurrentUser()
-resetPassword()
+login();
+register();
+logout();
+getCurrentUser();
+resetPassword();
 
 // Users
 
-getUsers()
-getUser()
-updateUser()
-updateUserRole()
-updateUserStatus()
+getUsers();
+getUser();
+updateUser();
+updateUserRole();
+updateUserStatus();
 
 // Courses
 
-getCourses()
-getPublishedCourses()
-getCourse()
-createCourse()
-updateCourse()
-deleteCourse()
-publishCourse()
-unpublishCourse()
+getCourses();
+getPublishedCourses();
+getCourse();
+createCourse();
+updateCourse();
+deleteCourse();
+publishCourse();
+unpublishCourse();
 
 // Modules
 
-getModules()
-createModule()
-updateModule()
-deleteModule()
-reorderModules()
+getModules();
+createModule();
+updateModule();
+deleteModule();
+reorderModules();
 
 // Lessons
 
-getLessons()
-getLesson()
-createLesson()
-updateLesson()
-deleteLesson()
-reorderLessons()
+getLessons();
+getLesson();
+createLesson();
+updateLesson();
+deleteLesson();
+reorderLessons();
 
 // Enrollment
 
-getEnrollments()
-getEnrollment()
-enrollInCourse()
-updateEnrollmentStatus()
+getEnrollments();
+getEnrollment();
+enrollInCourse();
+updateEnrollmentStatus();
 
 // Progress
 
-getCourseProgress()
-getLessonProgress()
-updateLessonProgress()
-markLessonComplete()
+getCourseProgress();
+getLessonProgress();
+updateLessonProgress();
+markLessonComplete();
 
 // Quizzes
 
-getQuiz()
-createQuiz()
-updateQuiz()
-deleteQuiz()
-getQuizQuestions()
-createQuizQuestion()
-updateQuizQuestion()
-deleteQuizQuestion()
-createQuizOption()
-updateQuizOption()
-deleteQuizOption()
-submitQuizAttempt()
-getQuizAttempts()
+getQuiz();
+createQuiz();
+updateQuiz();
+deleteQuiz();
+getQuizQuestions();
+createQuizQuestion();
+updateQuizQuestion();
+deleteQuizQuestion();
+createQuizOption();
+updateQuizOption();
+deleteQuizOption();
+submitQuizAttempt();
+getQuizAttempts();
 
 // Certificates
 
-getCertificates()
-getCertificate()
-issueCertificate()
-revokeCertificate()
+getCertificates();
+getCertificate();
+issueCertificate();
+revokeCertificate();
 
 // Payments
 
-createPayment()
-getPayment()
-getPayments()
-updatePaymentStatus()
+createPayment();
+getPayment();
+getPayments();
+updatePaymentStatus();
 
 // Analytics
 
-getStudentDashboardStats()
-getInstructorDashboardStats()
-getCourseAnalytics()
-getAdminDashboardStats()
+getStudentDashboardStats();
+getInstructorDashboardStats();
+getCourseAnalytics();
+getAdminDashboardStats();
 
 // Audit
 
-getAuditLogs()
+getAuditLogs();
 ```
 
 Add additional functions wherever required by the UI.
@@ -1052,37 +1052,37 @@ type UserRole = "student" | "instructor" | "admin";
 type CourseStatus = "draft" | "published" | "archived";
 
 interface Course {
-    id: string;
-    title: string;
-    slug: string;
-    shortDescription: string;
-    descriptionHtml: string;
-    instructorId: string;
-    status: CourseStatus;
-    priceCents: number;
-    currency: string;
-    thumbnailUrl?: string;
-    createdAt: string;
-    updatedAt: string;
+  id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  descriptionHtml: string;
+  instructorId: string;
+  status: CourseStatus;
+  priceCents: number;
+  currency: string;
+  thumbnailUrl?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 ```
 
 Create corresponding types for:
 
-* User
-* Course
-* Module
-* Lesson
-* Enrollment
-* LessonProgress
-* Quiz
-* QuizQuestion
-* QuizOption
-* QuizAttempt
-* Certificate
-* Payment
-* AuditLog
-* Dashboard statistics
+- User
+- Course
+- Module
+- Lesson
+- Enrollment
+- LessonProgress
+- Quiz
+- QuizQuestion
+- QuizOption
+- QuizAttempt
+- Certificate
+- Payment
+- AuditLog
+- Dashboard statistics
 
 The UI must consume these application-level types.
 
@@ -1096,9 +1096,9 @@ Example:
 
 ```ts
 interface ApiError {
-    code: string;
-    message: string;
-    details?: unknown;
+  code: string;
+  message: string;
+  details?: unknown;
 }
 ```
 
@@ -1106,10 +1106,10 @@ All service functions should normalize errors.
 
 Components should not need to understand:
 
-* Supabase errors
-* PostgreSQL errors
-* HTTP errors
-* provider-specific errors
+- Supabase errors
+- PostgreSQL errors
+- HTTP errors
+- provider-specific errors
 
 The future Python backend must be able to return the same application-level error structure.
 
@@ -1119,10 +1119,10 @@ The future Python backend must be able to return the same application-level erro
 
 Every asynchronous page must have:
 
-* loading state
-* error state
-* empty state
-* success state
+- loading state
+- error state
+- empty state
+- success state
 
 Use skeleton loaders where appropriate.
 
@@ -1137,9 +1137,7 @@ Do NOT do this:
 ```tsx
 import { supabase } from "@/lib/supabase";
 
-const { data } = await supabase
-    .from("courses")
-    .select("*");
+const { data } = await supabase.from("courses").select("*");
 ```
 
 inside a component.
@@ -1168,13 +1166,13 @@ However:
 
 Do not import the Supabase client into:
 
-* pages
-* components
-* hooks
-* dashboards
-* course builder
-* quiz UI
-* payment UI
+- pages
+- components
+- hooks
+- dashboards
+- course builder
+- quiz UI
+- payment UI
 
 The future migration should therefore involve primarily replacing the implementation inside `api.ts`.
 
@@ -1251,11 +1249,11 @@ Implement the frontend assuming the backend will enforce authorization.
 
 Do not trust:
 
-* hidden buttons
-* frontend route protection
-* role values stored only in local state
-* client-side payment success
-* client-side quiz scores
+- hidden buttons
+- frontend route protection
+- role values stored only in local state
+- client-side payment success
+- client-side quiz scores
 
 Frontend authorization is for UX.
 
@@ -1267,9 +1265,9 @@ Backend authorization will eventually be authoritative.
 
 The system must work properly on:
 
-* desktop
-* tablet
-* mobile
+- desktop
+- tablet
+- mobile
 
 The course player should be particularly usable on mobile.
 
@@ -1283,31 +1281,31 @@ Use a professional corporate academy aesthetic.
 
 Prioritize:
 
-* clarity
-* trust
-* professionalism
-* accessibility
-* strong typography
-* clean cards
-* restrained use of color
-* consistent spacing
-* clear CTAs
+- clarity
+- trust
+- professionalism
+- accessibility
+- strong typography
+- clean cards
+- restrained use of color
+- consistent spacing
+- clear CTAs
 
 Create reusable:
 
-* buttons
-* cards
-* badges
-* tables
-* dialogs
-* forms
-* dropdowns
-* tabs
-* breadcrumbs
-* progress indicators
-* skeletons
-* empty states
-* confirmation dialogs
+- buttons
+- cards
+- badges
+- tables
+- dialogs
+- forms
+- dropdowns
+- tabs
+- breadcrumbs
+- progress indicators
+- skeletons
+- empty states
+- confirmation dialogs
 
 ---
 
@@ -1315,18 +1313,18 @@ Create reusable:
 
 Create realistic seed data for:
 
-* 2 courses
-* multiple modules per course
-* multiple lessons per module
-* video lessons
-* text lessons
-* quiz lessons
-* quiz questions/options
-* sample instructor
-* sample student
-* sample enrollment
-* sample progress
-* sample quiz attempts
+- 2 courses
+- multiple modules per course
+- multiple lessons per module
+- video lessons
+- text lessons
+- quiz lessons
+- quiz questions/options
+- sample instructor
+- sample student
+- sample enrollment
+- sample progress
+- sample quiz attempts
 
 Do not make the seed data look like generic placeholder content.
 

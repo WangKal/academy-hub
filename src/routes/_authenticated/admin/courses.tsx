@@ -47,7 +47,10 @@ export const Route = createFileRoute("/_authenticated/admin/courses")({
   head: () => ({
     meta: [
       { title: "Course management — EA Academy admin" },
-      { name: "description", content: "Manage all courses, publish, archive and delete from here." },
+      {
+        name: "description",
+        content: "Manage all courses, publish, archive and delete from here.",
+      },
       { property: "og:title", content: "Course management — EA Academy admin" },
       { property: "og:description", content: "Manage all academy courses." },
     ],
@@ -81,26 +84,42 @@ function AdminCourses() {
 
   const publish = useMutation({
     mutationFn: (id: string) => api.publishCourse(id),
-    onSuccess: () => { invalidate(); toast.success("Course published."); },
+    onSuccess: () => {
+      invalidate();
+      toast.success("Course published.");
+    },
     onError: (e) => toast.error(api.errorMessage(e)),
   });
 
   const unpublish = useMutation({
     mutationFn: (id: string) => api.unpublishCourse(id),
-    onSuccess: () => { invalidate(); toast.success("Course unpublished."); },
+    onSuccess: () => {
+      invalidate();
+      toast.success("Course unpublished.");
+    },
     onError: (e) => toast.error(api.errorMessage(e)),
   });
 
   const archive = useMutation({
     mutationFn: (id: string) => api.archiveCourse(id),
-    onSuccess: () => { invalidate(); toast.success("Course archived."); },
+    onSuccess: () => {
+      invalidate();
+      toast.success("Course archived.");
+    },
     onError: (e) => toast.error(api.errorMessage(e)),
   });
 
   const deleteCourse = useMutation({
     mutationFn: (id: string) => api.deleteCourse(id),
-    onSuccess: () => { invalidate(); toast.success("Course deleted."); setConfirmDelete(null); },
-    onError: (e) => { toast.error(api.errorMessage(e)); setConfirmDelete(null); },
+    onSuccess: () => {
+      invalidate();
+      toast.success("Course deleted.");
+      setConfirmDelete(null);
+    },
+    onError: (e) => {
+      toast.error(api.errorMessage(e));
+      setConfirmDelete(null);
+    },
   });
 
   const courses = data?.items ?? [];
@@ -189,9 +208,7 @@ function AdminCourses() {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm text-ink-2">
-                    {c.instructorName ?? "—"}
-                  </TableCell>
+                  <TableCell className="text-sm text-ink-2">{c.instructorName ?? "—"}</TableCell>
                   <TableCell>
                     <Badge variant={STATUS_VARIANT[c.status]} className="capitalize">
                       {c.status}
@@ -271,15 +288,17 @@ function AdminCourses() {
       {/* Delete confirmation dialog */}
       <AlertDialog
         open={!!confirmDelete}
-        onOpenChange={(open) => { if (!open) setConfirmDelete(null); }}
+        onOpenChange={(open) => {
+          if (!open) setConfirmDelete(null);
+        }}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete course?</AlertDialogTitle>
             <AlertDialogDescription>
               <strong>{confirmDelete?.title}</strong> will be permanently deleted. All modules,
-              lessons, and progress records for this course will be removed. This action cannot
-              be undone.
+              lessons, and progress records for this course will be removed. This action cannot be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

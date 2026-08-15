@@ -1,6 +1,6 @@
 /**
  * LMS Service Interface Contract (Backend Agnostic)
- * 
+ *
  * Defines the contract that ANY backend adapter (Supabase, Python FastAPI, Django REST)
  * MUST implement. UI components consume services through this interface.
  */
@@ -30,8 +30,12 @@ export interface LmsApiService {
   // User & Admin RBAC Management
   getUsers(filters: UserFilters): Promise<Paginated<User>>;
   getAdminTeam(): Promise<AdminPermissionRecord[]>;
-  assignAdminSubRole(userId: string, subRole: AdminSubRole, permissions: string[]): Promise<AdminPermissionRecord>;
-  
+  assignAdminSubRole(
+    userId: string,
+    subRole: AdminSubRole,
+    permissions: string[],
+  ): Promise<AdminPermissionRecord>;
+
   // Enterprise Organizations & Cohorts
   getOrganizations(): Promise<Organization[]>;
   createOrganization(input: Partial<Organization>): Promise<Organization>;

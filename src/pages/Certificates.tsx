@@ -1,8 +1,8 @@
-import { certificates } from '@/lib/data'
-import { PageHeader, Badge, Btn, EmptyState } from '@/components/ui'
+import { certificates } from "@/lib/data";
+import { PageHeader, Badge, Btn, EmptyState } from "@/components/ui";
 
 interface Props {
-  onNavigate: (page: string) => void
+  onNavigate: (page: string) => void;
 }
 
 export default function Certificates({ onNavigate }: Props) {
@@ -19,12 +19,15 @@ export default function Certificates({ onNavigate }: Props) {
           icon={<AwardIcon />}
           title="No certificates yet"
           body="Complete a course to earn your first certificate."
-          action={<Btn onClick={() => onNavigate('catalogue')}>Browse courses</Btn>}
+          action={<Btn onClick={() => onNavigate("catalogue")}>Browse courses</Btn>}
         />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {certificates.map((cert) => (
-            <div key={cert.id} className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-md transition-all">
+            <div
+              key={cert.id}
+              className="bg-white border border-stone-200 rounded-2xl overflow-hidden hover:shadow-md transition-all"
+            >
               {/* Certificate visual */}
               <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-purple-800 px-6 py-8 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/5 -translate-y-8 translate-x-8" />
@@ -33,9 +36,15 @@ export default function Certificates({ onNavigate }: Props) {
                   <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-4">
                     <span className="text-white text-xl">🎓</span>
                   </div>
-                  <div className="text-white/60 text-xs font-mono uppercase tracking-widest mb-1">Certificate of Completion</div>
-                  <h3 className="text-white font-display text-lg font-semibold leading-snug">{cert.courseTitle}</h3>
-                  <div className="text-white/60 text-xs mt-1">Instructor: {cert.instructorName}</div>
+                  <div className="text-white/60 text-xs font-mono uppercase tracking-widest mb-1">
+                    Certificate of Completion
+                  </div>
+                  <h3 className="text-white font-display text-lg font-semibold leading-snug">
+                    {cert.courseTitle}
+                  </h3>
+                  <div className="text-white/60 text-xs mt-1">
+                    Instructor: {cert.instructorName}
+                  </div>
                 </div>
               </div>
 
@@ -45,19 +54,27 @@ export default function Certificates({ onNavigate }: Props) {
                     <div className="text-xs text-stone-500">Certificate ID</div>
                     <div className="text-xs font-mono text-stone-700 mt-0.5">{cert.code}</div>
                   </div>
-                  <Badge variant={cert.status === 'active' ? 'success' : 'danger'}>
-                    {cert.status === 'active' ? '✓ Active' : 'Revoked'}
+                  <Badge variant={cert.status === "active" ? "success" : "danger"}>
+                    {cert.status === "active" ? "✓ Active" : "Revoked"}
                   </Badge>
                 </div>
                 <div className="text-xs text-stone-500 mb-4">
-                  Issued{' '}
+                  Issued{" "}
                   <span className="text-stone-700">
-                    {new Date(cert.issuedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    {new Date(cert.issuedAt).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
                   </span>
                 </div>
                 <div className="flex gap-2">
-                  <Btn variant="secondary" size="sm" className="flex-1">⬇ Download PDF</Btn>
-                  <Btn variant="ghost" size="sm">Share</Btn>
+                  <Btn variant="secondary" size="sm" className="flex-1">
+                    ⬇ Download PDF
+                  </Btn>
+                  <Btn variant="ghost" size="sm">
+                    Share
+                  </Btn>
                 </div>
               </div>
             </div>
@@ -65,9 +82,19 @@ export default function Certificates({ onNavigate }: Props) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function AwardIcon() {
-  return <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 15 6 21l6-3 6 3-2-6" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="9" r="6" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M8 15 6 21l6-3 6 3-2-6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }

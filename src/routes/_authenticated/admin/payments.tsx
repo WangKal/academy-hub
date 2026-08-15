@@ -133,9 +133,7 @@ function AdminPayments() {
                   <TableCell>
                     <Select
                       value={p.status}
-                      onValueChange={(v) =>
-                        update.mutate({ id: p.id, status: v as PaymentStatus })
-                      }
+                      onValueChange={(v) => update.mutate({ id: p.id, status: v as PaymentStatus })}
                     >
                       <SelectTrigger className="h-8">
                         <SelectValue />

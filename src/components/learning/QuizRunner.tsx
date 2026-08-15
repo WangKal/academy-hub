@@ -11,17 +11,15 @@ import { cn } from "@/lib/utils";
 import * as api from "@/services/api";
 import type { QuizResult } from "@/types";
 
-export function QuizRunner({
-  lessonId,
-  onPassed,
-}: {
-  lessonId: string;
-  onPassed?: () => void;
-}) {
+export function QuizRunner({ lessonId, onPassed }: { lessonId: string; onPassed?: () => void }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<QuizResult | null>(null);
 
-  const { data: quiz, isLoading, error } = useQuery({
+  const {
+    data: quiz,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["quiz", lessonId],
     queryFn: () => api.getQuiz(lessonId),
   });
@@ -97,7 +95,9 @@ export function QuizRunner({
         {result ? (
           <>
             <p className="font-display text-2xl">{result.attempt.scorePercent}%</p>
-            <p className={cn("text-sm", result.attempt.passed ? "text-accent" : "text-destructive")}>
+            <p
+              className={cn("text-sm", result.attempt.passed ? "text-accent" : "text-destructive")}
+            >
               {result.attempt.passed ? "Passed — lesson marked complete." : "Not passed yet."}
             </p>
             {!result.attempt.passed && (

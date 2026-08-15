@@ -44,7 +44,11 @@ function CourseBuilder() {
   const qc = useQueryClient();
   const invalidate = () => qc.invalidateQueries({ queryKey: ["builder-course", courseId] });
 
-  const { data: course, isLoading, error } = useQuery({
+  const {
+    data: course,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["builder-course", courseId],
     queryFn: () => api.getCourse(courseId),
   });
@@ -217,7 +221,11 @@ function CourseBuilder() {
             <h2 className="font-display text-base font-semibold text-ink-1">Course details</h2>
             <div className="space-y-1.5">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" value={values.title} onChange={(e) => set("title", e.target.value)} />
+              <Input
+                id="title"
+                value={values.title}
+                onChange={(e) => set("title", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="short">Short description</Label>
@@ -239,7 +247,11 @@ function CourseBuilder() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="cat">Category</Label>
-              <Input id="cat" value={values.category} onChange={(e) => set("category", e.target.value)} />
+              <Input
+                id="cat"
+                value={values.category}
+                onChange={(e) => set("category", e.target.value)}
+              />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="level">Level</Label>

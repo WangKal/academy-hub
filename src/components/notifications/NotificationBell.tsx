@@ -46,7 +46,12 @@ export function NotificationBell() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Notifications" className="relative text-ink-3 hover:text-ink-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Notifications"
+          className="relative text-ink-3 hover:text-ink-1"
+        >
           <Bell className="size-4" />
           {unread > 0 && (
             <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-rose-500 ring-2 ring-card" />
@@ -68,9 +73,7 @@ export function NotificationBell() {
         </div>
         <div className="max-h-80 overflow-y-auto">
           {!items.length ? (
-            <p className="px-3 py-8 text-center text-sm text-ink-3">
-              You are all caught up.
-            </p>
+            <p className="px-3 py-8 text-center text-sm text-ink-3">You are all caught up.</p>
           ) : (
             items.map((n) => (
               <button
@@ -88,18 +91,17 @@ export function NotificationBell() {
                     {n.type}
                   </Badge>
                 </div>
-                {n.body && (
-                  <p className="mt-1 line-clamp-2 text-xs text-ink-3">{n.body}</p>
-                )}
-                <p className="mt-1 text-[11px] text-ink-3/70">
-                  {timeAgo(n.createdAt)}
-                </p>
+                {n.body && <p className="mt-1 line-clamp-2 text-xs text-ink-3">{n.body}</p>}
+                <p className="mt-1 text-[11px] text-ink-3/70">{timeAgo(n.createdAt)}</p>
               </button>
             ))
           )}
         </div>
         <div className="border-t border-edge px-4 py-2.5">
-          <Link to="/notifications" className="text-xs font-medium text-brand-600 hover:text-brand-700">
+          <Link
+            to="/notifications"
+            className="text-xs font-medium text-brand-600 hover:text-brand-700"
+          >
             View all notifications
           </Link>
         </div>

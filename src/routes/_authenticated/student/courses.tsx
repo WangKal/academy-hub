@@ -1,5 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/student/courses")({
-  beforeLoad: () => { throw redirect({ to: "/my-courses" }); },
+  beforeLoad: () => {
+    throw redirect({ to: "/my-courses" });
+  },
 });

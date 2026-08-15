@@ -92,9 +92,7 @@ function AdminSettings() {
             <div className="flex items-center justify-between rounded-sm border border-edge px-4 py-3">
               <div>
                 <p className="text-sm font-medium">Allow self-enrolment</p>
-                <p className="text-xs text-ink-3">
-                  Learners can enrol without admin approval.
-                </p>
+                <p className="text-xs text-ink-3">Learners can enrol without admin approval.</p>
               </div>
               <Switch
                 checked={form.allowSelfEnrollment}

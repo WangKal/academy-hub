@@ -36,8 +36,8 @@ function About() {
         <h2 className="mt-12 text-2xl">How we teach</h2>
         <p className="mt-3 leading-relaxed text-ink-3">
           Each course is broken into modules, and each module into short lessons — video, written
-          briefings, and applied assignments. Progress is tracked lesson by lesson so you can
-          return exactly where you left off.
+          briefings, and applied assignments. Progress is tracked lesson by lesson so you can return
+          exactly where you left off.
         </p>
 
         <h2 className="mt-10 text-2xl">How we assess</h2>

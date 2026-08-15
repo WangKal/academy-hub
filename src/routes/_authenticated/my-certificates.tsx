@@ -86,17 +86,13 @@ function MyCertificates() {
                     </Pill>
                   </div>
                   <div className="text-xs text-ink-3 mb-4">
-                    Issued on <span className="font-medium text-ink-1">{formatDate(cert.issuedAt)}</span>
+                    Issued on{" "}
+                    <span className="font-medium text-ink-1">{formatDate(cert.issuedAt)}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-2 pt-3 border-t border-edge">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1 rounded-xl text-xs"
-                    asChild
-                  >
+                  <Button variant="outline" size="sm" className="flex-1 rounded-xl text-xs" asChild>
                     <Link to="/certificate/$code" params={{ code: cert.certificateCode }}>
                       <Download className="w-3.5 h-3.5 mr-1.5" /> Download PDF
                     </Link>
@@ -107,7 +103,7 @@ function MyCertificates() {
                     className="rounded-xl text-xs"
                     onClick={() => {
                       navigator.clipboard?.writeText?.(
-                        `${window.location.origin}/verify/${cert.certificateCode}`
+                        `${window.location.origin}/verify/${cert.certificateCode}`,
                       );
                       toast.success("Verification link copied to clipboard");
                     }}

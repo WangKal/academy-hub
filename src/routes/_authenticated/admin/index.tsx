@@ -27,7 +27,10 @@ export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Admin overview — EA Academy" },
-      { name: "description", content: "Academy-wide enrolment, revenue and certification metrics." },
+      {
+        name: "description",
+        content: "Academy-wide enrolment, revenue and certification metrics.",
+      },
       { property: "og:title", content: "Admin overview — EA Academy" },
       { property: "og:description", content: "Academy-wide metrics and recent activity." },
     ],
@@ -45,7 +48,11 @@ function AdminOverview() {
     ? [
         ["Students", data.students, <Users className="size-4" key="s" />],
         ["Instructors", data.instructors, <GraduationCap className="size-4" key="i" />],
-        ["Courses", `${data.publishedCourses}/${data.courses}`, <BookOpen className="size-4" key="c" />],
+        [
+          "Courses",
+          `${data.publishedCourses}/${data.courses}`,
+          <BookOpen className="size-4" key="c" />,
+        ],
         ["Active enrollments", data.activeEnrollments, <ScrollText className="size-4" key="e" />],
         ["Completions", data.completedCourses, <TrendingUp className="size-4" key="x" />],
         ["Certificates", data.certificatesIssued, <Award className="size-4" key="a" />],

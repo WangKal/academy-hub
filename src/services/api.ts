@@ -23,9 +23,7 @@
  */
 
 import { supabase } from "@/integrations/supabase/client";
-import {
-  DEFAULT_TIER_PERMISSIONS,
-} from "@/services/permissions";
+import { DEFAULT_TIER_PERMISSIONS } from "@/services/permissions";
 import type {
   AcademySettings,
   AdminDashboardStats,
@@ -86,12 +84,7 @@ import type {
 /* ========================================================================== */
 
 export function isApiError(value: unknown): value is ApiError {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "code" in value &&
-    "message" in value
-  );
+  return typeof value === "object" && value !== null && "code" in value && "message" in value;
 }
 
 export function errorMessage(error: unknown, fallback = "Something went wrong."): string {
@@ -299,10 +292,7 @@ async function attachProfileNames<T extends { userId?: string }>(
   const ids = Array.from(new Set(rows.map((r) => r.userId).filter(Boolean))) as string[];
   const map = new Map<string, { name: string; email: string }>();
   if (!ids.length) return map;
-  const { data } = await supabase
-    .from("profiles")
-    .select("id, full_name, email")
-    .in("id", ids);
+  const { data } = await supabase.from("profiles").select("id, full_name, email").in("id", ids);
   (data ?? []).forEach((p: Row) => {
     map.set(p.id, { name: p.full_name || p.email, email: p.email ?? "" });
   });
@@ -327,10 +317,11 @@ export async function login(input: LoginInput): Promise<CurrentUser> {
   });
 }
 
-export async function register(input: RegisterInput): Promise<{ requiresEmailConfirmation: boolean }> {
+export async function register(
+  input: RegisterInput,
+): Promise<{ requiresEmailConfirmation: boolean }> {
   return run("auth.register", async () => {
-    const redirectUrl =
-      typeof window !== "undefined" ? `${window.location.origin}/` : undefined;
+    const redirectUrl = typeof window !== "undefined" ? `${window.location.origin}/` : undefined;
     const { data, error } = await supabase.auth.signUp({
       email: input.email.trim(),
       password: input.password,
@@ -376,30 +367,20 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     if (!authUser) return null;
 
     const [{ data: profile }, { data: roles }] = await Promise.all([
-      supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", authUser.id)
-        .maybeSingle(),
+      supabase.from("profiles").select("*").eq("id", authUser.id).maybeSingle(),
 
-      supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", authUser.id),
+      supabase.from("user_roles").select("role").eq("user_id", authUser.id),
     ]);
 
-    const roleList = (roles ?? []).map(
-      (r: Row) => r.role as UserRole,
-    );
+    const roleList = (roles ?? []).map((r: Row) => r.role as UserRole);
 
-    const role: UserRole =
-      roleList.includes("admin")
-        ? "admin"
-        : roleList.includes("auditor")
-          ? "auditor"
-          : roleList.includes("instructor")
-            ? "instructor"
-            : "student";
+    const role: UserRole = roleList.includes("admin")
+      ? "admin"
+      : roleList.includes("auditor")
+        ? "auditor"
+        : roleList.includes("instructor")
+          ? "instructor"
+          : "student";
 
     let adminSubRole: AdminSubRole | undefined;
     let permissions: AdminPermissionKey[] | undefined;
@@ -412,19 +393,16 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
         .eq("user_id", authUser.id)
         .maybeSingle();
 
-      adminSubRole =
-        (perm?.sub_role ?? "super_admin") as AdminSubRole;
+      adminSubRole = (perm?.sub_role ?? "super_admin") as AdminSubRole;
 
       /*
        * Preserve existing database permissions if they exist.
        *
        * If no row exists, use the new tier defaults.
        */
-      permissions = (
-        perm?.permissions ??
+      permissions = (perm?.permissions ??
         DEFAULT_TIER_PERMISSIONS[adminSubRole] ??
-        []
-      ) as AdminPermissionKey[];
+        []) as AdminPermissionKey[];
     }
 
     /*
@@ -440,14 +418,9 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       .select("organization_id, org_role")
       .eq("user_id", authUser.id);
 
-    organizationIds = (memberships ?? [])
-      .map((m: Row) => m.organization_id)
-      .filter(Boolean);
+    organizationIds = (memberships ?? []).map((m: Row) => m.organization_id).filter(Boolean);
 
-    const organizationScope =
-      adminSubRole === "org_admin"
-        ? "selected"
-        : "all";
+    const organizationScope = adminSubRole === "org_admin" ? "selected" : "all";
 
     return {
       id: authUser.id,
@@ -467,10 +440,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       organizationRelationships: [],
       resourceRelationships: [],
 
-      email:
-        profile?.email ||
-        authUser.email ||
-        "",
+      email: profile?.email || authUser.email || "",
 
       fullName:
         profile?.full_name ||
@@ -480,11 +450,9 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
       role,
 
-      avatarUrl:
-        profile?.avatar_url ?? undefined,
+      avatarUrl: profile?.avatar_url ?? undefined,
 
-      status:
-        (profile?.status ?? "active") as UserStatus,
+      status: (profile?.status ?? "active") as UserStatus,
     };
   });
 }
@@ -586,10 +554,10 @@ export async function getUsers(filters: UserFilters = {}): Promise<Paginated<Use
     const search = filters.search?.trim().toLowerCase();
     if (search)
       items = items.filter(
-        (u) =>
-          u.fullName.toLowerCase().includes(search) || u.email.toLowerCase().includes(search),
+        (u) => u.fullName.toLowerCase().includes(search) || u.email.toLowerCase().includes(search),
       );
-    if (filters.role && filters.role !== "all") items = items.filter((u) => u.role === filters.role);
+    if (filters.role && filters.role !== "all")
+      items = items.filter((u) => u.role === filters.role);
     if (filters.status && filters.status !== "all")
       items = items.filter((u) => u.status === filters.status);
 
@@ -674,7 +642,8 @@ function applyCourseFilters(courses: Course[], filters: CourseFilters): Course[]
     items = items.filter((c) => c.status === filters.status);
   if (filters.category && filters.category !== "all")
     items = items.filter((c) => c.category === filters.category);
-  if (filters.level && filters.level !== "all") items = items.filter((c) => c.level === filters.level);
+  if (filters.level && filters.level !== "all")
+    items = items.filter((c) => c.level === filters.level);
   if (filters.instructorId) items = items.filter((c) => c.instructorId === filters.instructorId);
 
   switch (filters.sort) {
@@ -708,7 +677,9 @@ async function loadCourses(): Promise<Course[]> {
 
   const [{ data: enrollRows }, { data: lessonRows }] = await Promise.all([
     supabase.from("enrollments").select("course_id"),
-    supabase.from("lessons").select("id, duration_seconds, module_id, modules:module_id (course_id)"),
+    supabase
+      .from("lessons")
+      .select("id, duration_seconds, module_id, modules:module_id (course_id)"),
   ]);
 
   const enrollCount = new Map<string, number>();
@@ -740,9 +711,7 @@ export async function getCourses(filters: CourseFilters = {}): Promise<Paginated
   });
 }
 
-export async function getPublishedCourses(
-  filters: CourseFilters = {},
-): Promise<Paginated<Course>> {
+export async function getPublishedCourses(filters: CourseFilters = {}): Promise<Paginated<Course>> {
   return getCourses({ ...filters, status: "published" });
 }
 
@@ -774,7 +743,10 @@ export async function getCourse(idOrSlug: string): Promise<CourseDetail> {
       await supabase
         .from("lessons")
         .select("*")
-        .in("module_id", modules.length ? modules.map((m) => m.id) : ["00000000-0000-0000-0000-000000000000"])
+        .in(
+          "module_id",
+          modules.length ? modules.map((m) => m.id) : ["00000000-0000-0000-0000-000000000000"],
+        )
         .order("order_index", { ascending: true }),
     ).map(toLesson);
 
@@ -1222,7 +1194,13 @@ export async function getCourseProgress(courseId: string): Promise<CourseProgres
     const lessonIds = await getCourseLessonIds(courseId);
     const { data: auth } = await supabase.auth.getUser();
     if (!auth?.user || !lessonIds.length)
-      return { courseId, lessonsTotal: lessonIds.length, lessonsCompleted: 0, percent: 0, isComplete: false };
+      return {
+        courseId,
+        lessonsTotal: lessonIds.length,
+        lessonsCompleted: 0,
+        percent: 0,
+        isComplete: false,
+      };
 
     const rows = unwrapList(
       "progress.course",
@@ -1317,7 +1295,9 @@ export async function markLessonComplete(lessonId: string): Promise<LessonProgre
  * owns it; when the Python backend lands this becomes a single API call and the
  * UI is unaffected.
  */
-export async function syncCourseCompletion(courseId: string): Promise<{ completed: boolean; certificate?: Certificate }> {
+export async function syncCourseCompletion(
+  courseId: string,
+): Promise<{ completed: boolean; certificate?: Certificate }> {
   return run("progress.syncCompletion", async () => {
     const userId = await requireUserId();
     const progress = await getCourseProgress(courseId);
@@ -1382,7 +1362,10 @@ export async function getQuiz(quizIdOrLessonId: string, includeAnswers = false):
           await supabase
             .from("quiz_options")
             .select("*")
-            .in("question_id", questions.map((q: Row) => q.id))
+            .in(
+              "question_id",
+              questions.map((q: Row) => q.id),
+            )
             .order("order_index", { ascending: true }),
         )
       : [];
@@ -1513,14 +1496,12 @@ export async function createQuizOption(
       .from("quiz_options")
       .select("id", { count: "exact", head: true })
       .eq("question_id", questionId);
-    const { error } = await supabase
-      .from("quiz_options")
-      .insert({
-        question_id: questionId,
-        option_text: optionText,
-        is_correct: isCorrect,
-        order_index: count ?? 0,
-      });
+    const { error } = await supabase.from("quiz_options").insert({
+      question_id: questionId,
+      option_text: optionText,
+      is_correct: isCorrect,
+      order_index: count ?? 0,
+    });
     if (error) throw normalizeError(error, "quizzes.createOption");
   });
 }
@@ -1572,8 +1553,7 @@ export async function submitQuizAttempt(
   return run("quizzes.submitAttempt", async () => {
     const userId = await requireUserId();
     const quiz = await getQuiz(quizId, true);
-    if (!quiz.questions.length)
-      throw apiError("invalid_quiz", "This quiz has no questions yet.");
+    if (!quiz.questions.length) throw apiError("invalid_quiz", "This quiz has no questions yet.");
 
     const correctByQuestionId: Record<string, string> = {};
     let correct = 0;
@@ -1603,7 +1583,11 @@ export async function submitQuizAttempt(
 
     if (passed) await markLessonComplete(quiz.lessonId);
 
-    return { attempt: toAttempt(row), passingScorePercent: quiz.passingScorePercent, correctByQuestionId };
+    return {
+      attempt: toAttempt(row),
+      passingScorePercent: quiz.passingScorePercent,
+      correctByQuestionId,
+    };
   });
 }
 
@@ -1624,7 +1608,9 @@ export async function getQuizAttempts(quizId: string): Promise<QuizAttempt[]> {
 }
 
 /** Quizzes in a course the student has not yet passed. */
-export async function getPendingQuizzes(): Promise<{ quizId: string; lessonId: string; title: string; courseId: string }[]> {
+export async function getPendingQuizzes(): Promise<
+  { quizId: string; lessonId: string; title: string; courseId: string }[]
+> {
   return run("quizzes.pending", async () => {
     const { data: auth } = await supabase.auth.getUser();
     if (!auth?.user) return [];
@@ -1644,7 +1630,10 @@ export async function getPendingQuizzes(): Promise<{ quizId: string; lessonId: s
       await supabase
         .from("lessons")
         .select("id, title, module_id")
-        .in("module_id", modules.map((m: Row) => m.id))
+        .in(
+          "module_id",
+          modules.map((m: Row) => m.id),
+        )
         .eq("lesson_type", "quiz"),
     );
     if (!lessons.length) return [];
@@ -1653,7 +1642,10 @@ export async function getPendingQuizzes(): Promise<{ quizId: string; lessonId: s
       await supabase
         .from("quizzes")
         .select("id, lesson_id, title")
-        .in("lesson_id", lessons.map((l: Row) => l.id)),
+        .in(
+          "lesson_id",
+          lessons.map((l: Row) => l.id),
+        ),
     );
     if (!quizzes.length) return [];
     const attempts = unwrapList(
@@ -1662,7 +1654,10 @@ export async function getPendingQuizzes(): Promise<{ quizId: string; lessonId: s
         .from("quiz_attempts")
         .select("quiz_id, passed")
         .eq("user_id", auth.user.id)
-        .in("quiz_id", quizzes.map((q: Row) => q.id)),
+        .in(
+          "quiz_id",
+          quizzes.map((q: Row) => q.id),
+        ),
     );
     const passedIds = new Set(
       attempts.filter((a: Row) => a.passed).map((a: Row) => a.quiz_id as string),
@@ -1922,10 +1917,7 @@ export async function getPayments(filters: PaymentFilters = {}): Promise<Paginat
  * Business rule: confirming a payment activates (or creates) the enrolment.
  * This lives in the service layer, never in a component.
  */
-export async function updatePaymentStatus(
-  paymentId: string,
-  status: PaymentStatus,
-): Promise<void> {
+export async function updatePaymentStatus(paymentId: string, status: PaymentStatus): Promise<void> {
   return run("payments.updateStatus", async () => {
     const payment = await getPayment(paymentId);
     const { error } = await supabase.from("payments").update({ status }).eq("id", paymentId);
@@ -2025,7 +2017,10 @@ export async function getInstructorDashboardStats(): Promise<InstructorDashboard
           await supabase
             .from("quiz_attempts")
             .select("score_percent")
-            .in("quiz_id", quizzes.map((q: Row) => q.id)),
+            .in(
+              "quiz_id",
+              quizzes.map((q: Row) => q.id),
+            ),
         );
         if (attempts.length)
           averageQuizScore = Math.round(
@@ -2083,7 +2078,10 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
           await supabase
             .from("quiz_attempts")
             .select("quiz_id, score_percent, passed")
-            .in("quiz_id", quizzes.map((q: Row) => q.id)),
+            .in(
+              "quiz_id",
+              quizzes.map((q: Row) => q.id),
+            ),
         );
         quizPerformance = quizzes.map((q: Row) => {
           const qa = attempts.filter((a: Row) => a.quiz_id === q.id);
@@ -2521,17 +2519,12 @@ export async function getAdminTeam(): Promise<AdminPermissionRecord[]> {
       .select("id, full_name, email, created_at, updated_at");
     if (error) throw normalizeError(error, "admin.team");
 
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("*")
-      .eq("role", "admin");
+    const { data: roles } = await supabase.from("user_roles").select("*").eq("role", "admin");
 
     const adminUserIds = new Set((roles ?? []).map((r: Row) => r.user_id));
     const adminProfiles = (users ?? []).filter((u: Row) => adminUserIds.has(u.id));
 
-    const { data: perms } = await supabase
-      .from("admin_permissions")
-      .select("*");
+    const { data: perms } = await supabase.from("admin_permissions").select("*");
 
     const permsMap = new Map((perms ?? []).map((p: Row) => [p.user_id, p]));
 
@@ -2588,11 +2581,7 @@ export async function assignAdminSubRole(
             .eq("id", existing.id)
             .select()
             .maybeSingle()
-        : await supabase
-            .from("admin_permissions")
-            .insert(payload)
-            .select()
-            .maybeSingle(),
+        : await supabase.from("admin_permissions").insert(payload).select().maybeSingle(),
     ) as Row;
 
     await recordAudit("admin.subrole_updated", "admin_permission", row.id, {
@@ -2625,9 +2614,7 @@ export async function getOrganizations(): Promise<Organization[]> {
       await supabase.from("organizations").select("*").order("name"),
     );
 
-    const { data: members } = await supabase
-      .from("organization_members")
-      .select("organization_id");
+    const { data: members } = await supabase.from("organization_members").select("organization_id");
 
     const counts = new Map<string, number>();
     (members ?? []).forEach((m: Row) => {
@@ -2690,7 +2677,10 @@ export async function createOrganization(input: {
 
 export async function getCohorts(organizationId?: string): Promise<Cohort[]> {
   return run("cohorts.list", async () => {
-    let query = supabase.from("cohorts").select("*, organizations:organization_id (name)").order("created_at", { ascending: false });
+    let query = supabase
+      .from("cohorts")
+      .select("*, organizations:organization_id (name)")
+      .order("created_at", { ascending: false });
     if (organizationId) {
       query = query.eq("organization_id", organizationId);
     }
@@ -2748,14 +2738,14 @@ export async function createCohort(input: {
   });
 }
 
-export async function bulkEnrollStudents(input: BulkEnrollmentInput): Promise<BulkEnrollmentResult> {
+export async function bulkEnrollStudents(
+  input: BulkEnrollmentInput,
+): Promise<BulkEnrollmentResult> {
   return run("students.bulkEnroll", async () => {
     const successfulEmails: string[] = [];
     const failedEmails: { email: string; reason: string }[] = [];
 
-    const { data: profiles } = await supabase
-      .from("profiles")
-      .select("id, email");
+    const { data: profiles } = await supabase.from("profiles").select("id, email");
 
     const emailToUser = new Map((profiles ?? []).map((p: Row) => [p.email.toLowerCase(), p.id]));
 
@@ -2849,4 +2839,3 @@ export async function exportAuditLogsCsv(filters: AuditLogFilters): Promise<stri
   ]);
   return [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
 }
-

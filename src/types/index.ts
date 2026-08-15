@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Application-level domain types.
  *
  * These are the ONLY shapes the UI is allowed to know about. They are
@@ -12,12 +12,7 @@ export type CourseStatus = "draft" | "published" | "archived";
 export type CourseLevel = "beginner" | "intermediate" | "advanced";
 export type LessonType = "video" | "text" | "quiz" | "assignment";
 export type LessonStatus = "draft" | "published";
-export type EnrollmentStatus =
-  | "pending"
-  | "active"
-  | "completed"
-  | "cancelled"
-  | "refunded";
+export type EnrollmentStatus = "pending" | "active" | "completed" | "cancelled" | "refunded";
 export type ProgressStatus = "not_started" | "in_progress" | "completed";
 export type CertificateStatus = "issued" | "revoked";
 export type PaymentProvider = "mpesa" | "stripe" | "manual";
@@ -36,26 +31,13 @@ export type AdminSubRole =
   | "compliance_admin"
   | "org_admin";
 
-export type OrganizationType =
-  | "administrative"
-  | "sponsor"
-  | "hybrid";
+export type OrganizationType = "administrative" | "sponsor" | "hybrid";
 
 export type OrganizationRelationship =
-  | "administrator"
-  | "member"
-  | "sponsor"
-  | "participant"
-  | "provider"
-  | "auditor";
+  "administrator" | "member" | "sponsor" | "participant" | "provider" | "auditor";
 
 export type ResourceRelationship =
-  | "owner"
-  | "instructor"
-  | "student"
-  | "grader"
-  | "sponsor"
-  | "auditor";
+  "owner" | "instructor" | "student" | "grader" | "sponsor" | "auditor";
 
 export type OrganizationScope = "all" | "selected";
 
@@ -67,6 +49,7 @@ export type Resource =
   | "courses"
   | "modules"
   | "lessons"
+  | "assignments"
   | "lesson_content"
   | "assessments"
   | "submissions"
@@ -93,6 +76,8 @@ export type Action =
   | "submit"
   | "review"
   | "approve"
+  | "grade"
+  | "return"
   | "award"
   | "revoke"
   | "reissue"
@@ -137,9 +122,7 @@ export type LegacyAdminPermissionKey =
   | "manage_admins"
   | "manage_organizations";
 
-export type AdminPermissionKey =
-  | PermissionKey
-  | LegacyAdminPermissionKey;
+export type AdminPermissionKey = PermissionKey | LegacyAdminPermissionKey;
 
 export interface OrganizationRelationshipRecord {
   organizationId: string;
@@ -240,7 +223,8 @@ export interface CurrentUser {
    *   sponsor -> Student C
    */
   resourceRelationships?: ResourceRelationshipRecord[];
-}f
+}
+
 
 export interface User {
   id: string;
@@ -402,12 +386,7 @@ export interface Certificate {
   userName?: string;
 }
 
-export type PaymentPurpose =
-  | "enrollment"
-  | "course"
-  | "sponsorship"
-  | "organization"
-  | "other";
+export type PaymentPurpose = "enrollment" | "course" | "sponsorship" | "organization" | "other";
 
 export interface Payment {
   id: string;
@@ -558,7 +537,13 @@ export interface CourseAnalytics {
   averageProgress: number;
   averageQuizScore: number;
   progressDistribution: { bucket: string; students: number }[];
-  quizPerformance: { quizId: string; title: string; attempts: number; averageScore: number; passRate: number }[];
+  quizPerformance: {
+    quizId: string;
+    title: string;
+    attempts: number;
+    averageScore: number;
+    passRate: number;
+  }[];
 }
 
 export interface AdminDashboardStats {
@@ -647,12 +632,7 @@ export interface PaymentInput {
 /* -------------------------- Notifications -------------------------- */
 
 export type NotificationType =
-  | "general"
-  | "enrollment"
-  | "certificate"
-  | "payment"
-  | "assignment"
-  | "course";
+  "general" | "enrollment" | "certificate" | "payment" | "assignment" | "course";
 
 export interface AppNotification {
   id: string;
@@ -705,25 +685,6 @@ export interface AssignmentSubmissionInput {
 }
 
 /* ------------------ Enterprise & Multi-Admin Management -------------- */
-
-export type AdminSubRole =
-  | "super_admin"
-  | "platform_admin"
-  | "org_admin"
-  | "academic_admin"
-  | "finance_admin"
-  | "user_admin"
-  | "compliance_admin";
-
-export type AdminPermissionKey =
-  | "manage_users"
-  | "manage_courses"
-  | "manage_payments"
-  | "manage_settings"
-  | "view_audit_logs"
-  | "manage_admins"
-  | "manage_organizations";
-
 export interface AdminPermissionRecord {
   id: string;
   userId: string;
@@ -800,4 +761,3 @@ export interface BulkEnrollmentResult {
   failedEmails: { email: string; reason: string }[];
   totalProcessed: number;
 }
-

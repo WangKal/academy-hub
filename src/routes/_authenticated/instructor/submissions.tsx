@@ -73,7 +73,10 @@ function Submissions() {
                       {s.courseTitle} · {s.lessonTitle} · {formatDate(s.submittedAt)}
                     </p>
                   </div>
-                  <Badge variant={s.status === "graded" ? "default" : "secondary"} className="capitalize">
+                  <Badge
+                    variant={s.status === "graded" ? "default" : "secondary"}
+                    className="capitalize"
+                  >
                     {s.status}
                   </Badge>
                 </div>

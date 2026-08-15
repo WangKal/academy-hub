@@ -36,7 +36,10 @@ export const Route = createFileRoute("/_authenticated/admin/audit-logs")({
   head: () => ({
     meta: [
       { title: "Audit Center & Compliance — EA Academy" },
-      { name: "description", content: "Inspect system audit logs, security events and administrative actions." },
+      {
+        name: "description",
+        content: "Inspect system audit logs, security events and administrative actions.",
+      },
     ],
   }),
   component: AdminAuditLogsPage,
@@ -48,7 +51,8 @@ function AdminAuditLogsPage() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-audit-logs", search, entityType],
-    queryFn: () => api.getAuditLogs({ search, entityType: entityType === "all" ? undefined : entityType }),
+    queryFn: () =>
+      api.getAuditLogs({ search, entityType: entityType === "all" ? undefined : entityType }),
   });
 
   const handleExportCsv = async () => {
@@ -146,9 +150,7 @@ function AdminAuditLogsPage() {
                   <TableCell className="max-w-xs truncate font-mono text-[11px] text-ink-3">
                     {JSON.stringify(log.metadata)}
                   </TableCell>
-                  <TableCell className="text-xs text-ink-3">
-                    {formatDate(log.createdAt)}
-                  </TableCell>
+                  <TableCell className="text-xs text-ink-3">{formatDate(log.createdAt)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

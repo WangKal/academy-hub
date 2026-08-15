@@ -1,9 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 /** /instructor/courses/$courseId/builder redirects to the course editor. */
-export const Route = createFileRoute(
-  "/_authenticated/instructor/courses_/$courseId/builder",
-)({
+export const Route = createFileRoute("/_authenticated/instructor/courses_/$courseId/builder")({
   beforeLoad: ({ context, params }) => {
     const user = (context as any).user;
     if (!user || (user.role !== "instructor" && user.role !== "admin")) {

@@ -45,7 +45,10 @@ export const Route = createFileRoute("/_authenticated/admin/organizations")({
   head: () => ({
     meta: [
       { title: "Organizations & Cohorts — EA Academy" },
-      { name: "description", content: "Manage B2B corporate clients, cohorts and bulk student onboardings." },
+      {
+        name: "description",
+        content: "Manage B2B corporate clients, cohorts and bulk student onboardings.",
+      },
     ],
   }),
   component: AdminOrganizationsPage,
@@ -172,7 +175,10 @@ function AdminOrganizationsPage() {
           {isOrgsLoading ? (
             <LoadingBlock />
           ) : !orgs.length ? (
-            <EmptyState title="No organizations added yet" description="Add enterprise clients to manage corporate cohorts." />
+            <EmptyState
+              title="No organizations added yet"
+              description="Add enterprise clients to manage corporate cohorts."
+            />
           ) : (
             <div className="rounded-xl border border-edge bg-card">
               <Table>
@@ -198,7 +204,9 @@ function AdminOrganizationsPage() {
                           {o.activeSeats} / {o.maxSeats} seats
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-xs text-ink-3">{formatDate(o.createdAt)}</TableCell>
+                      <TableCell className="text-xs text-ink-3">
+                        {formatDate(o.createdAt)}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -240,7 +248,9 @@ function AdminOrganizationsPage() {
                         <Badge variant="outline">{c.organizationName ?? "B2B Group"}</Badge>
                       </TableCell>
                       <TableCell className="text-xs text-ink-3">{c.description || "N/A"}</TableCell>
-                      <TableCell className="text-xs text-ink-3">{formatDate(c.createdAt)}</TableCell>
+                      <TableCell className="text-xs text-ink-3">
+                        {formatDate(c.createdAt)}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -255,35 +265,65 @@ function AdminOrganizationsPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Enterprise Client Organization</DialogTitle>
-            <DialogDescription>Register a new B2B company or institutional client.</DialogDescription>
+            <DialogDescription>
+              Register a new B2B company or institutional client.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-2">
             <div>
               <label className="text-xs font-medium">Organization Name</label>
-              <Input placeholder="e.g. KCB Group Executive Office" value={orgName} onChange={(e) => setOrgName(e.target.value)} />
+              <Input
+                placeholder="e.g. KCB Group Executive Office"
+                value={orgName}
+                onChange={(e) => setOrgName(e.target.value)}
+              />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="text-xs font-medium">Unique Code</label>
-                <Input placeholder="KCB-EXEC" value={orgCode} onChange={(e) => setOrgCode(e.target.value)} />
+                <Input
+                  placeholder="KCB-EXEC"
+                  value={orgCode}
+                  onChange={(e) => setOrgCode(e.target.value)}
+                />
               </div>
               <div>
                 <label className="text-xs font-medium">Max License Seats</label>
-                <Input type="number" value={orgMaxSeats} onChange={(e) => setOrgMaxSeats(e.target.value)} />
+                <Input
+                  type="number"
+                  value={orgMaxSeats}
+                  onChange={(e) => setOrgMaxSeats(e.target.value)}
+                />
               </div>
             </div>
             <div>
               <label className="text-xs font-medium">Contact Email</label>
-              <Input type="email" placeholder="corporate@kcbgroup.com" value={orgEmail} onChange={(e) => setOrgEmail(e.target.value)} />
+              <Input
+                type="email"
+                placeholder="corporate@kcbgroup.com"
+                value={orgEmail}
+                onChange={(e) => setOrgEmail(e.target.value)}
+              />
             </div>
             <div>
               <label className="text-xs font-medium">Corporate Domain (Optional)</label>
-              <Input placeholder="kcbgroup.com" value={orgDomain} onChange={(e) => setOrgDomain(e.target.value)} />
+              <Input
+                placeholder="kcbgroup.com"
+                value={orgDomain}
+                onChange={(e) => setOrgDomain(e.target.value)}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setIsAddOrgOpen(false)}>Cancel</Button>
-            <Button onClick={() => createOrgMutation.mutate()} disabled={!orgName || !orgCode || !orgEmail}>Save Organization</Button>
+            <Button variant="ghost" onClick={() => setIsAddOrgOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => createOrgMutation.mutate()}
+              disabled={!orgName || !orgCode || !orgEmail}
+            >
+              Save Organization
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -299,24 +339,45 @@ function AdminOrganizationsPage() {
             <div>
               <label className="text-xs font-medium">Select Organization</label>
               <Select value={cohortOrgId} onValueChange={setCohortOrgId}>
-                <SelectTrigger className="mt-1"><SelectValue placeholder="Choose organization..." /></SelectTrigger>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Choose organization..." />
+                </SelectTrigger>
                 <SelectContent>
-                  {orgs.map((o) => (<SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>))}
+                  {orgs.map((o) => (
+                    <SelectItem key={o.id} value={o.id}>
+                      {o.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <label className="text-xs font-medium">Cohort Title</label>
-              <Input placeholder="e.g. Senior EA Cohort 2026" value={cohortName} onChange={(e) => setCohortName(e.target.value)} />
+              <Input
+                placeholder="e.g. Senior EA Cohort 2026"
+                value={cohortName}
+                onChange={(e) => setCohortName(e.target.value)}
+              />
             </div>
             <div>
               <label className="text-xs font-medium">Description</label>
-              <Textarea placeholder="Program details..." value={cohortDesc} onChange={(e) => setCohortDesc(e.target.value)} />
+              <Textarea
+                placeholder="Program details..."
+                value={cohortDesc}
+                onChange={(e) => setCohortDesc(e.target.value)}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setIsAddCohortOpen(false)}>Cancel</Button>
-            <Button onClick={() => createCohortMutation.mutate()} disabled={!cohortOrgId || !cohortName}>Create Cohort</Button>
+            <Button variant="ghost" onClick={() => setIsAddCohortOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => createCohortMutation.mutate()}
+              disabled={!cohortOrgId || !cohortName}
+            >
+              Create Cohort
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -326,29 +387,47 @@ function AdminOrganizationsPage() {
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>Bulk Student Onboarding & Enrollment</DialogTitle>
-            <DialogDescription>Enroll multiple corporate students at once into a target course.</DialogDescription>
+            <DialogDescription>
+              Enroll multiple corporate students at once into a target course.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-2">
             <div>
               <label className="text-xs font-medium">Select Course</label>
               <Select value={bulkCourseId} onValueChange={setBulkCourseId}>
-                <SelectTrigger className="mt-1"><SelectValue placeholder="Select target course..." /></SelectTrigger>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select target course..." />
+                </SelectTrigger>
                 <SelectContent>
-                  {(Array.isArray(courses) ? courses : courses.items).map((c: { id: string; title: string }) => (<SelectItem key={c.id} value={c.id}>{c.title}</SelectItem>))}
+                  {(Array.isArray(courses) ? courses : courses.items).map(
+                    (c: { id: string; title: string }) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.title}
+                      </SelectItem>
+                    ),
+                  )}
                 </SelectContent>
               </Select>
             </div>
             <div>
               <label className="text-xs font-medium">Associate Organization (Optional)</label>
               <Select value={bulkOrgId} onValueChange={setBulkOrgId}>
-                <SelectTrigger className="mt-1"><SelectValue placeholder="None (Individual)" /></SelectTrigger>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="None (Individual)" />
+                </SelectTrigger>
                 <SelectContent>
-                  {orgs.map((o) => (<SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>))}
+                  {orgs.map((o) => (
+                    <SelectItem key={o.id} value={o.id}>
+                      {o.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-xs font-medium">Student Email Addresses (One per line or comma-separated)</label>
+              <label className="text-xs font-medium">
+                Student Email Addresses (One per line or comma-separated)
+              </label>
               <Textarea
                 rows={6}
                 placeholder="grace.wanjiru@example.com&#10;peter.otieno@example.com"
@@ -358,8 +437,15 @@ function AdminOrganizationsPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setIsBulkEnrollOpen(false)}>Cancel</Button>
-            <Button onClick={() => bulkEnrollMutation.mutate()} disabled={!bulkCourseId || !bulkEmailsText.trim()}>Process Bulk Enrollment</Button>
+            <Button variant="ghost" onClick={() => setIsBulkEnrollOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => bulkEnrollMutation.mutate()}
+              disabled={!bulkCourseId || !bulkEmailsText.trim()}
+            >
+              Process Bulk Enrollment
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

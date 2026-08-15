@@ -75,7 +75,9 @@ function ProfilePage() {
                 </div>
                 <div className="mt-2 flex items-center gap-2">
                   <Shield className="size-3.5 text-ink-4" />
-                  <Badge variant="secondary" className="capitalize text-xs">{user.role}</Badge>
+                  <Badge variant="secondary" className="capitalize text-xs">
+                    {user.role}
+                  </Badge>
                 </div>
               </div>
             </div>

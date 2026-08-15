@@ -182,13 +182,21 @@ export default function Catalogue() {
         ) : view === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.items.map((course) => (
-              <CatalogueCard key={course.id} course={course} enrollment={enrollmentMap.get(course.id)} />
+              <CatalogueCard
+                key={course.id}
+                course={course}
+                enrollment={enrollmentMap.get(course.id)}
+              />
             ))}
           </div>
         ) : (
           <div className="space-y-3">
             {data.items.map((course) => (
-              <CatalogueListRow key={course.id} course={course} enrollment={enrollmentMap.get(course.id)} />
+              <CatalogueListRow
+                key={course.id}
+                course={course}
+                enrollment={enrollmentMap.get(course.id)}
+              />
             ))}
           </div>
         )}
@@ -253,7 +261,9 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
           <div className="flex items-center justify-between">
             {enrollment ? (
               <Pill variant={enrollment.status === "completed" ? "success" : "neutral"}>
-                {enrollment.status === "completed" ? "✓ Completed" : `${enrollment.progressPercent}% complete`}
+                {enrollment.status === "completed"
+                  ? "✓ Completed"
+                  : `${enrollment.progressPercent}% complete`}
               </Pill>
             ) : (
               <div className="font-display font-semibold text-ink-1">
@@ -261,7 +271,12 @@ function CatalogueCard({ course, enrollment }: { course: Course; enrollment?: an
               </div>
             )}
 
-            <Button asChild size="sm" variant="outline" className="rounded-xl text-xs font-semibold">
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="rounded-xl text-xs font-semibold"
+            >
               <Link to="/courses/$slug" params={{ slug: course.slug }}>
                 {enrollment ? "Continue" : "View course"}
               </Link>
@@ -299,9 +314,7 @@ function CatalogueListRow({ course, enrollment }: { course: Course; enrollment?:
         <h3 className="font-display text-base font-semibold text-ink-1 group-hover:text-indigo-600 transition-colors">
           {course.title}
         </h3>
-        <p className="text-xs text-ink-3 line-clamp-1 mt-1">
-          {course.shortDescription}
-        </p>
+        <p className="text-xs text-ink-3 line-clamp-1 mt-1">{course.shortDescription}</p>
 
         {enrollment && (
           <div className="mt-3 max-w-xs">
@@ -330,4 +343,3 @@ function CatalogueListRow({ course, enrollment }: { course: Course; enrollment?:
     </div>
   );
 }
-

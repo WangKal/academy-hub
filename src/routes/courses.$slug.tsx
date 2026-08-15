@@ -48,7 +48,11 @@ function CourseDetailPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
 
-  const { data: course, isLoading, error } = useQuery({
+  const {
+    data: course,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["course", slug],
     queryFn: () => api.getCourse(slug),
   });
@@ -94,10 +98,10 @@ function CourseDetailPage() {
                     {course.category}
                   </span>
                 </div>
-                <h1 className="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-ink-1">{course.title}</h1>
-                <p className="mt-4 max-w-2xl text-lg text-ink-3">
-                  {course.shortDescription}
-                </p>
+                <h1 className="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-ink-1">
+                  {course.title}
+                </h1>
+                <p className="mt-4 max-w-2xl text-lg text-ink-3">{course.shortDescription}</p>
                 <div className="mt-6 flex flex-wrap gap-6 text-sm text-ink-3">
                   <span className="flex items-center gap-1.5">
                     <Users className="size-4" /> {course.enrollmentCount ?? 0} enrolled
@@ -106,8 +110,7 @@ function CourseDetailPage() {
                     <FileText className="size-4" /> {course.lessonCount ?? 0} lessons
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <Clock className="size-4" />{" "}
-                    {formatDuration(course.totalDurationSeconds ?? 0)}
+                    <Clock className="size-4" /> {formatDuration(course.totalDurationSeconds ?? 0)}
                   </span>
                 </div>
               </div>
@@ -181,10 +184,7 @@ function CourseDetailPage() {
                         {m.lessons.map((l) => {
                           const Icon = lessonIcon[l.lessonType] ?? FileText;
                           return (
-                            <li
-                              key={l.id}
-                              className="flex items-center gap-3 text-sm text-ink-3"
-                            >
+                            <li key={l.id} className="flex items-center gap-3 text-sm text-ink-3">
                               <Icon className="size-4 shrink-0 text-brand-600" />
                               <span className="flex-1">{l.title}</span>
                               {l.isPreview ? (
@@ -208,10 +208,10 @@ function CourseDetailPage() {
             <aside>
               <Panel>
                 <div className="p-6">
-                  <p className="text-xs uppercase tracking-widest text-ink-4">
-                    Instructor
+                  <p className="text-xs uppercase tracking-widest text-ink-4">Instructor</p>
+                  <p className="mt-2 font-display text-lg font-semibold text-ink-1">
+                    {course.instructorName ?? "Academy faculty"}
                   </p>
-                  <p className="mt-2 font-display text-lg font-semibold text-ink-1">{course.instructorName ?? "Academy faculty"}</p>
                 </div>
               </Panel>
             </aside>

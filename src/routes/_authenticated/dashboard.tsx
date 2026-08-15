@@ -116,14 +116,15 @@ function Dashboard() {
                     {primaryEnrollment.course.shortDescription}
                   </p>
                   <div className="w-full max-w-sm">
-                    <ProgressBar
-                      value={primaryEnrollment.progressPercent || 0}
-                      showLabel
-                    />
+                    <ProgressBar value={primaryEnrollment.progressPercent || 0} showLabel />
                   </div>
                 </div>
 
-                <Button asChild size="lg" className="bg-white text-indigo-900 hover:bg-indigo-50 rounded-xl font-semibold shrink-0">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-white text-indigo-900 hover:bg-indigo-50 rounded-xl font-semibold shrink-0"
+                >
                   <Link to="/learn/$courseId" params={{ courseId: primaryEnrollment.courseId }}>
                     Resume course →
                   </Link>
@@ -137,7 +138,10 @@ function Dashboard() {
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl font-semibold text-ink-1">My Active Courses</h2>
-                <Link to="/my-courses" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+                <Link
+                  to="/my-courses"
+                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+                >
                   View all →
                 </Link>
               </div>
@@ -155,7 +159,10 @@ function Dashboard() {
               ) : (
                 <div className="space-y-3">
                   {activeEnrollments.map((e) => (
-                    <Panel key={e.id} className="p-4 rounded-2xl flex items-center justify-between gap-4">
+                    <Panel
+                      key={e.id}
+                      className="p-4 rounded-2xl flex items-center justify-between gap-4"
+                    >
                       <div className="min-w-0 flex-1">
                         <div className="text-xs font-mono text-ink-4 mb-1">
                           {e.course?.category} · {e.course?.level}
@@ -180,7 +187,10 @@ function Dashboard() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-display text-xl font-semibold text-ink-1">My Certificates</h2>
-                <Link to="/my-certificates" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+                <Link
+                  to="/my-certificates"
+                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+                >
                   View all →
                 </Link>
               </div>
@@ -189,7 +199,9 @@ function Dashboard() {
                 <Panel className="p-5 text-center rounded-2xl">
                   <Award className="w-8 h-8 mx-auto text-ink-4 mb-2" />
                   <p className="text-sm font-semibold text-ink-2 mb-1">No certificates yet</p>
-                  <p className="text-xs text-ink-4">Complete 100% of any course to earn your verified credential.</p>
+                  <p className="text-xs text-ink-4">
+                    Complete 100% of any course to earn your verified credential.
+                  </p>
                 </Panel>
               ) : (
                 <div className="space-y-3">
@@ -215,4 +227,3 @@ function Dashboard() {
     </AppShell>
   );
 }
-

@@ -18,27 +18,27 @@ The complete product consists of:
 
 Visitors who are not authenticated should be able to:
 
-* understand what Academy Hub is
-* discover available learning
-* browse courses
-* search courses
-* filter courses
-* inspect course details
-* understand instructors and course content
-* understand pricing where applicable
-* preview available content
-* decide to enroll/purchase
-* create an account
-* sign in
-* recover their account
+- understand what Academy Hub is
+- discover available learning
+- browse courses
+- search courses
+- filter courses
+- inspect course details
+- understand instructors and course content
+- understand pricing where applicable
+- preview available content
+- decide to enroll/purchase
+- create an account
+- sign in
+- recover their account
 
 ## Authenticated Experience
 
 After authentication, users enter the existing role-specific platform:
 
-* Student
-* Instructor
-* Administrator
+- Student
+- Instructor
+- Administrator
 
 The public experience must feel like the natural entrance to the same platform, not a completely different website.
 
@@ -50,19 +50,19 @@ Create a polished public navigation system consistent with the existing Academy 
 
 The public header should provide an intuitive path to:
 
-* Academy Hub home
-* Courses / Catalogue
-* relevant discovery sections
-* Sign in
-* Get started / Register
+- Academy Hub home
+- Courses / Catalogue
+- relevant discovery sections
+- Sign in
+- Get started / Register
 
 Where appropriate, allow the design to include:
 
-* global course search
-* prominent call-to-action
-* user-aware navigation when already authenticated
-* responsive mobile navigation
-* contextual navigation
+- global course search
+- prominent call-to-action
+- user-aware navigation when already authenticated
+- responsive mobile navigation
+- contextual navigation
 
 Do not simply reuse the authenticated sidebar.
 
@@ -99,11 +99,11 @@ A strong, premium introduction to Academy Hub.
 
 Potential structure:
 
-* clear headline
-* concise value proposition
-* primary CTA
-* secondary CTA
-* visual representation of the learning experience
+- clear headline
+- concise value proposition
+- primary CTA
+- secondary CTA
+- visual representation of the learning experience
 
 Primary CTA could lead toward course discovery or getting started.
 
@@ -119,11 +119,11 @@ The homepage should connect naturally to the catalogue.
 
 Where actual course data is available through the application's service layer, the homepage may surface dynamic course content such as:
 
-* featured courses
-* popular courses
-* recently published courses
-* recommended discovery sections
-* categories
+- featured courses
+- popular courses
+- recently published courses
+- recommended discovery sections
+- categories
 
 However:
 
@@ -161,11 +161,11 @@ Only where supported by actual course data.
 
 Figma has freedom to determine whether these should be:
 
-* cards
-* horizontal carousels
-* featured layouts
-* editorial sections
-* grouped collections
+- cards
+- horizontal carousels
+- featured layouts
+- editorial sections
+- grouped collections
 
 Do not assume every course needs to be presented as the same card.
 
@@ -181,14 +181,14 @@ Build a complete product narrative.
 
 Where appropriate, include sections communicating:
 
-* learning outcomes
-* quality of instructors
-* structured learning
-* progress tracking
-* assessments
-* certificates
-* enterprise/organizational learning
-* platform capabilities
+- learning outcomes
+- quality of instructors
+- structured learning
+- progress tracking
+- assessments
+- certificates
+- enterprise/organizational learning
+- platform capabilities
 
 Only represent capabilities that actually exist or are supported by the application.
 
@@ -206,12 +206,12 @@ It should feel like a professional academy rather than a basic database list.
 
 Support the application's existing functionality for:
 
-* searching courses
-* filtering courses
-* viewing published courses
-* viewing course cards
-* opening course details
-* pagination-ready results
+- searching courses
+- filtering courses
+- viewing published courses
+- viewing course cards
+- opening course details
+- pagination-ready results
 
 Create a clear discovery hierarchy.
 
@@ -233,11 +233,11 @@ The exact layout is up to you.
 
 Explore whether the best experience is:
 
-* grid
-* list
-* hybrid
-* featured + grid
-* responsive combinations
+- grid
+- list
+- hybrid
+- featured + grid
+- responsive combinations
 
 Do not sacrifice usability for visual novelty.
 
@@ -249,12 +249,12 @@ Filtering should feel deliberate and easy to understand.
 
 Where the underlying application supports the relevant attributes, allow users to filter by things such as:
 
-* category
-* instructor
-* price
-* level
-* availability/status
-* other supported course attributes
+- category
+- instructor
+- price
+- level
+- availability/status
+- other supported course attributes
 
 Do not create filters for data that the application does not actually provide.
 
@@ -264,9 +264,9 @@ On mobile, consider a filter drawer/sheet.
 
 The user should always understand:
 
-* what filters are active
-* how many results remain
-* how to clear filters
+- what filters are active
+- how many results remain
+- how to clear filters
 
 ---
 
@@ -278,25 +278,25 @@ A course card should communicate the information needed to decide whether to ins
 
 Depending on available data, this may include:
 
-* course image
-* course title
-* instructor
-* price
-* lesson/module information
-* duration
-* level
-* publication state
-* progress for authenticated users where appropriate
+- course image
+- course title
+- instructor
+- price
+- lesson/module information
+- duration
+- level
+- publication state
+- progress for authenticated users where appropriate
 
 Do not overload the card.
 
 Create different visual treatments where useful:
 
-* featured course
-* standard course
-* compact course
-* enrolled course
-* completed course
+- featured course
+- standard course
+- compact course
+- enrolled course
+- completed course
 
 The same design system should be reusable across public and authenticated experiences.
 
@@ -310,17 +310,17 @@ The user should be able to understand the course without needing to log in.
 
 Clearly communicate:
 
-* course title
-* course description
-* instructor
-* price
-* course duration where available
-* modules
-* lessons
-* lesson durations where available
-* preview lessons
-* learning outcomes
-* enrollment/purchase action
+- course title
+- course description
+- instructor
+- price
+- course duration where available
+- modules
+- lessons
+- lesson durations where available
+- preview lessons
+- learning outcomes
+- enrollment/purchase action
 
 The design should make the user confident about the value of the course.
 
@@ -362,25 +362,25 @@ The curriculum should be visually understandable before enrollment.
 
 Represent:
 
-* modules
-* lessons
-* lesson duration
-* preview availability
-* locked content
+- modules
+- lessons
+- lesson duration
+- preview availability
+- locked content
 
 Example conceptual structure:
 
 Module 1
 
-* Preview lesson
-* Lesson
-* Lesson
+- Preview lesson
+- Lesson
+- Lesson
 
 Module 2
 
-* Locked lesson
-* Locked lesson
-* Quiz
+- Locked lesson
+- Locked lesson
+- Quiz
 
 However, redesign this freely.
 
@@ -394,10 +394,10 @@ If a lesson is marked as previewable by the existing application, make that dist
 
 The public user should be able to understand:
 
-* what can be previewed
-* what requires enrollment
-* what is locked
-* what action unlocks the remaining course
+- what can be previewed
+- what requires enrollment
+- what is locked
+- what action unlocks the remaining course
 
 Do not bypass the application's existing access rules.
 
@@ -427,9 +427,9 @@ Do not assume the user is already authenticated.
 
 If an unauthenticated visitor attempts an action requiring authentication:
 
-* preserve their intended destination/action where supported
-* guide them naturally to authentication
-* avoid making them feel like they have lost their place
+- preserve their intended destination/action where supported
+- guide them naturally to authentication
+- avoid making them feel like they have lost their place
 
 The design should make authentication feel like part of the journey rather than an unrelated interruption.
 
@@ -443,12 +443,12 @@ Support the existing authentication workflow.
 
 The design should include:
 
-* email/credential fields supported by the current application
-* password
-* sign-in action
-* forgot password
-* registration path
-* appropriate loading/error states
+- email/credential fields supported by the current application
+- password
+- sign-in action
+- forgot password
+- registration path
+- appropriate loading/error states
 
 Do not introduce a different authentication architecture.
 
@@ -462,10 +462,10 @@ Registration should feel like a natural continuation of the public experience.
 
 It should communicate:
 
-* what the user is signing up for
-* required information
-* account creation
-* transition into Academy Hub
+- what the user is signing up for
+- required information
+- account creation
+- transition into Academy Hub
 
 Avoid making registration unnecessarily complex.
 
@@ -495,11 +495,11 @@ Return to login
 
 Include:
 
-* loading states
-* invalid email/error state
-* expired/invalid reset state
-* successful reset
-* clear next action
+- loading states
+- invalid email/error state
+- expired/invalid reset state
+- successful reset
+- clear next action
 
 Do not design only the happy path.
 
@@ -511,14 +511,14 @@ Design the relevant authentication states that already exist in the application.
 
 Examples may include:
 
-* email verification
-* verification pending
-* verification success
-* verification failure
-* expired link
-* invalid link
-* authenticated redirect
-* session expiration
+- email verification
+- verification pending
+- verification success
+- verification failure
+- expired link
+- invalid link
+- authenticated redirect
+- session expiration
 
 The exact states should follow the actual application.
 
@@ -534,29 +534,29 @@ Examples:
 
 Catalogue loading:
 
-* skeleton course cards
+- skeleton course cards
 
 No search results:
 
-* clear explanation
-* reset filters action
+- clear explanation
+- reset filters action
 
 Course unavailable:
 
-* informative state
-* return to catalogue
+- informative state
+- return to catalogue
 
 Course loading:
 
-* structured skeleton
+- structured skeleton
 
 Authentication failure:
 
-* actionable error
+- actionable error
 
 Network failure:
 
-* retry
+- retry
 
 Do not leave these states to default browser/UI behavior.
 
@@ -570,12 +570,12 @@ It should visually complete the marketing/discovery experience.
 
 Where applicable, provide navigation to:
 
-* courses
-* relevant platform information
-* authentication
-* support/contact
-* legal/privacy areas if they exist
-* other existing public destinations
+- courses
+- relevant platform information
+- authentication
+- support/contact
+- legal/privacy areas if they exist
+- other existing public destinations
 
 Do not invent routes that do not exist.
 
@@ -591,15 +591,15 @@ The user should recognize:
 
 Maintain consistency in:
 
-* logo/brand
-* typography
-* colors
-* buttons
-* cards
-* status language
-* iconography
-* spacing
-* interaction patterns
+- logo/brand
+- typography
+- colors
+- buttons
+- cards
+- status language
+- iconography
+- spacing
+- interaction patterns
 
 But allow the public experience to feel more editorial/discovery-oriented while the authenticated experience remains more productivity-oriented.
 
@@ -677,14 +677,14 @@ Do NOT create a second API/data layer merely for the redesigned public pages.
 
 Do not hardcode:
 
-* course names
-* prices
-* instructor names
-* lesson counts
-* course statistics
-* course availability
-* enrollment state
-* publication status
+- course names
+- prices
+- instructor names
+- lesson counts
+- course statistics
+- course availability
+- enrollment state
+- publication status
 
 If the application can fetch the information, consume it.
 
@@ -692,12 +692,12 @@ If the application does not currently expose the information, design gracefully 
 
 The UI should work with:
 
-* populated data
-* no courses
-* one course
-* many courses
-* loading data
-* failed requests
+- populated data
+- no courses
+- one course
+- many courses
+- loading data
+- failed requests
 
 ---
 
@@ -705,17 +705,17 @@ The UI should work with:
 
 The redesign must not alter:
 
-* course publication rules
-* enrollment rules
-* authentication rules
-* payment rules
-* lesson access
-* preview access
-* certificate eligibility
-* role permissions
-* organization permissions
-* instructor permissions
-* administrator permissions
+- course publication rules
+- enrollment rules
+- authentication rules
+- payment rules
+- lesson access
+- preview access
+- certificate eligibility
+- role permissions
+- organization permissions
+- instructor permissions
+- administrator permissions
 
 The UI may communicate these rules much better, but it must not redefine them.
 
@@ -729,8 +729,7 @@ Do NOT create a separate "marketing website" design language.
 
 Instead:
 
-Existing authenticated design system
-+
+Existing authenticated design system +
 Public discovery patterns
 =========================
 
@@ -744,23 +743,23 @@ The public side may use more spacious/editorial compositions, larger visual stor
 
 Design the complete public journey for:
 
-* desktop
-* laptop
-* tablet
-* mobile
+- desktop
+- laptop
+- tablet
+- mobile
 
 Do not simply shrink desktop layouts.
 
 Consider how:
 
-* navigation
-* hero
-* course grids
-* filters
-* course curriculum
-* enrollment CTA
-* authentication forms
-* footer
+- navigation
+- hero
+- course grids
+- filters
+- course curriculum
+- enrollment CTA
+- authentication forms
+- footer
 
 transform at smaller sizes.
 
@@ -772,15 +771,15 @@ On mobile, primary actions should remain immediately accessible.
 
 Maintain strong:
 
-* contrast
-* keyboard navigation
-* focus states
-* form labels
-* readable typography
-* touch targets
-* semantic hierarchy
-* error messaging
-* accessible dialogs/drawers
+- contrast
+- keyboard navigation
+- focus states
+- form labels
+- readable typography
+- touch targets
+- semantic hierarchy
+- error messaging
+- accessible dialogs/drawers
 
 Do not sacrifice accessibility for visual effects.
 
@@ -830,15 +829,15 @@ Do not redesign it simply for the sake of changing it.
 
 Instead:
 
-* preserve what is working
-* extend the visual system
-* improve consistency
-* rethink public information hierarchy
-* create stronger discovery flows
-* make course discovery feel premium
-* make course details persuasive and useful
-* make authentication frictionless
-* make the public-to-authenticated transition seamless
+- preserve what is working
+- extend the visual system
+- improve consistency
+- rethink public information hierarchy
+- create stronger discovery flows
+- make course discovery feel premium
+- make course details persuasive and useful
+- make authentication frictionless
+- make the public-to-authenticated transition seamless
 
 Where the current public UI is weak, you have broad freedom to improve it.
 

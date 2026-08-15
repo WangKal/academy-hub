@@ -1,3 +1,6 @@
+# Repository text files use LF regardless of developer OS.
+* text=auto eol=lf
+
 # Git LFS Tracking Rules
 # Generated for binary, large, and non-diffable file types
 

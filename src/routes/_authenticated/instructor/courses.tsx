@@ -153,10 +153,7 @@ function NewCourseDialog() {
           </div>
         </div>
         <DialogFooter>
-          <Button
-            disabled={!v.title.trim() || create.isPending}
-            onClick={() => create.mutate()}
-          >
+          <Button disabled={!v.title.trim() || create.isPending} onClick={() => create.mutate()}>
             {create.isPending ? "Creating…" : "Create draft"}
           </Button>
         </DialogFooter>
@@ -183,11 +180,7 @@ function InstructorCourses() {
   });
 
   return (
-    <AppShell
-      title="Course builder"
-      description="Courses you own"
-      actions={<NewCourseDialog />}
-    >
+    <AppShell title="Course builder" description="Courses you own" actions={<NewCourseDialog />}>
       {isLoading ? (
         <LoadingBlock />
       ) : error ? (
@@ -226,19 +219,14 @@ function InstructorCourses() {
                   <TableCell>{formatDate(c.updatedAt)}</TableCell>
                   <TableCell className="space-x-2 text-right">
                     <Button asChild size="sm" variant="ghost">
-                      <Link
-                        to="/instructor/courses/$courseId"
-                        params={{ courseId: c.id }}
-                      >
+                      <Link to="/instructor/courses/$courseId" params={{ courseId: c.id }}>
                         Edit
                       </Link>
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() =>
-                        toggle.mutate({ id: c.id, publish: c.status !== "published" })
-                      }
+                      onClick={() => toggle.mutate({ id: c.id, publish: c.status !== "published" })}
                     >
                       {c.status === "published" ? "Unpublish" : "Publish"}
                     </Button>

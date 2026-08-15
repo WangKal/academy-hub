@@ -35,21 +35,10 @@ import type {
 /* Permission catalog                                                         */
 /* -------------------------------------------------------------------------- */
 
-const definePermissions = <
-  T extends Record<string, readonly string[]>,
->(
-  groups: T,
-): T => groups;
+const definePermissions = <T extends Record<string, readonly string[]>>(groups: T): T => groups;
 
 export const PERMISSIONS = definePermissions({
-  users: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "suspend",
-    "manage",
-  ],
+  users: ["view", "create", "edit", "delete", "suspend", "manage"],
 
   students: [
     "view",
@@ -62,15 +51,7 @@ export const PERMISSIONS = definePermissions({
     "view_certificates",
   ],
 
-  instructors: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "manage",
-    "assign",
-    "view_performance",
-  ],
+  instructors: ["view", "create", "edit", "delete", "manage", "assign", "view_performance"],
 
   organizations: [
     "view",
@@ -98,88 +79,25 @@ export const PERMISSIONS = definePermissions({
     "view_statistics",
   ],
 
-  modules: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "reorder",
-    "manage",
-  ],
+  modules: ["view", "create", "edit", "delete", "reorder", "manage"],
 
-  lessons: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "reorder",
-    "publish",
-    "unpublish",
-    "manage",
-  ],
+  lessons: ["view", "create", "edit", "delete", "reorder", "publish", "unpublish", "manage"],
 
-  lesson_content: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "manage",
-  ],
+  lesson_content: ["view", "create", "edit", "delete", "manage"],
 
-  assessments: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "publish",
-    "unpublish",
-    "manage",
-  ],
+  assessments: ["view", "create", "edit", "delete", "publish", "unpublish", "manage"],
 
-  submissions: [
-    "view",
-    "submit",
-    "edit",
-    "delete",
-    "review",
-    "manage",
-  ],
+  submissions: ["view", "submit", "edit", "delete", "review", "manage"],
 
-  grades: [
-    "view",
-    "create",
-    "edit",
-    "override",
-    "manage",
-  ],
+  grades: ["view", "create", "edit", "override", "manage"],
 
-  enrollments: [
-    "view",
-    "create",
-    "edit",
-    "cancel",
-    "manage",
-  ],
+  enrollments: ["view", "create", "edit", "cancel", "manage"],
 
-  learning: [
-    "view",
-    "participate",
-    "complete",
-  ],
+  learning: ["view", "participate", "complete"],
 
-  progress: [
-    "view",
-    "update",
-  ],
+  progress: ["view", "update"],
 
-  certificates: [
-    "view",
-    "award",
-    "revoke",
-    "reissue",
-    "override",
-    "manage",
-  ],
+  certificates: ["view", "award", "revoke", "reissue", "override", "manage"],
 
   sponsorships: [
     "view",
@@ -195,89 +113,48 @@ export const PERMISSIONS = definePermissions({
     "manage",
   ],
 
-  payments: [
-    "view",
-    "create",
-    "edit",
-    "refund",
-    "manage",
-    "view_reports",
-  ],
+  payments: ["view", "create", "edit", "refund", "manage", "view_reports"],
 
-  audit: [
-    "view",
-    "export",
-    "review",
-  ],
+  audit: ["view", "export", "review"],
 
-  settings: [
-    "view",
-    "edit",
-    "manage",
-  ],
+  settings: ["view", "edit", "manage"],
 
-  admins: [
-    "view",
-    "create",
-    "edit",
-    "delete",
-    "manage",
-  ],
+  admins: ["view", "create", "edit", "delete", "manage"],
 } as const);
 
 /* -------------------------------------------------------------------------- */
 /* Helpers                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export function permission(
-  resource: Resource,
-  action: Action,
-): PermissionKey {
+export function permission(resource: Resource, action: Action): PermissionKey {
   return `${resource}.${action}` as PermissionKey;
 }
 
-export function isAdmin(
-  user: CurrentUser | null | undefined,
-): boolean {
+export function isAdmin(user: CurrentUser | null | undefined): boolean {
   return user?.role === "admin";
 }
 
-export function isInstructor(
-  user: CurrentUser | null | undefined,
-): boolean {
+export function isInstructor(user: CurrentUser | null | undefined): boolean {
   return user?.role === "instructor";
 }
 
-export function isStudent(
-  user: CurrentUser | null | undefined,
-): boolean {
+export function isStudent(user: CurrentUser | null | undefined): boolean {
   return user?.role === "student";
 }
 
-export function isAuditor(
-  user: CurrentUser | null | undefined,
-): boolean {
+export function isAuditor(user: CurrentUser | null | undefined): boolean {
   return user?.role === "auditor";
 }
 
-export function isSuperAdmin(
-  user: CurrentUser | null | undefined,
-): boolean {
-  return user?.role === "admin" &&
-    user.adminSubRole === "super_admin";
+export function isSuperAdmin(user: CurrentUser | null | undefined): boolean {
+  return user?.role === "admin" && user.adminSubRole === "super_admin";
 }
 
-export function tier(
-  user: CurrentUser | null | undefined,
-): AdminSubRole | undefined {
-  return isAdmin(user)
-    ? (user.adminSubRole ?? "super_admin")
-    : undefined;
+export function tier(user: CurrentUser | null | undefined): AdminSubRole | undefined {
+  return isAdmin(user) ? (user.adminSubRole ?? "super_admin") : undefined;
 }
 
-export function isOrgScoped(
-  user: CurrentUser | null | undefined,
-): boolean {
+export function isOrgScoped(user: CurrentUser | null | undefined): boolean {
   if (!isAdmin(user)) return false;
 
   if (user.organizationScope) {
@@ -288,9 +165,7 @@ export function isOrgScoped(
   return user.adminSubRole === "org_admin";
 }
 
-export function scopedOrganizationIds(
-  user: CurrentUser | null | undefined,
-): string[] {
+export function scopedOrganizationIds(user: CurrentUser | null | undefined): string[] {
   if (!isOrgScoped(user)) return [];
   return user?.organizationIds ?? [];
 }
@@ -321,10 +196,7 @@ export function canAccessOrganization(
  * These aliases should eventually be removed after the new permission schema
  * is live.
  */
-const LEGACY_PERMISSION_EXPANSION: Record<
-  LegacyAdminPermissionKey,
-  PermissionKey[]
-> = {
+const LEGACY_PERMISSION_EXPANSION: Record<LegacyAdminPermissionKey, PermissionKey[]> = {
   manage_users: [
     "users.view",
     "users.create",
@@ -420,25 +292,11 @@ const LEGACY_PERMISSION_EXPANSION: Record<
     "payments.view_reports",
   ],
 
-  manage_settings: [
-    "settings.view",
-    "settings.edit",
-    "settings.manage",
-  ],
+  manage_settings: ["settings.view", "settings.edit", "settings.manage"],
 
-  view_audit_logs: [
-    "audit.view",
-    "audit.export",
-    "audit.review",
-  ],
+  view_audit_logs: ["audit.view", "audit.export", "audit.review"],
 
-  manage_admins: [
-    "admins.view",
-    "admins.create",
-    "admins.edit",
-    "admins.delete",
-    "admins.manage",
-  ],
+  manage_admins: ["admins.view", "admins.create", "admins.edit", "admins.delete", "admins.manage"],
 
   manage_organizations: [
     "organizations.view",
@@ -452,16 +310,12 @@ const LEGACY_PERMISSION_EXPANSION: Record<
   ],
 };
 
-function expandPermissions(
-  permissions: AdminPermissionKey[] = [],
-): Set<PermissionKey> {
+function expandPermissions(permissions: AdminPermissionKey[] = []): Set<PermissionKey> {
   const result = new Set<PermissionKey>();
 
   for (const value of permissions) {
     if (value in LEGACY_PERMISSION_EXPANSION) {
-      for (const expanded of LEGACY_PERMISSION_EXPANSION[
-        value as LegacyAdminPermissionKey
-      ]) {
+      for (const expanded of LEGACY_PERMISSION_EXPANSION[value as LegacyAdminPermissionKey]) {
         result.add(expanded);
       }
     } else {
@@ -476,26 +330,15 @@ function expandPermissions(
 /* Admin tier defaults                                                         */
 /* -------------------------------------------------------------------------- */
 
-const ALL_PERMISSIONS: PermissionKey[] = Object.entries(PERMISSIONS)
-  .flatMap(([resource, actions]) =>
-    actions.map(
-      (action) =>
-        `${resource}.${action}` as PermissionKey,
-    ),
-  );
+const ALL_PERMISSIONS: PermissionKey[] = Object.entries(PERMISSIONS).flatMap(
+  ([resource, actions]) => actions.map((action) => `${resource}.${action}` as PermissionKey),
+);
 
-export const DEFAULT_TIER_PERMISSIONS: Record<
-  AdminSubRole,
-  PermissionKey[]
-> = {
+export const DEFAULT_TIER_PERMISSIONS: Record<AdminSubRole, PermissionKey[]> = {
   super_admin: ALL_PERMISSIONS,
 
   platform_admin: [
-    ...ALL_PERMISSIONS.filter(
-      (p) =>
-        !p.startsWith("admins.") &&
-        !p.startsWith("settings."),
-    ),
+    ...ALL_PERMISSIONS.filter((p) => !p.startsWith("admins.") && !p.startsWith("settings.")),
   ],
 
   academic_admin: [
@@ -739,20 +582,13 @@ export const DEFAULT_TIER_PERMISSIONS: Record<
   ],
 };
 
-const AUDITOR_DEFAULT_PERMISSIONS: PermissionKey[] = [
-  "audit.view",
-  "audit.export",
-  "audit.review",
-];
+const AUDITOR_DEFAULT_PERMISSIONS: PermissionKey[] = ["audit.view", "audit.export", "audit.review"];
 
 /* -------------------------------------------------------------------------- */
 /* Relationship / resource scope                                             */
 /* -------------------------------------------------------------------------- */
 
-function organizationIsInScope(
-  user: CurrentUser,
-  organizationId?: string,
-): boolean {
+function organizationIsInScope(user: CurrentUser, organizationId?: string): boolean {
   if (!organizationId) return true;
 
   if (!isAdmin(user)) return false;
@@ -760,10 +596,7 @@ function organizationIsInScope(
   return canAccessOrganization(user, organizationId);
 }
 
-function instructorOwnsResource(
-  user: CurrentUser,
-  context?: AuthorizationContext,
-): boolean {
+function instructorOwnsResource(user: CurrentUser, context?: AuthorizationContext): boolean {
   if (!isInstructor(user)) return false;
 
   if (!context) return true;
@@ -779,17 +612,12 @@ function instructorOwnsResource(
   return true;
 }
 
-function studentOwnsResource(
-  user: CurrentUser,
-  context?: AuthorizationContext,
-): boolean {
+function studentOwnsResource(user: CurrentUser, context?: AuthorizationContext): boolean {
   if (!isStudent(user)) return false;
 
   if (!context) return true;
 
-  const studentId =
-    context.studentId ??
-    context.enrolledStudentId;
+  const studentId = context.studentId ?? context.enrolledStudentId;
 
   if (!studentId) return true;
 
@@ -836,8 +664,7 @@ export function can(
 
   if (isAdmin(user)) {
     const permissions = expandPermissions(
-      user.permissions ??
-        DEFAULT_TIER_PERMISSIONS[user.adminSubRole ?? "super_admin"],
+      user.permissions ?? DEFAULT_TIER_PERMISSIONS[user.adminSubRole ?? "super_admin"],
     );
 
     if (!permissions.has(requested)) {
@@ -864,12 +691,7 @@ export function can(
      *
      * They never inherit administrative CRUD simply from being auditors.
      */
-    return (
-      resource === "audit" ||
-      action === "view" ||
-      action === "review" ||
-      action === "export"
-    );
+    return resource === "audit" || action === "view" || action === "review" || action === "export";
   }
 
   /* ----------------------------- INSTRUCTOR ------------------------------ */
@@ -922,20 +744,19 @@ export function can(
      */
     if (resource === "students") {
       return (
-        action === "view" ||
-        action === "view_progress" ||
-        action === "view_enrollments" ||
-        action === "view_certificates"
-      ) && instructorOwnsResource(user, context);
+        (action === "view" ||
+          action === "view_progress" ||
+          action === "view_enrollments" ||
+          action === "view_certificates") &&
+        instructorOwnsResource(user, context)
+      );
     }
 
     if (resource === "enrollments") {
       return (
-        action === "view" ||
-        action === "create" ||
-        action === "edit" ||
-        action === "cancel"
-      ) && instructorOwnsResource(user, context);
+        (action === "view" || action === "create" || action === "edit" || action === "cancel") &&
+        instructorOwnsResource(user, context)
+      );
     }
 
     return false;
@@ -950,25 +771,20 @@ export function can(
 
     if (resource === "learning") {
       return (
-        action === "view" ||
-        action === "participate" ||
-        action === "complete"
-      ) && studentCanAccessLearningResource(user, context);
+        (action === "view" || action === "participate" || action === "complete") &&
+        studentCanAccessLearningResource(user, context)
+      );
     }
 
     if (resource === "progress") {
-      return (
-        action === "view" ||
-        action === "update"
-      ) && studentOwnsResource(user, context);
+      return (action === "view" || action === "update") && studentOwnsResource(user, context);
     }
 
     if (resource === "enrollments") {
       return (
-        action === "view" ||
-        action === "create" ||
-        action === "cancel"
-      ) && studentOwnsResource(user, context);
+        (action === "view" || action === "create" || action === "cancel") &&
+        studentOwnsResource(user, context)
+      );
     }
 
     if (resource === "assessments" && action === "view") {
@@ -977,10 +793,9 @@ export function can(
 
     if (resource === "submissions") {
       return (
-        action === "view" ||
-        action === "submit" ||
-        action === "edit"
-      ) && studentOwnsResource(user, context);
+        (action === "view" || action === "submit" || action === "edit") &&
+        studentOwnsResource(user, context)
+      );
     }
 
     if (resource === "grades" && action === "view") {
@@ -992,10 +807,7 @@ export function can(
     }
 
     if (resource === "payments") {
-      return (
-        action === "view" ||
-        action === "create"
-      ) && studentOwnsResource(user, context);
+      return (action === "view" || action === "create") && studentOwnsResource(user, context);
     }
 
     return false;
@@ -1016,14 +828,7 @@ export function canAny(
     context?: AuthorizationContext;
   }>,
 ): boolean {
-  return checks.some((check) =>
-    can(
-      user,
-      check.resource,
-      check.action ?? "view",
-      check.context,
-    ),
-  );
+  return checks.some((check) => can(user, check.resource, check.action ?? "view", check.context));
 }
 
 export function canAll(
@@ -1034,14 +839,7 @@ export function canAll(
     context?: AuthorizationContext;
   }>,
 ): boolean {
-  return checks.every((check) =>
-    can(
-      user,
-      check.resource,
-      check.action ?? "view",
-      check.context,
-    ),
-  );
+  return checks.every((check) => can(user, check.resource, check.action ?? "view", check.context));
 }
 
 export function canPermission(
@@ -1049,10 +847,7 @@ export function canPermission(
   permissionKey: AdminPermissionKey,
   context?: AuthorizationContext,
 ): boolean {
-  const [resource, action] = permissionKey.split(".") as [
-    Resource,
-    Action,
-  ];
+  const [resource, action] = permissionKey.split(".") as [Resource, Action];
 
   return can(user, resource, action, context);
 }
@@ -1061,9 +856,7 @@ export function canPermission(
 /* Navigation                                                                  */
 /* -------------------------------------------------------------------------- */
 
-export function landingPath(
-  user: CurrentUser | null | undefined,
-): string {
+export function landingPath(user: CurrentUser | null | undefined): string {
   if (!user) return "/auth";
 
   switch (user.role) {

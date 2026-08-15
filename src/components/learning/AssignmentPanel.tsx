@@ -55,9 +55,7 @@ export function AssignmentPanel({ lessonId }: { lessonId: string }) {
           <p className="text-sm text-ink-3">
             {submission.feedback || "No written feedback was left."}
           </p>
-          <p className="text-xs text-ink-3/70">
-            Graded {formatDate(submission.gradedAt)}
-          </p>
+          <p className="text-xs text-ink-3/70">Graded {formatDate(submission.gradedAt)}</p>
           <div className="mt-3 rounded-sm border border-edge bg-secondary/30 p-3 text-sm whitespace-pre-wrap">
             {submission.contentText}
           </div>

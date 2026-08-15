@@ -20,12 +20,14 @@ const avatarPalettes = [
 ];
 
 export function initials(name?: string | null) {
-  return (name ?? "")
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((p) => p[0]?.toUpperCase())
-    .join("") || "?";
+  return (
+    (name ?? "")
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((p) => p[0]?.toUpperCase())
+      .join("") || "?"
+  );
 }
 
 function hashName(name: string) {
@@ -80,7 +82,8 @@ export type BadgeVariant = "default" | "success" | "warning" | "danger" | "info"
 
 const badgeClasses: Record<BadgeVariant, string> = {
   default: "bg-brand-50 text-brand-700 ring-brand-200/60 dark:bg-brand-600/15 dark:text-brand-200",
-  success: "bg-emerald-50 text-emerald-700 ring-emerald-200/60 dark:bg-emerald-500/15 dark:text-emerald-300",
+  success:
+    "bg-emerald-50 text-emerald-700 ring-emerald-200/60 dark:bg-emerald-500/15 dark:text-emerald-300",
   warning: "bg-amber-50 text-amber-700 ring-amber-200/60 dark:bg-amber-500/15 dark:text-amber-300",
   danger: "bg-rose-50 text-rose-700 ring-rose-200/60 dark:bg-rose-500/15 dark:text-rose-300",
   info: "bg-sky-50 text-sky-700 ring-sky-200/60 dark:bg-sky-500/15 dark:text-sky-300",
@@ -169,7 +172,14 @@ export function RingProgress({
   const offset = circ - (Math.max(0, Math.min(100, value)) / 100) * circ;
   return (
     <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" className="stroke-surface-3" strokeWidth={stroke} />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        className="stroke-surface-3"
+        strokeWidth={stroke}
+      />
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -196,7 +206,11 @@ export function Panel({
   return (
     <div
       {...rest}
-      className={cn("rounded-xl border border-edge bg-card", rest.onClick && "cursor-pointer transition-all hover:border-ink-4/50 hover:shadow-sm", className)}
+      className={cn(
+        "rounded-xl border border-edge bg-card",
+        rest.onClick && "cursor-pointer transition-all hover:border-ink-4/50 hover:shadow-sm",
+        className,
+      )}
     >
       {children}
     </div>
@@ -436,7 +450,9 @@ export function DataTable<T extends { id: string }>({
                   key={col.key}
                   className={cn("px-4 py-3 text-ink-2", col.mono && "font-mono text-xs")}
                 >
-                  {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? "")}
+                  {col.render
+                    ? col.render(row)
+                    : String((row as Record<string, unknown>)[col.key] ?? "")}
                 </td>
               ))}
             </tr>

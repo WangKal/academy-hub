@@ -137,9 +137,7 @@ function AdminUsers() {
                   <TableCell>
                     <Select
                       value={u.status}
-                      onValueChange={(v) =>
-                        setStatus.mutate({ id: u.id, status: v as UserStatus })
-                      }
+                      onValueChange={(v) => setStatus.mutate({ id: u.id, status: v as UserStatus })}
                     >
                       <SelectTrigger className="h-8">
                         <SelectValue />

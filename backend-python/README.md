@@ -51,24 +51,25 @@ backend-python/
 
 The table below maps the frontend `src/services/api.ts` & `src/services/apiAdapter.ts` contracts to Python FastAPI endpoints:
 
-| Domain Area | Frontend Method | FastAPI Endpoint | HTTP Method | Auth & RBAC Requirement |
-| :--- | :--- | :--- | :--- | :--- |
-| **Auth** | `login(input)` | `/api/v1/auth/login` | `POST` | Public |
-| **Auth** | `register(input)` | `/api/v1/auth/register` | `POST` | Public |
-| **Courses** | `getCourses(filters)` | `/api/v1/courses` | `GET` | Public / Auth |
-| **Courses** | `getCourseDetail(slug)` | `/api/v1/courses/{slug}` | `GET` | Public / Auth |
-| **Admin RBAC** | `getAdminTeam()` | `/api/v1/admin/team` | `GET` | `RequirePermission("manage_admins")` |
-| **Admin RBAC** | `assignAdminSubRole(...)` | `/api/v1/admin/subrole` | `PUT` | `RequirePermission("manage_admins")` |
-| **B2B Orgs** | `getOrganizations()` | `/api/v1/organizations` | `GET` | `RequirePermission("manage_organizations")` |
-| **B2B Orgs** | `createOrganization(...)` | `/api/v1/organizations` | `POST` | `RequirePermission("manage_organizations")` |
-| **Bulk Enroll** | `bulkEnrollStudents(...)` | `/api/v1/students/bulk-enroll` | `POST` | `RequirePermission("manage_users")` |
-| **Audit Logs** | `getAuditLogs(filters)` | `/api/v1/admin/audit-logs` | `GET` | `RequirePermission("view_audit_logs")` |
+| Domain Area     | Frontend Method           | FastAPI Endpoint               | HTTP Method | Auth & RBAC Requirement                     |
+| :-------------- | :------------------------ | :----------------------------- | :---------- | :------------------------------------------ |
+| **Auth**        | `login(input)`            | `/api/v1/auth/login`           | `POST`      | Public                                      |
+| **Auth**        | `register(input)`         | `/api/v1/auth/register`        | `POST`      | Public                                      |
+| **Courses**     | `getCourses(filters)`     | `/api/v1/courses`              | `GET`       | Public / Auth                               |
+| **Courses**     | `getCourseDetail(slug)`   | `/api/v1/courses/{slug}`       | `GET`       | Public / Auth                               |
+| **Admin RBAC**  | `getAdminTeam()`          | `/api/v1/admin/team`           | `GET`       | `RequirePermission("manage_admins")`        |
+| **Admin RBAC**  | `assignAdminSubRole(...)` | `/api/v1/admin/subrole`        | `PUT`       | `RequirePermission("manage_admins")`        |
+| **B2B Orgs**    | `getOrganizations()`      | `/api/v1/organizations`        | `GET`       | `RequirePermission("manage_organizations")` |
+| **B2B Orgs**    | `createOrganization(...)` | `/api/v1/organizations`        | `POST`      | `RequirePermission("manage_organizations")` |
+| **Bulk Enroll** | `bulkEnrollStudents(...)` | `/api/v1/students/bulk-enroll` | `POST`      | `RequirePermission("manage_users")`         |
+| **Audit Logs**  | `getAuditLogs(filters)`   | `/api/v1/admin/audit-logs`     | `GET`       | `RequirePermission("view_audit_logs")`      |
 
 ---
 
 ## 3. Sample Pydantic Schemas (Parity with Frontend DTOs)
 
 ### Multi-Admin RBAC Schema (`app/schemas/rbac.py`)
+
 ```python
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
@@ -94,6 +95,7 @@ class AdminPermissionRecord(BaseModel):
 ```
 
 ### Organization Schema (`app/schemas/organization.py`)
+
 ```python
 from pydantic import BaseModel, EmailStr
 from typing import Optional
@@ -125,11 +127,11 @@ def require_permission(required_permission: str):
     async def permission_checker(current_user: UserDTO = Depends(get_current_user)):
         if current_user.role != "admin":
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin role required")
-        
+
         # Check sub-role / permissions logic
         if "super_admin" in current_user.permissions or required_permission in current_user.permissions:
             return current_user
-            
+
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=f"Permission '{required_permission}' required"

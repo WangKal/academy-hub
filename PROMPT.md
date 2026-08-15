@@ -37,7 +37,7 @@ The app is a fully interactive React SPA with client-side routing (no TanStack R
 ### Font imports (place at top of `src/index.css` before all other statements)
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=JetBrains+Mono:wght@400;500&display=swap");
 ```
 
 Add to `@theme inline`: `--font-display`, `--font-mono`, `--font-sans`. Add utility classes `.font-display`, `.font-mono` in global CSS.
@@ -45,6 +45,7 @@ Add to `@theme inline`: `--font-display`, `--font-mono`, `--font-sans`. Add util
 ### Tailwind v4 custom color tokens
 
 Define a rich token set in `@theme inline` covering:
+
 - `brand-50/100/200/500/600/700` (indigo spectrum)
 - `surface`, `surface-2`, `surface-3` (content backgrounds)
 - `ink-1/2/3/4` (text scale)
@@ -87,6 +88,7 @@ Additional pages (inline in `App.tsx`): MyCourses, NotificationsPage, ProfilePag
 Export TypeScript interfaces: `Role`, `User`, `Lesson`, `Module`, `Course`, `Enrollment`, `Certificate`, `Notification`, `Payment`, `AuditLog`.
 
 Export realistic mock data:
+
 - `currentUsers: Record<Role, User>` — Sarah Chen (student), Marcus Rodriguez (instructor), Aisha Okonkwo (admin)
 - `courses: Course[]` — 6 courses: Advanced React Patterns (4 modules, 15 lessons), Data Science Fundamentals, UX Design Mastery, Python for Enterprise, ML in Production, Cloud Architecture on AWS
 - `studentEnrollments: Enrollment[]` — 3 enrollments with realistic progress, completedLessons arrays, quizScores
@@ -125,6 +127,7 @@ Export the following components, all using Tailwind inline classes:
 ## App shell (`src/components/Shell.tsx`)
 
 **Sidebar** (dark navy, `#111827`):
+
 - Collapsible (256px ↔ 64px) with smooth CSS transition (`transition: width 0.22s cubic-bezier`)
 - Academy Hub logo mark + wordmark
 - Role switcher (3-button toggle: Learn/Teach/Admin) — switches `role` state in App
@@ -135,6 +138,7 @@ Export the following components, all using Tailwind inline classes:
 - Footer: user avatar + name + role (hidden when collapsed)
 
 **Topbar** (white, 56px):
+
 - Global search input (placeholder, keyboard shortcut badge `⌘K`)
 - Notification bell with unread dot badge; dropdown panel listing recent notifications
 - Profile menu with avatar, name, role; dropdown with Profile/Settings/Help/Sign out
@@ -142,6 +146,7 @@ Export the following components, all using Tailwind inline classes:
 **Layout**: sidebar fixed left + flex-column main (topbar + scrolling content `<main>`)
 
 **Navigation items per role:**
+
 - Student: Dashboard, Course Catalogue, My Courses, Certificates, Notifications, Profile
 - Instructor: Dashboard, Course Builder, Students, Analytics, Browse Catalogue, Profile
 - Admin (grouped): Overview, Users, Courses, Organizations / Enrollments, Payments, Certificates, Audit Logs / Settings
@@ -190,6 +195,7 @@ State: `role: Role`, `currentPage: string`, `params: RouteParams`
 ## Course Detail (`src/pages/CourseDetail.tsx`)
 
 2-column layout (content 2/3 + sticky sidebar 1/3):
+
 - Breadcrumb: Catalogue → Category → Course title
 - Level/category/publish status badges
 - Fraunces display heading
@@ -309,6 +315,7 @@ Full-height layout with custom top bar (back button + editable title input + pub
 ## Realistic placeholder data
 
 Use real-feeling names, organizations, and identifiers:
+
 - Students: Sarah Chen (Meridian Technologies), Yuki Tanaka (Stratos Tech), Fatima Al-Rashid (Apex Industries), Natasha Volkov (DataPrime EU), Omar Hassan (TechCorp SA), Lena Bergström (Nordic Systems)
 - Instructors: Marcus Rodriguez, Dr. Elena Vasquez, Jordan Park, Wei Zhang, Dr. Priya Sharma, Raj Patel
 - Certificate codes: `AH-DS-2024-001847` format
@@ -343,11 +350,13 @@ Extend the authenticated design system to a fully responsive public/unauthentica
 ### Public architecture
 
 Two distinct layout shells:
+
 1. **Authenticated**: `<Shell>` — dark navy left sidebar (256px/64px collapsed), topbar, role-aware nav
 2. **Public**: `<PublicNav>` (fixed horizontal 64px) + page content + `<PublicFooter>`
 3. **Auth pages** (login/register/forgot-password/verify): minimal chrome — back button + dark toggle only, no nav
 
 `App.tsx` routing logic:
+
 - `isAuthenticated: boolean` state (default `false`)
 - `darkMode: boolean` state with `useEffect` + localStorage persistence
 - `FULLSCREEN_PAGES`: `course-player` — no chrome at all
@@ -360,6 +369,7 @@ Two distinct layout shells:
 ### New components
 
 **`src/components/PublicNav.tsx`**
+
 - Fixed top horizontal nav, height 64px, `z-50`
 - Left: Academy Hub logo (indigo square + wordmark)
 - Center: nav links (Courses → catalogue, Features scroll, Instructors scroll)
@@ -368,6 +378,7 @@ Two distinct layout shells:
 - All colors via CSS vars
 
 **`src/components/PublicFooter.tsx`**
+
 - 4-column link grid: Learn, Platform, Account, Support
 - Brand logo + "Advancing enterprise learning." tagline
 - Responsive: 1 col mobile → 5 col desktop (brand + 4 link groups)
@@ -376,6 +387,7 @@ Two distinct layout shells:
 ### New public pages
 
 **`src/pages/public/HomePage.tsx`**
+
 - Hero: indigo radial glow + subtle dot-grid background; animated eyebrow badge; Fraunces display heading with italic indigo span; search bar + category pills; CTA buttons
 - Stats row: 8,400+ learners, 94 courses, 31,800+ enrollments, 4.7★ rating (realistic, not DB-derived)
 - Course grid: 6 real courses from `courses` data with `CourseCard` components
@@ -387,6 +399,7 @@ Two distinct layout shells:
 - All background/text colors via CSS vars for dark mode
 
 **`src/pages/public/LoginPage.tsx`**
+
 - Split layout: dark `bg-gray-900` left branding panel (desktop only) + form right
 - Left: logo, quote testimonial, feature checklist
 - Demo account shortcuts (Student / Instructor / Admin one-click `onSignIn`)
@@ -396,6 +409,7 @@ Two distinct layout shells:
 - Role detection from email for demo routing
 
 **`src/pages/public/RegisterPage.tsx`**
+
 - Same split layout; left panel shows 2×2 stat grid (94 courses, 4.7★, 31K+ enrollments, 100% certs)
 - Name / work email / password / role fields
 - Password strength 4-bar indicator (rose → amber → emerald)
@@ -403,6 +417,7 @@ Two distinct layout shells:
 - Post-submit: inline verification step (no page navigation) with email display and "Continue to Academy Hub" that calls `onSignIn(role)`
 
 **`src/pages/public/ForgotPassword.tsx`**
+
 - 5 states: `email` → `sent` → `reset` → `success` | `expired`
 - Email step: form with email input + "Send reset link" button
 - Sent step: confirmation with email displayed, two demo shortcuts (→ reset / → expired)
@@ -412,6 +427,7 @@ Two distinct layout shells:
 - Loading spinners on all async-simulated actions
 
 **`src/pages/public/VerificationPage.tsx`**
+
 - 4 states: `pending` | `success` | `expired` | `invalid`
 - Pending: 3-step checklist (check inbox → click link → return here), "Resend" button with spinner
 - Success: green check, "Enter Academy Hub →" CTA that calls `onSignIn`

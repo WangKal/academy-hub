@@ -29,12 +29,36 @@ export const Route = createFileRoute("/")({
 const categories = ["Engineering", "Data Science", "Design", "AI & ML", "Cloud"];
 
 const features = [
-  { n: "01", title: "Structured learning paths", body: "Curated modules sequenced by domain experts. Progress in order — build knowledge that actually compounds." },
-  { n: "02", title: "Progress tracking & analytics", body: "Know exactly where you are. Visual dashboards surface completion rates, quiz scores, and time invested." },
-  { n: "03", title: "Assessments at every stage", body: "Graded quizzes at the close of every module verify comprehension before you advance." },
-  { n: "04", title: "Verified certificates", body: "Every certificate carries a unique code. Share confidently — employers can verify authenticity instantly." },
-  { n: "05", title: "Team & organization learning", body: "Deploy at scale. Role-based access, group enrollment, and org-wide analytics in one place." },
-  { n: "06", title: "Rich lesson formats", body: "Video, reading, and interactive quizzes woven into engaging sequences — not passive consumption." },
+  {
+    n: "01",
+    title: "Structured learning paths",
+    body: "Curated modules sequenced by domain experts. Progress in order — build knowledge that actually compounds.",
+  },
+  {
+    n: "02",
+    title: "Progress tracking & analytics",
+    body: "Know exactly where you are. Visual dashboards surface completion rates, quiz scores, and time invested.",
+  },
+  {
+    n: "03",
+    title: "Assessments at every stage",
+    body: "Graded quizzes at the close of every module verify comprehension before you advance.",
+  },
+  {
+    n: "04",
+    title: "Verified certificates",
+    body: "Every certificate carries a unique code. Share confidently — employers can verify authenticity instantly.",
+  },
+  {
+    n: "05",
+    title: "Team & organization learning",
+    body: "Deploy at scale. Role-based access, group enrollment, and org-wide analytics in one place.",
+  },
+  {
+    n: "06",
+    title: "Rich lesson formats",
+    body: "Video, reading, and interactive quizzes woven into engaging sequences — not passive consumption.",
+  },
 ];
 
 const testimonials = [
@@ -110,20 +134,50 @@ function Landing() {
           }}
         />
         {/* Indigo aurora */}
-        <div className="absolute pointer-events-none" style={{ top: "-20%", left: "25%", width: 900, height: 600, background: "radial-gradient(ellipse, rgba(99,102,241,0.22) 0%, transparent 65%)", filter: "blur(60px)" }} />
-        <div className="absolute pointer-events-none" style={{ bottom: "-10%", right: "10%", width: 500, height: 400, background: "radial-gradient(ellipse, rgba(139,92,246,0.14) 0%, transparent 65%)", filter: "blur(80px)" }} />
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: "-20%",
+            left: "25%",
+            width: 900,
+            height: 600,
+            background: "radial-gradient(ellipse, rgba(99,102,241,0.22) 0%, transparent 65%)",
+            filter: "blur(60px)",
+          }}
+        />
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            bottom: "-10%",
+            right: "10%",
+            width: 500,
+            height: 400,
+            background: "radial-gradient(ellipse, rgba(139,92,246,0.14) 0%, transparent 65%)",
+            filter: "blur(80px)",
+          }}
+        />
         {/* Hairline grid */}
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)", backgroundSize: "72px 72px" }} />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+            backgroundSize: "72px 72px",
+          }}
+        />
 
         <div className="relative max-w-7xl mx-auto px-6 sm:px-8 pt-20 pb-24 lg:pt-24 lg:pb-32">
           <div className="grid lg:grid-cols-[1fr_440px] gap-12 lg:gap-8 items-center">
-
             {/* Left: editorial copy */}
             <div>
               {/* Eyebrow tag */}
               <div
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-8 border"
-                style={{ background: "rgba(99,102,241,0.1)", borderColor: "rgba(99,102,241,0.35)", color: "#a5b4fc" }}
+                style={{
+                  background: "rgba(99,102,241,0.1)",
+                  borderColor: "rgba(99,102,241,0.35)",
+                  color: "#a5b4fc",
+                }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
                 Enterprise-grade learning
@@ -132,33 +186,61 @@ function Landing() {
               {/* Headline */}
               <h1
                 className="font-display text-white leading-[0.9] mb-6 tracking-tight"
-                style={{ fontSize: "clamp(3.2rem, 8vw, 6rem)", fontWeight: 600, letterSpacing: "-0.025em" }}
+                style={{
+                  fontSize: "clamp(3.2rem, 8vw, 6rem)",
+                  fontWeight: 600,
+                  letterSpacing: "-0.025em",
+                }}
               >
-                Knowledge<br />
-                <em style={{ color: "#818cf8", fontStyle: "italic" }}>precisely</em><br />
+                Knowledge
+                <br />
+                <em style={{ color: "#818cf8", fontStyle: "italic" }}>precisely</em>
+                <br />
                 delivered.
               </h1>
 
-              <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-[420px]" style={{ color: "#94a3b8" }}>
-                Expert-led, structured courses for individuals and teams — with the depth to build skills that actually transfer to your work.
+              <p
+                className="text-base sm:text-lg leading-relaxed mb-8 max-w-[420px]"
+                style={{ color: "#94a3b8" }}
+              >
+                Expert-led, structured courses for individuals and teams — with the depth to build
+                skills that actually transfer to your work.
               </p>
 
               {/* CTAs */}
               <div className="flex flex-wrap gap-3 mb-12">
-                <Button asChild size="lg" className="rounded-xl transition-all hover:opacity-90 active:scale-95" style={{ background: "#6366f1", boxShadow: "0 0 40px rgba(99,102,241,0.45)" }}>
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-xl transition-all hover:opacity-90 active:scale-95"
+                  style={{ background: "#6366f1", boxShadow: "0 0 40px rgba(99,102,241,0.45)" }}
+                >
                   <Link to="/courses">Explore courses</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="rounded-xl border transition-all hover:bg-white/5" style={{ borderColor: "rgba(255,255,255,0.18)", color: "#cbd5e1" }}>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="rounded-xl border transition-all hover:bg-white/5"
+                  style={{ borderColor: "rgba(255,255,255,0.18)", color: "#cbd5e1" }}
+                >
                   <Link to="/auth">Start free →</Link>
                 </Button>
               </div>
 
               {/* Stats row */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 pt-8 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+              <div
+                className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 pt-8 border-t"
+                style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              >
                 {stats.map((s) => (
                   <div key={s.label}>
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-white mb-0.5">{s.value}</div>
-                    <div className="text-xs font-mono" style={{ color: "#475569" }}>{s.label}</div>
+                    <div className="font-mono text-xl sm:text-2xl font-bold text-white mb-0.5">
+                      {s.value}
+                    </div>
+                    <div className="text-xs font-mono" style={{ color: "#475569" }}>
+                      {s.label}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -168,9 +250,27 @@ function Landing() {
             <div className="hidden lg:block relative h-[480px] select-none">
               {heroCards.map((course, i) => {
                 const config = [
-                  { rotate: -6, top: 0, right: 80, zIndex: 1, shadow: "0 32px 64px rgba(0,0,0,0.7)" },
-                  { rotate: 4, top: 40, right: 10, zIndex: 2, shadow: "0 24px 48px rgba(0,0,0,0.6)" },
-                  { rotate: -1.5, top: 90, right: 45, zIndex: 3, shadow: "0 16px 40px rgba(0,0,0,0.55)" },
+                  {
+                    rotate: -6,
+                    top: 0,
+                    right: 80,
+                    zIndex: 1,
+                    shadow: "0 32px 64px rgba(0,0,0,0.7)",
+                  },
+                  {
+                    rotate: 4,
+                    top: 40,
+                    right: 10,
+                    zIndex: 2,
+                    shadow: "0 24px 48px rgba(0,0,0,0.6)",
+                  },
+                  {
+                    rotate: -1.5,
+                    top: 90,
+                    right: 45,
+                    zIndex: 3,
+                    shadow: "0 16px 40px rgba(0,0,0,0.55)",
+                  },
                 ];
                 const c = config[i];
                 return (
@@ -191,30 +291,59 @@ function Landing() {
                   >
                     <div className="relative overflow-hidden">
                       <img
-                        src={course.thumbnailUrl || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80"}
+                        src={
+                          course.thumbnailUrl ||
+                          "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80"
+                        }
                         alt={course.title}
                         className="w-full h-32 object-cover"
                         style={{ filter: "brightness(0.8) saturate(0.9)" }}
                       />
-                      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5))" }} />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5))",
+                        }}
+                      />
                     </div>
                     <div className="p-4">
-                      <div className="text-[10px] font-mono font-bold uppercase tracking-widest mb-1.5" style={{ color: "#818cf8" }}>{course.category}</div>
-                      <h3 className="text-sm font-semibold text-white leading-snug mb-3 line-clamp-2">{course.title}</h3>
+                      <div
+                        className="text-[10px] font-mono font-bold uppercase tracking-widest mb-1.5"
+                        style={{ color: "#818cf8" }}
+                      >
+                        {course.category}
+                      </div>
+                      <h3 className="text-sm font-semibold text-white leading-snug mb-3 line-clamp-2">
+                        {course.title}
+                      </h3>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono" style={{ color: "#64748b" }}>⏱️ {Math.max(1, Math.round((course.totalDurationSeconds ?? 0) / 3600))}h</span>
-                        <span className="text-sm font-bold text-white">{formatPrice(course.priceCents, course.currency)}</span>
+                        <span className="text-xs font-mono" style={{ color: "#64748b" }}>
+                          ⏱️ {Math.max(1, Math.round((course.totalDurationSeconds ?? 0) / 3600))}h
+                        </span>
+                        <span className="text-sm font-bold text-white">
+                          {formatPrice(course.priceCents, course.currency)}
+                        </span>
                       </div>
                     </div>
                   </Link>
                 );
               })}
-              <div className="absolute bottom-0 right-20 w-48 h-16 pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(99,102,241,0.25), transparent)", filter: "blur(20px)" }} />
+              <div
+                className="absolute bottom-0 right-20 w-48 h-16 pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse, rgba(99,102,241,0.25), transparent)",
+                  filter: "blur(20px)",
+                }}
+              />
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 inset-x-0 h-20 pointer-events-none" style={{ background: "linear-gradient(to bottom, transparent, var(--bg))" }} />
+        <div
+          className="absolute bottom-0 inset-x-0 h-20 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, transparent, var(--bg))" }}
+        />
       </section>
 
       {/* ─── Section divider: marquee stats strip ─────────────────────────── */}
@@ -222,14 +351,22 @@ function Landing() {
         className="overflow-hidden py-4 border-y"
         style={{ background: "var(--surface-2)", borderColor: "var(--edge)" }}
       >
-        <div className="flex gap-8 whitespace-nowrap" style={{ animation: "marquee-scroll 28s linear infinite" }}>
-          {[...Array(4)].flatMap(() => stats.map((s, i) => (
-            <span key={`${i}-${Math.random()}`} className="inline-flex items-center gap-3 text-xs font-mono text-ink-3 shrink-0">
-              <span className="font-bold text-sm text-ink-1">{s.value}</span>
-              {s.label}
-              <span className="text-ink-4 mx-2">·</span>
-            </span>
-          )))}
+        <div
+          className="flex gap-8 whitespace-nowrap"
+          style={{ animation: "marquee-scroll 28s linear infinite" }}
+        >
+          {[...Array(4)].flatMap(() =>
+            stats.map((s, i) => (
+              <span
+                key={`${i}-${Math.random()}`}
+                className="inline-flex items-center gap-3 text-xs font-mono text-ink-3 shrink-0"
+              >
+                <span className="font-bold text-sm text-ink-1">{s.value}</span>
+                {s.label}
+                <span className="text-ink-4 mx-2">·</span>
+              </span>
+            )),
+          )}
         </div>
         <style>{`@keyframes marquee-scroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }`}</style>
       </div>
@@ -237,12 +374,14 @@ function Landing() {
       {/* ─── 01 — Course discovery ────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
-
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-10">
             <div>
-              <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-3">— 01</div>
+              <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-3">
+                — 01
+              </div>
               <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-1 leading-tight">
-                Find your next<br className="hidden sm:block" />
+                Find your next
+                <br className="hidden sm:block" />
                 <em style={{ color: "#6366f1" }}> area of mastery.</em>
               </h2>
             </div>
@@ -254,7 +393,10 @@ function Landing() {
             </Link>
           </div>
 
-          <div className="flex gap-0 border-b overflow-x-auto mb-6 scrollbar-none" style={{ borderColor: "var(--edge)" }}>
+          <div
+            className="flex gap-0 border-b overflow-x-auto mb-6 scrollbar-none"
+            style={{ borderColor: "var(--edge)" }}
+          >
             {["All", ...categories].map((cat) => (
               <button
                 key={cat}
@@ -272,9 +414,20 @@ function Landing() {
 
           <div className="max-w-md mb-8">
             <div className="relative">
-              <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-4" width="15" height="15" viewBox="0 0 16 16" fill="none">
+              <svg
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-4"
+                width="15"
+                height="15"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
                 <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.3" />
-                <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                <path
+                  d="M11 11L14 14"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
               </svg>
               <input
                 value={searchQuery}
@@ -284,7 +437,12 @@ function Landing() {
                 style={{ background: "var(--surface)", borderColor: "var(--edge)" }}
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-4 hover:text-ink-2 text-base leading-none">×</button>
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-4 hover:text-ink-2 text-base leading-none"
+                >
+                  ×
+                </button>
               )}
             </div>
           </div>
@@ -300,11 +458,17 @@ function Landing() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 border rounded-2xl" style={{ background: "var(--surface)", borderColor: "var(--edge)" }}>
+            <div
+              className="text-center py-20 border rounded-2xl"
+              style={{ background: "var(--surface)", borderColor: "var(--edge)" }}
+            >
               <div className="font-display text-5xl font-semibold text-ink-4 mb-3">∅</div>
               <p className="text-sm text-ink-3 mb-4">No courses match your filters.</p>
               <button
-                onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
+                onClick={() => {
+                  setSearchQuery("");
+                  setActiveCategory("All");
+                }}
                 className="text-sm text-indigo-600 hover:underline underline-offset-4"
               >
                 Reset filters
@@ -322,12 +486,19 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <div className="grid lg:grid-cols-[300px_1fr] gap-12 lg:gap-24">
             <div className="lg:pt-0.5">
-              <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-3">— 02</div>
+              <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-3">
+                — 02
+              </div>
               <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ink-1 leading-tight mb-5">
-                Built for<br />serious<br />learners.
+                Built for
+                <br />
+                serious
+                <br />
+                learners.
               </h2>
               <p className="text-sm text-ink-3 leading-relaxed">
-                Every feature is designed to support real skill development — not superficial course completion.
+                Every feature is designed to support real skill development — not superficial course
+                completion.
               </p>
             </div>
 
@@ -344,7 +515,10 @@ function Landing() {
                     <h3 className="text-sm font-semibold text-ink-1 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400 shrink-0">
                       {f.title}
                     </h3>
-                    <div className="hidden sm:block flex-1 mx-5 h-px self-center opacity-30" style={{ background: "var(--ink-4)" }} />
+                    <div
+                      className="hidden sm:block flex-1 mx-5 h-px self-center opacity-30"
+                      style={{ background: "var(--ink-4)" }}
+                    />
                     <p className="text-xs text-ink-3 leading-relaxed sm:max-w-[280px]">{f.body}</p>
                   </div>
                 </div>
@@ -358,26 +532,49 @@ function Landing() {
       {featuredCourse && (
         <section className="py-16 sm:py-24" style={{ background: "var(--bg)" }}>
           <div className="max-w-7xl mx-auto px-6 sm:px-8">
-            <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-8">— 03 Spotlight</div>
+            <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-8">
+              — 03 Spotlight
+            </div>
 
-            <div className="grid lg:grid-cols-2 rounded-2xl overflow-hidden border" style={{ borderColor: "var(--edge)" }}>
+            <div
+              className="grid lg:grid-cols-2 rounded-2xl overflow-hidden border"
+              style={{ borderColor: "var(--edge)" }}
+            >
               <div className="relative overflow-hidden" style={{ minHeight: 280 }}>
                 <img
-                  src={featuredCourse.thumbnailUrl || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80"}
+                  src={
+                    featuredCourse.thumbnailUrl ||
+                    "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80"
+                  }
                   alt={featuredCourse.title}
                   className="w-full h-full object-cover"
                   style={{ minHeight: 280, objectPosition: "center" }}
                 />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(79,70,229,0.65) 0%, rgba(0,0,0,0.3) 100%)" }} />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(79,70,229,0.65) 0%, rgba(0,0,0,0.3) 100%)",
+                  }}
+                />
                 <div className="absolute top-5 left-5">
-                  <span className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider text-white"
-                    style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.15)" }}>
+                  <span
+                    className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider text-white"
+                    style={{
+                      background: "rgba(0,0,0,0.45)",
+                      backdropFilter: "blur(8px)",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                    }}
+                  >
                     ⭐ Most popular
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center p-7 sm:p-10" style={{ background: "var(--surface)" }}>
+              <div
+                className="flex flex-col justify-center p-7 sm:p-10"
+                style={{ background: "var(--surface)" }}
+              >
                 <div className="flex items-center gap-2 mb-5 font-mono text-xs text-ink-4">
                   <span>{featuredCourse.level}</span>
                   <span>·</span>
@@ -389,12 +586,21 @@ function Landing() {
                 <p className="text-sm text-ink-3 leading-relaxed mb-6">
                   {featuredCourse.shortDescription}
                 </p>
-                <div className="flex flex-wrap gap-4 text-xs font-mono text-ink-4 mb-8 pb-8 border-b" style={{ borderColor: "var(--edge)" }}>
+                <div
+                  className="flex flex-wrap gap-4 text-xs font-mono text-ink-4 mb-8 pb-8 border-b"
+                  style={{ borderColor: "var(--edge)" }}
+                >
                   <span>{featuredCourse.lessonCount ?? 0} lessons</span>
-                  <span>{Math.max(1, Math.round((featuredCourse.totalDurationSeconds ?? 0) / 3600))}h total</span>
+                  <span>
+                    {Math.max(1, Math.round((featuredCourse.totalDurationSeconds ?? 0) / 3600))}h
+                    total
+                  </span>
                 </div>
                 <div className="flex items-center gap-5">
-                  <Button asChild className="px-5 py-2.5 bg-indigo-600 text-white font-semibold text-sm rounded-xl hover:bg-indigo-700 transition-all border-none">
+                  <Button
+                    asChild
+                    className="px-5 py-2.5 bg-indigo-600 text-white font-semibold text-sm rounded-xl hover:bg-indigo-700 transition-all border-none"
+                  >
                     <Link to="/courses/$slug" params={{ slug: featuredCourse.slug }}>
                       View course
                     </Link>
@@ -410,19 +616,30 @@ function Landing() {
       )}
 
       {/* ─── 04 — Testimonials ───────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 border-t" style={{ background: "var(--surface-2)", borderColor: "var(--edge)" }}>
+      <section
+        className="py-16 sm:py-24 border-t"
+        style={{ background: "var(--surface-2)", borderColor: "var(--edge)" }}
+      >
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-10">— 04 Voices</div>
+          <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-10">
+            — 04 Voices
+          </div>
 
           <blockquote className="max-w-4xl mb-14">
             <p
               className="font-display italic text-ink-1 leading-tight mb-6"
-              style={{ fontSize: "clamp(1.6rem, 3.8vw, 2.8rem)", fontWeight: 400, letterSpacing: "-0.01em" }}
+              style={{
+                fontSize: "clamp(1.6rem, 3.8vw, 2.8rem)",
+                fontWeight: 400,
+                letterSpacing: "-0.01em",
+              }}
             >
               "{testimonials[0].body}"
             </p>
             <footer className="flex flex-wrap items-center gap-4">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${testimonials[0].color}`}>
+              <div
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${testimonials[0].color}`}
+              >
                 {testimonials[0].initials}
               </div>
               <div>
@@ -446,10 +663,17 @@ function Landing() {
                 className="rounded-2xl p-6 border"
                 style={{ background: "var(--surface)", borderColor: "var(--edge)" }}
               >
-                <div className="text-[10px] font-mono uppercase tracking-widest text-indigo-500 dark:text-indigo-400 mb-4">{t.course}</div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-indigo-500 dark:text-indigo-400 mb-4">
+                  {t.course}
+                </div>
                 <p className="text-sm italic text-ink-2 leading-relaxed mb-5">"{t.body}"</p>
-                <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "var(--edge)" }}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${t.color}`}>
+                <div
+                  className="flex items-center gap-3 pt-4 border-t"
+                  style={{ borderColor: "var(--edge)" }}
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${t.color}`}
+                  >
                     {t.initials}
                   </div>
                   <div>
@@ -466,14 +690,32 @@ function Landing() {
       {/* ─── 05 — How it works ─────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24" style={{ background: "var(--bg)" }}>
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-10">— 05 Process</div>
+          <div className="text-[10px] font-mono tracking-[0.2em] uppercase text-ink-4 mb-10">
+            — 05 Process
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-0">
             {[
-              { step: "01", title: "Discover", body: "Search our expert-curated catalogue by topic, level, or duration." },
-              { step: "02", title: "Enroll", body: "Purchase once, access forever. Start immediately with no restrictions." },
-              { step: "03", title: "Learn", body: "Progress through structured modules at your own pace and schedule." },
-              { step: "04", title: "Certify", body: "Complete the course, pass assessments, earn a verified certificate." },
+              {
+                step: "01",
+                title: "Discover",
+                body: "Search our expert-curated catalogue by topic, level, or duration.",
+              },
+              {
+                step: "02",
+                title: "Enroll",
+                body: "Purchase once, access forever. Start immediately with no restrictions.",
+              },
+              {
+                step: "03",
+                title: "Learn",
+                body: "Progress through structured modules at your own pace and schedule.",
+              },
+              {
+                step: "04",
+                title: "Certify",
+                body: "Complete the course, pass assessments, earn a verified certificate.",
+              },
             ].map((item, i, arr) => (
               <div key={item.step} className="relative">
                 {i < arr.length - 1 && (
@@ -489,7 +731,9 @@ function Landing() {
                   >
                     {item.step}
                   </div>
-                  <h3 className="font-display text-lg font-semibold text-ink-1 mb-2">{item.title}</h3>
+                  <h3 className="font-display text-lg font-semibold text-ink-1 mb-2">
+                    {item.title}
+                  </h3>
                   <p className="text-xs text-ink-3 leading-relaxed">{item.body}</p>
                 </div>
               </div>
@@ -503,32 +747,67 @@ function Landing() {
         className="relative overflow-hidden"
         style={{ background: "linear-gradient(145deg, #08081a 0%, #0d1025 60%, #0a0f1e 100%)" }}
       >
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.18) 0%, transparent 55%)" }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.1) 0%, transparent 55%)" }} />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.18) 0%, transparent 55%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.1) 0%, transparent 55%)",
+          }}
+        />
 
         <div className="relative max-w-7xl mx-auto px-6 sm:px-8 py-20 sm:py-32">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="text-[10px] font-mono tracking-[0.2em] uppercase mb-6" style={{ color: "#4338ca" }}>— 06 Begin</div>
+              <div
+                className="text-[10px] font-mono tracking-[0.2em] uppercase mb-6"
+                style={{ color: "#4338ca" }}
+              >
+                — 06 Begin
+              </div>
               <h2
                 className="font-display text-white leading-[0.9] mb-6"
-                style={{ fontSize: "clamp(2.8rem, 7vw, 5rem)", fontWeight: 600, letterSpacing: "-0.025em" }}
+                style={{
+                  fontSize: "clamp(2.8rem, 7vw, 5rem)",
+                  fontWeight: 600,
+                  letterSpacing: "-0.025em",
+                }}
               >
-                Your next<br />
-                skill<br />
+                Your next
+                <br />
+                skill
+                <br />
                 <em style={{ color: "#818cf8", fontStyle: "italic" }}>awaits.</em>
               </h2>
             </div>
 
             <div>
               <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: "#94a3b8" }}>
-                Join {stats[0].value} professionals who've chosen Academy Hub for structured, certificate-backed learning that transfers to their work.
+                Join {stats[0].value} professionals who've chosen Academy Hub for structured,
+                certificate-backed learning that transfers to their work.
               </p>
               <div className="flex flex-wrap gap-3 mb-10">
-                <Button asChild size="lg" className="rounded-xl transition-all hover:opacity-90 active:scale-95 text-white" style={{ background: "#6366f1", boxShadow: "0 0 40px rgba(99,102,241,0.35)" }}>
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-xl transition-all hover:opacity-90 active:scale-95 text-white"
+                  style={{ background: "#6366f1", boxShadow: "0 0 40px rgba(99,102,241,0.35)" }}
+                >
                   <Link to="/auth">Get started free</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="rounded-xl border transition-all hover:bg-white/5" style={{ borderColor: "rgba(255,255,255,0.18)", color: "#cbd5e1" }}>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="rounded-xl border transition-all hover:bg-white/5"
+                  style={{ borderColor: "rgba(255,255,255,0.18)", color: "#cbd5e1" }}
+                >
                   <Link to="/courses">Browse catalogue →</Link>
                 </Button>
               </div>
@@ -548,13 +827,7 @@ function Landing() {
   );
 }
 
-function PublicCourseCard({
-  course,
-  tall = false,
-}: {
-  course: Course;
-  tall?: boolean;
-}) {
+function PublicCourseCard({ course, tall = false }: { course: Course; tall?: boolean }) {
   const levelColors: Record<string, string> = {
     Beginner: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950",
     Intermediate: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950",
@@ -580,12 +853,17 @@ function PublicCourseCard({
         />
         <div className="absolute inset-0 bg-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute top-3 left-3">
-          <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full capitalize ${levelColors[course.level] ?? ""}`}>
+          <span
+            className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full capitalize ${levelColors[course.level] ?? ""}`}
+          >
             {course.level}
           </span>
         </div>
         <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="px-2.5 py-1 rounded-lg text-sm font-bold text-white" style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)" }}>
+          <span
+            className="px-2.5 py-1 rounded-lg text-sm font-bold text-white"
+            style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)" }}
+          >
             {formatPrice(course.priceCents, course.currency)}
           </span>
         </div>
@@ -594,13 +872,16 @@ function PublicCourseCard({
         <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-indigo-500 dark:text-indigo-400 mb-1.5">
           {course.category}
         </div>
-        <h3 className={`font-semibold text-ink-1 leading-snug mb-2 line-clamp-2 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400 ${tall ? "text-base" : "text-sm"}`}>
+        <h3
+          className={`font-semibold text-ink-1 leading-snug mb-2 line-clamp-2 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400 ${tall ? "text-base" : "text-sm"}`}
+        >
           {course.title}
         </h3>
-        <p className="text-xs text-ink-4 line-clamp-2 mb-3">
-          {course.shortDescription}
-        </p>
-        <div className="flex items-center justify-between text-xs border-t pt-3" style={{ borderColor: "var(--edge)" }}>
+        <p className="text-xs text-ink-4 line-clamp-2 mb-3">{course.shortDescription}</p>
+        <div
+          className="flex items-center justify-between text-xs border-t pt-3"
+          style={{ borderColor: "var(--edge)" }}
+        >
           <div className="flex items-center gap-2 font-mono text-ink-4">
             <span>⏱️ {Math.max(1, Math.round((course.totalDurationSeconds ?? 0) / 3600))}h</span>
             <span>·</span>

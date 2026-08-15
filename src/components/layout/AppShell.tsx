@@ -49,18 +49,53 @@ const NAV: { group: string; items: NavItem[] }[] = [
   {
     group: "Learning",
     items: [
-      { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["student", "instructor", "admin"] },
-      { to: "/my-courses", label: "My courses", icon: Library, roles: ["student", "instructor", "admin"] },
-      { to: "/my-certificates", label: "Certificates", icon: Award, roles: ["student", "instructor", "admin"] },
-      { to: "/courses", label: "Catalogue", icon: BookOpen, roles: ["student", "instructor", "admin"] },
+      {
+        to: "/dashboard",
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        roles: ["student", "instructor", "admin"],
+      },
+      {
+        to: "/my-courses",
+        label: "My courses",
+        icon: Library,
+        roles: ["student", "instructor", "admin"],
+      },
+      {
+        to: "/my-certificates",
+        label: "Certificates",
+        icon: Award,
+        roles: ["student", "instructor", "admin"],
+      },
+      {
+        to: "/courses",
+        label: "Catalogue",
+        icon: BookOpen,
+        roles: ["student", "instructor", "admin"],
+      },
     ],
   },
   {
     group: "Teaching",
     items: [
-      { to: "/instructor/courses", label: "Course builder", icon: GraduationCap, roles: ["instructor", "admin"] },
-      { to: "/instructor/submissions", label: "Assignment reviews", icon: ScrollText, roles: ["instructor", "admin"] },
-      { to: "/instructor/students", label: "Students", icon: Users, roles: ["instructor", "admin"] },
+      {
+        to: "/instructor/courses",
+        label: "Course builder",
+        icon: GraduationCap,
+        roles: ["instructor", "admin"],
+      },
+      {
+        to: "/instructor/submissions",
+        label: "Assignment reviews",
+        icon: ScrollText,
+        roles: ["instructor", "admin"],
+      },
+      {
+        to: "/instructor/students",
+        label: "Students",
+        icon: Users,
+        roles: ["instructor", "admin"],
+      },
     ],
   },
   {
@@ -86,7 +121,13 @@ const NAV: { group: string; items: NavItem[] }[] = [
   },
 ];
 
-function SidebarNav({ collapsed, onCollapse }: { collapsed: boolean; onCollapse: (v: boolean) => void }) {
+function SidebarNav({
+  collapsed,
+  onCollapse,
+}: {
+  collapsed: boolean;
+  onCollapse: (v: boolean) => void;
+}) {
   const { user } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const role = user?.role ?? "student";
@@ -182,7 +223,9 @@ function SidebarNav({ collapsed, onCollapse }: { collapsed: boolean; onCollapse:
               <div className="truncate text-xs font-medium text-sidebar-accent-foreground">
                 {user?.fullName}
               </div>
-              <div className="font-mono text-[10px] capitalize text-sidebar-foreground/60">{role}</div>
+              <div className="font-mono text-[10px] capitalize text-sidebar-foreground/60">
+                {role}
+              </div>
             </div>
           </div>
         </div>
@@ -288,7 +331,9 @@ export function AppShell({
                 {breadcrumb}
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:justify-between">
                   <div className="min-w-0">
-                    <h1 className="truncate font-display text-2xl font-semibold text-ink-1">{title}</h1>
+                    <h1 className="truncate font-display text-2xl font-semibold text-ink-1">
+                      {title}
+                    </h1>
                     {description && <p className="mt-1 text-sm text-ink-3">{description}</p>}
                   </div>
                   {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}

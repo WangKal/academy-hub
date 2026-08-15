@@ -31,7 +31,11 @@ function Player() {
   const qc = useQueryClient();
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const { data: course, isLoading, error } = useQuery({
+  const {
+    data: course,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["course", courseId],
     queryFn: () => api.getCourse(courseId),
   });
@@ -204,7 +208,9 @@ function Player() {
                 <>
                   <div
                     className="prose prose-slate mt-6 max-w-none text-ink-3 [&_h2]:mt-8 [&_h2]:text-foreground [&_li]:mt-1 [&_p]:mt-4 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
-                    dangerouslySetInnerHTML={{ __html: active.contentHtml || "<p>No content yet.</p>" }}
+                    dangerouslySetInnerHTML={{
+                      __html: active.contentHtml || "<p>No content yet.</p>",
+                    }}
                   />
                   {active.lessonType === "assignment" && <AssignmentPanel lessonId={active.id} />}
                   <div className="mt-10 flex items-center gap-3 border-t border-edge pt-6">

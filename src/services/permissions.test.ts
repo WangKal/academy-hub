@@ -72,59 +72,35 @@ describe("Academy Hub authorization", () => {
   });
 
   it("allows super admin platform-wide access", () => {
-    expect(
-      can(superAdmin, "courses", "delete"),
-    ).toBe(true);
+    expect(can(superAdmin, "courses", "delete")).toBe(true);
 
-    expect(
-      can(superAdmin, "lessons", "edit"),
-    ).toBe(true);
+    expect(can(superAdmin, "lessons", "edit")).toBe(true);
 
-    expect(
-      can(superAdmin, "grades", "override"),
-    ).toBe(true);
+    expect(can(superAdmin, "grades", "override")).toBe(true);
 
-    expect(
-      can(superAdmin, "certificates", "revoke"),
-    ).toBe(true);
+    expect(can(superAdmin, "certificates", "revoke")).toBe(true);
   });
 
   it("gives academic admin learning-management access", () => {
-    expect(
-      can(academicAdmin, "courses", "edit"),
-    ).toBe(true);
+    expect(can(academicAdmin, "courses", "edit")).toBe(true);
 
-    expect(
-      can(academicAdmin, "lessons", "edit"),
-    ).toBe(true);
+    expect(can(academicAdmin, "lessons", "edit")).toBe(true);
 
-    expect(
-      can(academicAdmin, "assessments", "edit"),
-    ).toBe(true);
+    expect(can(academicAdmin, "assessments", "edit")).toBe(true);
 
-    expect(
-      can(academicAdmin, "grades", "override"),
-    ).toBe(true);
+    expect(can(academicAdmin, "grades", "override")).toBe(true);
 
-    expect(
-      can(academicAdmin, "certificates", "award"),
-    ).toBe(true);
+    expect(can(academicAdmin, "certificates", "award")).toBe(true);
   });
 
   it("does not give academic admin finance management", () => {
-    expect(
-      can(academicAdmin, "payments", "refund"),
-    ).toBe(false);
+    expect(can(academicAdmin, "payments", "refund")).toBe(false);
   });
 
   it("gives finance admin payment management", () => {
-    expect(
-      can(financeAdmin, "payments", "view"),
-    ).toBe(true);
+    expect(can(financeAdmin, "payments", "view")).toBe(true);
 
-    expect(
-      can(financeAdmin, "payments", "refund"),
-    ).toBe(true);
+    expect(can(financeAdmin, "payments", "refund")).toBe(true);
   });
 
   it("does not turn an admin into an instructor", () => {
@@ -135,43 +111,15 @@ describe("Academy Hub authorization", () => {
   it("limits org admin to selected organizations", () => {
     expect(isOrgScoped(orgAdmin)).toBe(true);
 
-    expect(
-      can(
-        orgAdmin,
-        "courses",
-        "edit",
-        { organizationId: "org-1" },
-      ),
-    ).toBe(true);
+    expect(can(orgAdmin, "courses", "edit", { organizationId: "org-1" })).toBe(true);
 
-    expect(
-      can(
-        orgAdmin,
-        "courses",
-        "edit",
-        { organizationId: "org-999" },
-      ),
-    ).toBe(false);
+    expect(can(orgAdmin, "courses", "edit", { organizationId: "org-999" })).toBe(false);
   });
 
   it("allows instructors to manage their own courses", () => {
-    expect(
-      can(
-        instructor,
-        "courses",
-        "edit",
-        { instructorId: "u1" },
-      ),
-    ).toBe(true);
+    expect(can(instructor, "courses", "edit", { instructorId: "u1" })).toBe(true);
 
-    expect(
-      can(
-        instructor,
-        "courses",
-        "edit",
-        { instructorId: "u2" },
-      ),
-    ).toBe(false);
+    expect(can(instructor, "courses", "edit", { instructorId: "u2" })).toBe(false);
   });
 
   it("allows instructors to manage their course hierarchy", () => {
@@ -180,72 +128,36 @@ describe("Academy Hub authorization", () => {
       resourceId: "lesson-1",
     };
 
-    expect(
-      can(instructor, "modules", "edit", context),
-    ).toBe(true);
+    expect(can(instructor, "modules", "edit", context)).toBe(true);
 
-    expect(
-      can(instructor, "lessons", "delete", context),
-    ).toBe(true);
+    expect(can(instructor, "lessons", "delete", context)).toBe(true);
 
-    expect(
-      can(instructor, "assessments", "edit", context),
-    ).toBe(true);
+    expect(can(instructor, "assessments", "edit", context)).toBe(true);
   });
 
   it("allows students to participate but not manage learning content", () => {
-    expect(
-      can(student, "learning", "participate"),
-    ).toBe(true);
+    expect(can(student, "learning", "participate")).toBe(true);
 
-    expect(
-      can(student, "lessons", "edit"),
-    ).toBe(false);
+    expect(can(student, "lessons", "edit")).toBe(false);
 
-    expect(
-      can(student, "assessments", "edit"),
-    ).toBe(false);
+    expect(can(student, "assessments", "edit")).toBe(false);
 
-    expect(
-      can(student, "grades", "override"),
-    ).toBe(false);
+    expect(can(student, "grades", "override")).toBe(false);
   });
 
   it("allows students to access their own grades", () => {
-    expect(
-      can(
-        student,
-        "grades",
-        "view",
-        { studentId: "u1" },
-      ),
-    ).toBe(true);
+    expect(can(student, "grades", "view", { studentId: "u1" })).toBe(true);
 
-    expect(
-      can(
-        student,
-        "grades",
-        "view",
-        { studentId: "u2" },
-      ),
-    ).toBe(false);
+    expect(can(student, "grades", "view", { studentId: "u2" })).toBe(false);
   });
 
   it("treats auditors as audit actors rather than admins", () => {
-    expect(
-      can(auditor, "audit", "view"),
-    ).toBe(true);
+    expect(can(auditor, "audit", "view")).toBe(true);
 
-    expect(
-      can(auditor, "audit", "export"),
-    ).toBe(true);
+    expect(can(auditor, "audit", "export")).toBe(true);
 
-    expect(
-      can(auditor, "courses", "edit"),
-    ).toBe(false);
+    expect(can(auditor, "courses", "edit")).toBe(false);
 
-    expect(
-      can(auditor, "payments", "refund"),
-    ).toBe(false);
+    expect(can(auditor, "payments", "refund")).toBe(false);
   });
 });
