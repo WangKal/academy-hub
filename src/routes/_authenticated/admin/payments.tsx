@@ -1,0 +1,168 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, redirect } from "@/lib/router";
+import { can } from "@/services/permissions";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import { AppShell } from "@/components/layout/AppShell";
+import { useAuth } from "@/hooks/useAuth";
+import { EmptyState, LoadingBlock, formatDate, formatPrice } from "@/components/layout/States";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import * as api from "@/services/api";
+import type { PaymentStatus } from "@/types";
+
+import { Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export const Route = createFileRoute("/_authenticated/admin/payments")({
+  beforeLoad: ({ context }) => {
+    const user = (context as any).user;
+    if (!user || !can(user, "payments", "view")) {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
+  head: () => ({
+    meta: [
+      { title: "Payments — EA Academy admin" },
+      { name: "description", content: "Reconcile course payments and confirm enrolments." },
+      { property: "og:title", content: "Payments — EA Academy admin" },
+      { property: "og:description", content: "Reconcile academy course payments." },
+    ],
+  }),
+  component: AdminPayments,
+});
+
+function AdminPayments() {
+  const { user } = useAuth();
+  const canManage = !!user && can(user, "payments", "manage");
+  const canExport = !!user && can(user, "payments", "export");
+  const qc = useQueryClient();
+  const [search, setSearch] = useState("");
+  const [refreshingId, setRefreshingId] = useState<string | null>(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["admin-payments", search],
+    queryFn: () => api.getPayments({ search, pageSize: 50 }),
+  });
+
+  const update = useMutation({
+    mutationFn: (v: { id: string; status: PaymentStatus }) =>
+      api.updatePaymentStatus(v.id, v.status),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-payments"] });
+      toast.success("Payment updated.");
+    },
+    onError: (e) => toast.error(api.errorMessage(e)),
+  });
+
+  const handleExportCsv = async () => {
+    try {
+      const csv = await api.exportPaymentsCsv();
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `payments-${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Payments report exported to CSV.");
+    } catch (e) {
+      toast.error(api.errorMessage(e));
+    }
+  };
+
+  return (
+    <AppShell
+      title="Payments"
+      description="Reconciliation and enrolment confirmation"
+      actions={
+        <Button variant="outline" size="sm" disabled={!canExport} onClick={handleExportCsv}>
+          <Download className="mr-1.5 size-4" /> Export CSV
+        </Button>
+      }
+    >
+      <Input
+        placeholder="Search reference, learner or course…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="mb-5 max-w-sm"
+      />
+      {isLoading ? (
+        <LoadingBlock />
+      ) : error ? (
+        <EmptyState title="Could not load payments" description={api.errorMessage(error)} />
+      ) : !data?.items.length ? (
+        <EmptyState title="No payments recorded" />
+      ) : (
+        <div className="rounded-xl border border-edge bg-card">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Learner</TableHead>
+                <TableHead>Course</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Provider</TableHead>
+                <TableHead className="w-44">Status</TableHead>
+                <TableHead>Date</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.items.map((p) => (
+                <TableRow key={p.id}>
+                  <TableCell>
+                    <p className="font-medium">{p.userName}</p>
+                    <p className="text-xs text-ink-3">{p.userEmail}</p>
+                  </TableCell>
+                  <TableCell>{p.courseTitle}</TableCell>
+                  <TableCell>{formatPrice(p.amountCents, p.currency)}</TableCell>
+                  <TableCell>
+                    <Badge variant="secondary" className="uppercase">
+                      {p.provider}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                    <Select
+                      value={p.status}
+                      disabled={!canManage}
+                        onValueChange={(v) => update.mutate({ id: p.id, status: v as PaymentStatus })}
+                    >
+                      <SelectTrigger className="h-8">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="succeeded">Succeeded</SelectItem>
+                        <SelectItem value="failed">Failed</SelectItem>
+                        <SelectItem value="refunded">Refunded</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button size="sm" variant="ghost" disabled={refreshingId === p.id} onClick={async () => { setRefreshingId(p.id); try { const status = await api.getPaymentStatus(p.id); toast.success(`Current payment status: ${status}.`); qc.invalidateQueries({ queryKey: ["admin-payments"] }); } catch (e) { toast.error(api.errorMessage(e)); } finally { setRefreshingId(null); } }}>Refresh</Button>
+                    </div>
+                  </TableCell>
+                  <TableCell>{formatDate(p.createdAt)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+    </AppShell>
+  );
+}
